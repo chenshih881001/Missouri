@@ -45,7 +45,7 @@ int main()
         }
 
                 printf("\n");
-                printf("              OOOOO Aircraft Carrier\n");
+                printf("              OOOOO Battleship Missouri\n");
                 printf("              Please select a block on the grid\n");
 
                 int i=0;
@@ -87,23 +87,23 @@ int main()
         /*
 
             case 2:
-                printf("OOOO Battleship 1\n");
+                printf("OOOO Cruiser Astoria\n");
             case 3:
-                printf("OOOO Battleship 2\n");
+                printf("OOOO Cruiser Portland\n");
             case 4:
-                printf("OOO Cruiser 1\n");
+                printf("OOO Destroyer Hammann\n");
             case 5:
-                printf("OOO Cruiser 2\n");
+                printf("OOO Destroyer Anderson\n");
             case 6:
-                printf("OOO Cruiser 3\n");
+                printf("OOO Destroyer Gwin\n");
             case 7:
-                printf("OO Patrol Boat 1\n");
+                printf("OO Corvette Temptress\n");
             case 8:
-                printf("OO Patrol Boat 2\n");
+                printf("OO Corvette Surprise\n");
             case 9:
-                printf("OO Patrol Boat 3\n");
+                printf("OO Corvette Restless\n");
             case 10:
-            printf("OO Patrol Boat 4\n");
+            printf("OO Corvette Fury\n");
         }
         */
     return 0;
