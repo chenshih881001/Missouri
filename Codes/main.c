@@ -4,7 +4,7 @@
 #define HomePage 1
 #define ModeSelection 2
 #define CDL 3             //Choose Difficulty Level
-#define Depolyment 4
+#define Deployment 4
 #define Battle 5
 #define Result 6
 
