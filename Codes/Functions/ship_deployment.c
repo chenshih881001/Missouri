@@ -49,7 +49,7 @@ int main()
     }
 
     printf("\n");
-    printf("              OOOOO Aircraft Carrier      Please choose a point on the grid using [TAB] and [Space]\n");
+    printf("              OOOOO Battleship Missouri      Choose the starting point using [TAB] to cycle through values and [Space] to confirm\n");
 
     int i=0;
     do
@@ -106,7 +106,7 @@ int main()
             do
             {
                 printf("\r");
-                printf("              Direction: %c               ",direction[i]);
+                printf("              U: Up, D: Down, L: Left, R: Right || Direction: %c               ",direction[i]);
                 key = getch();
                 while(key!=' '&&key!='\t')
                     key=getch();
@@ -127,7 +127,7 @@ int main()
                 if(RowNum<4)
                 {
                     printf("\r");
-                    printf("              There is no enough space      ");
+                    printf("              There is not enough space      ");
                     Sleep(1000);
                 }
                 else
@@ -137,7 +137,7 @@ int main()
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is no enough space!      ");
+                        printf("              There is not enough space!      ");
                         Sleep(1000);
                     }
                     else
@@ -160,7 +160,7 @@ int main()
                 if(ColNum>5)
                 {
                     printf("\r");
-                    printf("              There is no enough space      ");
+                    printf("              There is not enough space      ");
                     Sleep(1000);
                 }
                 else
@@ -171,7 +171,7 @@ int main()
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is no enough space!      ");
+                        printf("              There is not enough space!      ");
                         Sleep(1000);
                     }
                     else
@@ -196,7 +196,7 @@ int main()
                 if(RowNum>5)
                 {
                     printf("\r");
-                    printf("              There is no enough space      ");
+                    printf("              There is not enough space      ");
                     Sleep(1000);
                 }
                 else
@@ -206,7 +206,7 @@ int main()
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is no enough space      ");
+                        printf("              There is not enough space      ");
                         Sleep(1000);
                     }
                     else
@@ -229,7 +229,7 @@ int main()
                 if(ColNum<4)
                 {
                     printf("\r");
-                    printf("              There is no enough space     ");
+                    printf("              There is not enough space     ");
                     Sleep(1000);
                 }
                 else
@@ -239,7 +239,7 @@ int main()
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is no enough space      ");
+                        printf("              There is not enough space      ");
                         Sleep(1000);
                     }
                     else
