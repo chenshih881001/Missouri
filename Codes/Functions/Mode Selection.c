@@ -27,7 +27,7 @@ int main()
             printf("                                                 \n");
             printf("                                                 \n");
             printf("\n");
-    printf ("          Pease choose game mode using [TAB] and press [SPACE] to continue\n");
+    printf ("          Please choose game mode using [TAB] and press [SPACE] to continue\n");
     printf("\n");
     printf ("          [Single Player]     PvP");
 
