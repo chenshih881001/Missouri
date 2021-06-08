@@ -331,7 +331,7 @@ void ship2_deploy() // SHIP 2: OOOO
                         key=getch();
                     if(key==' ')
                         Direction=i;
-                    else if(key=='\t'&&i<2)
+                    else if(key=='\t'&&i<2)                                                     //changed
                         i++;
                     else
                         i=0;
@@ -343,7 +343,7 @@ void ship2_deploy() // SHIP 2: OOOO
                 case 0:
                     temp=0;     //reset temp
 
-                    if(RowNum<3)
+                    if(RowNum<3)                                            //changed
                     {
                         printf("\r");
                         printf("              There is not enough space      ");
@@ -361,7 +361,7 @@ void ship2_deploy() // SHIP 2: OOOO
                         }
                         else
                         {
-                            for(int i=0; i<4; i++)
+                            for(int i=0; i<4; i++)                              //changed
                             {
                                 grid[RowNum-i][ColNum]=1;
                                 display[RowNum-i][ColNum]='O';
@@ -376,7 +376,7 @@ void ship2_deploy() // SHIP 2: OOOO
 
                 case 1:
                     temp=0;     //reset temp
-                    if(ColNum>5)
+                    if(ColNum>4)                                            //changed
                     {
                         printf("\r");
                         printf("              There is not enough space      ");
@@ -384,7 +384,7 @@ void ship2_deploy() // SHIP 2: OOOO
                     }
                     else
                     {
-                        for(int i=0; i<4; i++)
+                        for(int i=0; i<4; i++)                          //changed
                             temp=temp+grid[RowNum][ColNum+i];
 
                         if(temp!=0)
@@ -395,7 +395,7 @@ void ship2_deploy() // SHIP 2: OOOO
                         }
                         else
                         {
-                            for(int i=0; i<4; i++)
+                            for(int i=0; i<4; i++)                  //changed
                             {
                                 grid[RowNum][ColNum+i]=1;
                                 display[RowNum][ColNum+i]='O';
@@ -430,7 +430,7 @@ void ship2_deploy() // SHIP 2: OOOO
                         }
                         else
                         {
-                            for(int i=0; i<4; i++)
+                            for(int i=0; i<4; i++)                  //changed
                             {
                                 grid[RowNum+i][ColNum]=1;
                                 display[RowNum+i][ColNum]='O';
@@ -463,7 +463,7 @@ void ship2_deploy() // SHIP 2: OOOO
                         }
                         else
                         {
-                            for(int i=0; i<4; i++)
+                            for(int i=0; i<4; i++)                      //changed
                             {
                                 grid[RowNum][ColNum-i];
                                 display[RowNum][ColNum-i]='O';
