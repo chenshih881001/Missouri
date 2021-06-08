@@ -1,110 +1,275 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>
 
-char grid[10][10]=
-{
-    {'-','-','-','-','-','-','-','-','-','-'},
-    {'-','-','-','-','-','-','-','-','-','-'},
-    {'-','-','-','-','-','-','-','-','-','-'},
-    {'-','-','-','-','-','-','-','-','-','-'},
-    {'-','-','-','-','-','-','-','-','-','-'},
-    {'-','-','-','-','-','-','-','-','-','-'},
-    {'-','-','-','-','-','-','-','-','-','-'},
-    {'-','-','-','-','-','-','-','-','-','-'},
-    {'-','-','-','-','-','-','-','-','-','-'},
-    {'-','-','-','-','-','-','-','-','-','-'}
-};
-char row[10]={'A','B','C','D','E','F','G','H','I','J'};
-char column[10]={'1','2','3','4','5','6','7','8','9','x'};
-char position1[2]={'\0'};
+char display[10][10];
+int grid[10][10];
+
+char row[10]= {'A','B','C','D','E','F','G','H','I','J'};
+char column[10]= {'0','1','2','3','4','5','6','7','8','9'};
+char direction[4]= {'U','R','D','L'};
+char position[2]= {'\0'};
 int ship = 1;
 int flag = 0;
+int RowNum = 0;
+int ColNum = 0;
+int temp=0;
+int Direction;
 char key;
 
 int main()
 {
-        printf("\n");
-        printf("           __  __  _                                _ \n");
-        printf("          |  \\/  |(_)                              (_)\n");
-        printf("          | \\  / | _  ___  ___   ___   _   _  _ __  _ \n");
-        printf("          | |\\/| || |/ __|/ __| / _ \\ | | | || '__|| |\n");
-        printf("          | |  | || |\\__ \\\\__ \\| (_) || |_| || |   | |\n");
-        printf("          |_|  |_||_||___/|___/ \\___/  \\__,_||_|   |_|\n");
-        printf("                                                 \n");
-        printf("                                                 \n");
+    printf("\n");
+    printf("           __  __  _                                _ \n");
+    printf("          |  \\/  |(_)                              (_)\n");
+    printf("          | \\  / | _  ___  ___   ___   _   _  _ __  _ \n");
+    printf("          | |\\/| || |/ __|/ __| / _ \\ | | | || '__|| |\n");
+    printf("          | |  | || |\\__ \\\\__ \\| (_) || |_| || |   | |\n");
+    printf("          |_|  |_||_||___/|___/ \\___/  \\__,_||_|   |_|\n");
+    printf("                                                 \n");
+    printf("                                                 \n");
 
 
-        printf("                 1  2  3  4  5  6  7  8  9  10\n");
-
-        for(int i=0;i<10;i++)           //print out default map
+    printf("                 0  1  2  3  4  5  6  7  8  9\n");
+    for(int i=0; i<=9; i++)
+    {
+        for(int j=0; j<=9; j++)
         {
-            printf("              %c  ",row[i]);      //print rows
-            for(int j=0;j<10;j++)
-                printf("%          c  ",grid[i][j]);  //print columns
-            printf("\n");
+            display[i][j]='-';
+            grid[i][j]=0;
         }
+    }
 
-                printf("\n");
-                printf("              OOOOO Battleship Missouri\n");
-                printf("              Please select a block on the grid\n");
+    for(int i=0; i<10; i++)         //print out default map
+    {
+        printf("              %c  ",row[i]);      //print rows
+        for(int j=0; j<10; j++)
+            printf("%          c  ",display[i][j]);  //print columns
+        printf("\n");
+    }
 
-                int i=0;
-                do              //choose row
+    printf("\n");
+    printf("              OOOOO Aircraft Carrier      Please choose a point on the grid using [TAB] and [Space]\n");
+
+    int i=0;
+    do
+    {
+        i=0;     //initialize i
+        do        //choose row
+        {
+            printf("\r");
+            printf("              Row: %c                  ",row[i]);
+            key = getch();
+            while(key!=' '&&key!='\t')
+                key=getch();
+            if(key==' ')
+                position[0]=row[i];
+            if(key=='\t' && i<9)
+                i++;
+            else
+                i=0;
+
+        }
+        while(key !=' ');
+
+        i=0;     //initialize i
+        do       //choose column
+        {
+            printf("\r");
+            printf("              Row: %c      Column: %c",position[0],column[i]);
+            key = getch();
+            while(key!=' '&&key!='\t')
+                key=getch();
+            if(key==' ')
+                position[1]=column[i];
+            else if(key=='\t' && i<9)
+                i++;
+            else
+                i=0;
+        }
+        while(key!=' ');
+
+        RowNum = position[0]-65;
+        ColNum = position[1]-48;
+        //printf("     %d %d",RowNum,ColNum);
+
+
+        int i=0;   //initialize i
+        if(grid[RowNum][ColNum]!=0)
+        {
+            printf("\r");
+            printf("              <HERE HAS BEEN OCCUPIED>"             );
+            Sleep(1000);
+        }
+        else
+        {
+            do
+            {
+                printf("\r");
+                printf("              Direction: %c               ",direction[i]);
+                key = getch();
+                while(key!=' '&&key!='\t')
+                    key=getch();
+                if(key==' ')
+                    Direction=i;
+                else if(key=='\t'&&i<3)
+                    i++;
+                else
+                    i=0;
+            }
+            while(key!=' ');
+
+            switch(Direction)
+            {
+            case 0:
+                temp=0;     //reset temp
+
+                if(RowNum<4)
                 {
-                    printf("              Row: %c",row[i]);
-                    key = getch();
-                    while(key!=' '&&key!='\t')
-                        key=getch();
-                    if(key==' ')
-                        position1[0]=row[i];
-                    if(key=='\t' && i<9)
-                        i++;
-                    else
-                        i=0;
                     printf("\r");
-                }while(key !=' ');
-                printf("\n");
+                    printf("              There is no enough space      ");
+                    Sleep(1000);
+                }
+                else
+                {
+                    for(int i=0; i<RowNum+1; i++)
+                        temp=temp+grid[RowNum-i][ColNum];
+                    if(temp!=0)
+                    {
+                        printf("\r");
+                        printf("              There is no enough space!      ");
+                        Sleep(1000);
+                    }
+                    else
+                    {
+                        for(int i=0; i<5; i++)
+                        {
+                            grid[RowNum-i][ColNum]=1;
+                            display[RowNum-i][ColNum]='O';
+                            flag=1;
+                        }
+//                      printf("\r");
+//                      printf("              pass                                   ");
+//                      Sleep(1000);
+                    }
+                }
+                break;
 
-                i=0;     //initialize i
-
-                do       //choose column
+            case 1:
+                temp=0;     //reset temp
+                if(ColNum>5)
                 {
                     printf("\r");
-                    printf("              Column: %c",column[i]);
-                    key = getch();
-                    while(key!=' '&&key!='\t')
-                        key=getch();
-                    if(key==' ')
-                        position1[1]=column[i];
-                    else if(key=='\t' && i<9)
-                        i++;
+                    printf("              There is no enough space      ");
+                    Sleep(1000);
+                }
+                else
+                {
+                    for(int i=0; i<5; i++)
+                        temp=temp+grid[RowNum][ColNum+i];
+
+                    if(temp!=0)
+                    {
+                        printf("\r");
+                        printf("              There is no enough space!      ");
+                        Sleep(1000);
+                    }
                     else
-                        i=0;
-                }while(key!=' ');
+                    {
+                        for(int i=0; i<5; i++)
+                        {
+                            grid[RowNum][ColNum+i]=1;
+                            display[RowNum][ColNum+i]='O';
+                            flag=1;
+                        }
+//                        printf("\r");
+//                        printf("              Pass                           ");
+//                        Sleep(1000);
+                    }
 
-
-
-        /*
+                }
+                break;
 
             case 2:
-                printf("OOOO Cruiser Astoria\n");
+                temp=0;     //reset temp
+
+                if(RowNum>5)
+                {
+                    printf("\r");
+                    printf("              There is no enough space      ");
+                    Sleep(1000);
+                }
+                else
+                {
+                    for(int i=0; i<9-RowNum+1; i++)
+                        temp=temp+grid[RowNum+i][ColNum];
+                    if(temp!=0)
+                    {
+                        printf("\r");
+                        printf("              There is no enough space      ");
+                        Sleep(1000);
+                    }
+                    else
+                    {
+                        for(int i=0; i<5; i++)
+                        {
+                            grid[RowNum+i][ColNum]=1;
+                            display[RowNum+i][ColNum]='O';
+                            flag=1;
+                        }
+//                        printf("\r");
+//                        printf("              pass                                   ");
+//                        Sleep(1000);
+                    }
+                }
+                break;
+
             case 3:
-                printf("OOOO Cruiser Portland\n");
-            case 4:
-                printf("OOO Destroyer Hammann\n");
-            case 5:
-                printf("OOO Destroyer Anderson\n");
-            case 6:
-                printf("OOO Destroyer Gwin\n");
-            case 7:
-                printf("OO Corvette Temptress\n");
-            case 8:
-                printf("OO Corvette Surprise\n");
-            case 9:
-                printf("OO Corvette Restless\n");
-            case 10:
-            printf("OO Corvette Fury\n");
+                temp=0;     //reset temp
+                if(ColNum<4)
+                {
+                    printf("\r");
+                    printf("              There is no enough space     ");
+                    Sleep(1000);
+                }
+                else
+                {
+                    for(int i=0; i<ColNum+1; i++)
+                        temp=temp+grid[RowNum][ColNum-i];
+                    if(temp!=0)
+                    {
+                        printf("\r");
+                        printf("              There is no enough space      ");
+                        Sleep(1000);
+                    }
+                    else
+                    {
+                        for(int i=0; i<5; i++)
+                        {
+                            grid[RowNum][ColNum-i];
+                            display[RowNum][ColNum-i]='O';
+                            flag=1;
+                        }
+//                        printf("\r");
+//                        printf("              pass                                   ");
+//                        Sleep(1000);
+                    }
+                }
+            }
         }
-        */
+    }
+    while(flag == 0);
+
+    printf("\n");
+
+    printf("                 0  1  2  3  4  5  6  7  8  9\n");
+    for(int i=0; i<10; i++)         //print out default map
+    {
+        printf("              %c  ",row[i]);      //print rows
+        for(int j=0; j<10; j++)
+            printf("%          c  ",display[i][j]);  //print columns
+        printf("\n");
+    }
+
     return 0;
 }
