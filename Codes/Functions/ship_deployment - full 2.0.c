@@ -299,7 +299,6 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
                 i++;
             else
                 i=0;
-
         }
         while(key !=' ');
 
@@ -338,7 +337,6 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
             {
                 printf("\r");
                 printf("              (U)p,(D)own,(L)eft,(R)ight || Direction: %c               ",direction[i]);
-                key = getch();
                 key = getch();
                 while(key!=' '&&key!='\t')
                     key=getch();
@@ -564,7 +562,6 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
                 printf("\r");
                 printf("              (U)p,(D)own,(L)eft,(R)ight || Direction: %c               ",direction[i]);
                 key = getch();
-                key = getch();
                 while(key!=' '&&key!='\t')
                     key=getch();
                 if(key==' ')
@@ -789,7 +786,6 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
                 printf("\r");
                 printf("              (U)p,(D)own,(L)eft,(R)ight || Direction: %c               ",direction[i]);
                 key = getch();
-                key = getch();
                 while(key!=' '&&key!='\t')
                     key=getch();
                 if(key==' ')
@@ -948,7 +944,7 @@ int main()
     {
         printf("\r");
         printf("          Game Loading: %d percent",i*10);
-        Sleep(600);
+        Sleep(300);
     }
     system("cls");
 
