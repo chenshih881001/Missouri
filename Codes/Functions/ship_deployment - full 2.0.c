@@ -83,7 +83,7 @@ void Battleship_deployment()//SHIP 1: OOOOO
         do       //choose column
         {
             printf("\r");
-            printf("              Row: %c      Column: %c",position[0],column[i]);
+            printf("              Row: %c      Column: %c                                       ",position[0],column[i]);
             key = getch();
             while(key!=' '&&key!='\t')
                 key=getch();
@@ -105,7 +105,7 @@ void Battleship_deployment()//SHIP 1: OOOOO
         if(grid[RowNum][ColNum]!=0)
         {
             printf("\r");
-            printf("              <HERE HAS BEEN OCCUPIED>"             );
+            printf("              <HERE HAS BEEN OCCUPIED>"                      );
             Sleep(1000);
         }
         else
@@ -113,7 +113,7 @@ void Battleship_deployment()//SHIP 1: OOOOO
             do
             {
                 printf("\r");
-                printf("              U: Up, D: Down, L: Left, R: Right || Direction: %c               ",direction[i]);
+                printf("              (U)p,(D)own,(L)eft,(R)ight || Direction: %c               ",direction[i]);
                 key = getch();
                 while(key!=' '&&key!='\t')
                     key=getch();
@@ -134,7 +134,7 @@ void Battleship_deployment()//SHIP 1: OOOOO
                 if(RowNum<4)
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("             There is no enough space                      ");
                     Sleep(1000);
                 }
                 else
@@ -144,7 +144,7 @@ void Battleship_deployment()//SHIP 1: OOOOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space!      ");
+                        printf("                There is no enough space                      ");
                         Sleep(1000);
                     }
                     else
@@ -167,7 +167,7 @@ void Battleship_deployment()//SHIP 1: OOOOO
                 if(ColNum>5)
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("             There is no enough space                      ");
                     Sleep(1000);
                 }
                 else
@@ -178,7 +178,7 @@ void Battleship_deployment()//SHIP 1: OOOOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space!      ");
+                        printf("             There is no enough space!                      ");
                         Sleep(1000);
                     }
                     else
@@ -203,7 +203,7 @@ void Battleship_deployment()//SHIP 1: OOOOO
                 if(RowNum>5)
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("              There is no enough space                       ");
                     Sleep(1000);
                 }
                 else
@@ -213,7 +213,7 @@ void Battleship_deployment()//SHIP 1: OOOOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space      ");
+                        printf("              There is no enough space                      ");
                         Sleep(1000);
                     }
                     else
@@ -236,7 +236,7 @@ void Battleship_deployment()//SHIP 1: OOOOO
                 if(ColNum<4)
                 {
                     printf("\r");
-                    printf("              There is not enough space     ");
+                    printf("              There is no enough space                      ");
                     Sleep(1000);
                 }
                 else
@@ -246,7 +246,7 @@ void Battleship_deployment()//SHIP 1: OOOOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space      ");
+                        printf("              There is no enough space                      ");
                         Sleep(1000);
                     }
                     else
@@ -282,6 +282,7 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
     printf("              [TAB] : cycle through options\n");
     printf("              [Space] : confirm\n");
     int i=0;
+    int flag = 0;   //reset flag
     do
     {
         i=0;     //initialize i
@@ -306,7 +307,7 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
         do       //choose column
         {
             printf("\r");
-            printf("              Row: %c      Column: %c",position[0],column[i]);
+            printf("              Row: %c      Column: %c                            ",position[0],column[i]);
             key = getch();
             while(key!=' '&&key!='\t')
                 key=getch();
@@ -336,7 +337,8 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
             do
             {
                 printf("\r");
-                printf("              U: Up, D: Down, L: Left, R: Right || Direction: %c               ",direction[i]);
+                printf("              (U)p,(D)own,(L)eft,(R)ight || Direction: %c               ",direction[i]);
+                key = getch();
                 key = getch();
                 while(key!=' '&&key!='\t')
                     key=getch();
@@ -357,7 +359,7 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
                 if(RowNum<3)                                            //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("              There is no enough space                 ");
                     Sleep(1000);
                 }
                 else
@@ -367,7 +369,7 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space!      ");
+                        printf("              There is no enough space!              ");
                         Sleep(1000);
                     }
                     else
@@ -390,7 +392,7 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
                 if(ColNum>6)                                            //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("              There is no enough space                ");
                     Sleep(1000);
                 }
                 else
@@ -401,7 +403,7 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space!      ");
+                        printf("              There is no enough space!               ");
                         Sleep(1000);
                     }
                     else
@@ -426,7 +428,7 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
                 if(RowNum>6)                                          //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("              There is no enough space              ");
                     Sleep(1000);
                 }
                 else
@@ -436,7 +438,7 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space      ");
+                        printf("              There is no enough space                ");
                         Sleep(1000);
                     }
                     else
@@ -459,7 +461,7 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
                 if(ColNum<3)                                    //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space     ");
+                    printf("              There is no enough space                  ");
                     Sleep(1000);
                 }
                 else
@@ -469,7 +471,7 @@ void Destroyer_deployment() // SHIP 2,3: OOOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space      ");
+                        printf("              There is no enough space                 ");
                         Sleep(1000);
                     }
                     else
@@ -505,6 +507,7 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
     printf("              [TAB] : cycle through options\n");
     printf("              [Space] : confirm\n");
     int i=0;
+    int flag = 0;   //reset flag
     do
     {
         i=0;     //initialize i
@@ -529,7 +532,7 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
         do       //choose column
         {
             printf("\r");
-            printf("              Row: %c      Column: %c",position[0],column[i]);
+            printf("              Row: %c      Column: %c               ",position[0],column[i]);
             key = getch();
             while(key!=' '&&key!='\t')
                 key=getch();
@@ -559,7 +562,8 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
             do
             {
                 printf("\r");
-                printf("              U: Up, D: Down, L: Left, R: Right || Direction: %c               ",direction[i]);
+                printf("              (U)p,(D)own,(L)eft,(R)ight || Direction: %c               ",direction[i]);
+                key = getch();
                 key = getch();
                 while(key!=' '&&key!='\t')
                     key=getch();
@@ -580,7 +584,7 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
                 if(RowNum<2)                                            //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("              There is no enough space                      ");
                     Sleep(1000);
                 }
                 else
@@ -590,7 +594,7 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space!      ");
+                        printf("              There is no enough space!                   ");
                         Sleep(1000);
                     }
                     else
@@ -613,7 +617,7 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
                 if(ColNum>7)                                            //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("              There is no enough space                  ");
                     Sleep(1000);
                 }
                 else
@@ -624,7 +628,7 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space!      ");
+                        printf("              There is no enough space!                 ");
                         Sleep(1000);
                     }
                     else
@@ -649,7 +653,7 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
                 if(RowNum>7)                                          //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("              There is no enough space                 ");
                     Sleep(1000);
                 }
                 else
@@ -659,7 +663,7 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space      ");
+                        printf("              There is no enough space            ");
                         Sleep(1000);
                     }
                     else
@@ -682,7 +686,7 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
                 if(ColNum<2)                                    //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space     ");
+                    printf("              There is no enough space                   ");
                     Sleep(1000);
                 }
                 else
@@ -692,7 +696,7 @@ void Cruiser_deployment() // SHIP 4,5,6: OOO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space      ");
+                        printf("              There is no enough space                 ");
                         Sleep(1000);
                     }
                     else
@@ -728,6 +732,7 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
     printf("              [TAB] : cycle through options\n");
     printf("              [Space] : confirm\n");
     int i=0;
+    int flag = 0;   //reset flag
     do
     {
         i=0;     //initialize i
@@ -752,7 +757,7 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
         do       //choose column
         {
             printf("\r");
-            printf("              Row: %c      Column: %c",position[0],column[i]);
+            printf("              Row: %c      Column: %c                        ",position[0],column[i]);
             key = getch();
             while(key!=' '&&key!='\t')
                 key=getch();
@@ -782,7 +787,8 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
             do
             {
                 printf("\r");
-                printf("              U: Up, D: Down, L: Left, R: Right || Direction: %c               ",direction[i]);
+                printf("              (U)p,(D)own,(L)eft,(R)ight || Direction: %c               ",direction[i]);
+                key = getch();
                 key = getch();
                 while(key!=' '&&key!='\t')
                     key=getch();
@@ -803,7 +809,7 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
                 if(RowNum<1)                                            //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("              There is no enough space                        ");
                     Sleep(1000);
                 }
                 else
@@ -813,7 +819,7 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space!      ");
+                        printf("              There is no enough space!                      ");
                         Sleep(1000);
                     }
                     else
@@ -836,7 +842,7 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
                 if(ColNum>8)                                            //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("              There is no enough space                              ");
                     Sleep(1000);
                 }
                 else
@@ -846,7 +852,7 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space!      ");
+                        printf("              There is no enough space!                      ");
                         Sleep(1000);
                     }
                     else
@@ -870,7 +876,7 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
                 if(RowNum>8)                                          //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space      ");
+                    printf("              There is no enough space                       ");
                     Sleep(1000);
                 }
                 else
@@ -880,7 +886,7 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space      ");
+                        printf("              There is no enough space                     ");
                         Sleep(1000);
                     }
                     else
@@ -903,7 +909,7 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
                 if(ColNum<1)                                    //changed
                 {
                     printf("\r");
-                    printf("              There is not enough space     ");
+                    printf("              There is no enough space                 ");
                     Sleep(1000);
                 }
                 else
@@ -913,7 +919,7 @@ void TransprotShip_deployment() // SHIP 7,8,9.10: OO
                     if(temp!=0)
                     {
                         printf("\r");
-                        printf("              There is not enough space      ");
+                        printf("              There is no enough space                   ");
                         Sleep(1000);
                     }
                     else
