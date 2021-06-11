@@ -2,25 +2,20 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <conio.h>
+#include "library.h"
 
 int Mode = 0;
 int Level = 0;
-struct Player
-{
-    int grid[10][10];
-    char display[10][10];
-}Player1,Player2;
 
 int main()
 {
-
-    Enter_game();           //press [TAB] to start game; loading game
+    start();           //press [Space] to start game; loading game
     Mode = mode_selection();
     switch(Mode)
     {
         case 1:             //PvP
-            deployment(Player1.grid);
-            deployment(Player2.grid);
+            for(int i=0;i<2;i++)
+                deployment(i);
             break;
         case 2:             //Single Player
             Level = choose_difficulty_level();
@@ -35,4 +30,21 @@ int main()
                     generate_map(Player2.grid);
             }
     }
+
+//    for(int i=0; i<2; i++)
+//        deployment(i);
+
+//    for(int i=0; i<10; i++)
+//    {
+//        for(int j=0; j<10; j++)
+//            printf("%c",Player1.display[i][j]);
+//        printf("\n");
+//    }
+//
+//    for(int i=0; i<10; i++)
+//    {
+//        for(int j=0; j<10; j++)
+//            printf("%c",Player2.display[i][j]);
+//        printf("\n");
+//    }
 }
