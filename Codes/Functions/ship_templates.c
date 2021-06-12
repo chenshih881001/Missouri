@@ -7,19 +7,15 @@
 char display[10][10];
 int grid[10][10];
 
-char row[10]= {'A','B','C','D','E','F','G','H','I','J'};
-char column[10]= {'0','1','2','3','4','5','6','7','8','9'};
-
 int shiptmp;
 int reeftmp;
-
-char key;
 
 int ShipTemplateGrid1[10][10];
 int ShipTemplateGrid2[10][10];
 int ShipTemplateGrid3[10][10];
 int ShipTemplateGrid4[10][10];
 int ShipTemplateGrid5[10][10];
+
 char ShipTemplateDisplay1[10][10] = {
                                         {'-','-','O','O','-','-','-','-','-','-'},
                                         {'O','-','-','-','-','O','-','-','O','-'},
@@ -81,11 +77,11 @@ char ShipTemplateDisplay5[10][10] = {
                                         {'-','-','-','-','-','-','O','-','-','-'},
                                     };
 
-int ReefTemplate1[10][10];
-int ReefTemplate2[10][10];
-int ReefTemplate3[10][10];
-int ReefTemplate4[10][10];
-int ReefTemplate5[10][10];
+int ReefTemplateGrid1[10][10];
+int ReefTemplateGrid2[10][10];
+int ReefTemplateGrid3[10][10];
+int ReefTemplateGrid4[10][10];
+int ReefTemplateGrid5[10][10];
 
 char ReefTemplateDisplay1[10][10] = {
                                         {'-','-','-','-','-','-','-','-','-','-'},
@@ -150,7 +146,7 @@ char ReefTemplateDisplay5[10][10] = {
 
 
 
-int main()
+int shipTemplateDeploy()
 {
     srand(time(NULL));
     shiptmp = rand() % 5;                   // random 0-4
@@ -158,41 +154,130 @@ int main()
     switch(shiptmp)
         {
             case 1:
-            printf ("Ship Template 1 \n");
-            ShipTemplateGrid1[10][10];
-            ShipTemplateDisplay1[10][10];
-
-            /* printf("                 0  1  2  3  4  5  6  7  8  9\n"); 
-            for(int i=0; i<=9; i++)
+            // printf ("Ship Template 1 \n");
+            for (int i = 0; i < 10; i++)
                 {
-                    printf row[i];
-                    printf ShipTemplateDisplay1[i];
-                }
-            */
+                    for (int j = 0; j < 10; j++)
+                        {
+                            Player2.grid[i][j] = ShipTemplateGrid1[i][j];
+                            Player2.display[i][j] = ShipTemplateDisplay1[i][j];
+                        }
+                }    
             break;
 
             case 2:
-            printf ("Ship Template 2 \n");
-
+            // printf ("Ship Template 2 \n");
+            for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                        {
+                            Player2.grid[i][j] = ShipTemplateGrid2[i][j];
+                            Player2.display[i][j] = ShipTemplateDisplay2[i][j];
+                        }
+                }    
             break;
 
             case 3:
-            printf ("Ship Template 3 \n");
-
+            // printf ("Ship Template 3 \n");
+            for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                        {
+                            Player2.grid[i][j] = ShipTemplateGrid3[i][j];
+                            Player2.display[i][j] = ShipTemplateDisplay3[i][j];
+                        }
+                }    
             break;
 
             case 4:
-            printf ("Ship Template 4 \n");
-
+            // printf ("Ship Template 4 \n");
+            for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                        {
+                            Player2.grid[i][j] = ShipTemplateGrid4[i][j];
+                            Player2.display[i][j] = ShipTemplateDisplay4[i][j];
+                        }
+                }    
             break;
 
             case 0: 
-            printf ("Ship Template 5 \n");
+            // printf ("Ship Template 5 \n");
+            for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                        {
+                            Player2.grid[i][j] = ShipTemplateGrid5[i][j];
+                            Player2.display[i][j] = ShipTemplateDisplay5[i][j];
+                        }
+                }                
             break;
 
-            default:
-            printf ("WRONG LUL \n");
-            break;
         }
-    return 0;
+}
+
+
+int reefTemplateGrid()
+{
+    srand(time(NULL));
+    reeftmp = rand() % 5;                   // random 0-4
+
+    switch(reeftmp)
+        {
+            case 1:
+            for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                        {
+                            Player1.grid[i][j] = ReefTemplateGrid1[i][j];
+                            Player1.display[i][j] = ShipTemplateDisplay1[i][j];
+                        }
+                }    
+            break;
+
+            case 2:
+            for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                        {
+                            Player1.grid[i][j] = ReefTemplateGrid2[i][j];
+                            Player1.display[i][j] = ReefTemplateDisplay2[i][j];
+                        }
+                }    
+            break;
+
+            case 3:
+            for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                        {
+                            Player1.grid[i][j] = ReefTemplateGrid3[i][j];
+                            Player1.display[i][j] = ReefTemplateDisplay3[i][j];
+                        }
+                }    
+            break;
+
+            case 4:
+            for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                        {
+                            Player1.grid[i][j] = ReefTemplateGrid4[i][j];
+                            Player1.display[i][j] = ReefTemplateDisplay4[i][j];
+                        }
+                }    
+            break;
+
+            case 0: 
+            for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                        {
+                            Player1.grid[i][j] = ReefTemplateGrid5[i][j];
+                            Player1.display[i][j] = ReefTemplateDisplay5[i][j];
+                        }
+                }                
+            break;
+
+        }
 }
