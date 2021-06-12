@@ -6,6 +6,7 @@ struct Player
 {
     int grid[10][10];
     char display[10][10];
+    char Mask[10][10];
 } Player1,Player2;
 
 char key;
@@ -745,36 +746,168 @@ int deployment(int PlayerNum)
 
 int PvP_Battle()
 {
+    int Win = 0;
     int turn = 0;
-    Print_Missouri();
-    printf("             0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
-    for(int i=0; i<10; i++)
+    int P1 = 0;
+    int P2 = 0;
+
+    for(int i = 0; i<10; i++)           //initialize mask
     {
-        //printf("          %c  ",row[i]);      //print rows
-        if(turn == 0)            //Player 1
+        for(int j=0; j<10; j++)
         {
-            //printf("               ");
-            printf("           %c  ",row[i]);      //print rows
-            for(int j=0; j<10; j++)
-                printf("%c  ",Player1.display[i][j]);
-            printf("         %c  ",row[i]);      //print rowss
-            for(int j=0; j<10; j++)
-                printf("%c  ",Player2.display[i][j]);
+            Player1.Mask[i][j]='-';
+            Player2.Mask[i][j]='-';
         }
-        else                    //Player 2
+    }
+
+    while(Win!=1)
+    {
+        Print_Missouri();
+        if(turn==0)
         {
-            printf("              ");
-            for(int j=0; j<10; j++)
-                printf("%c  ",Player2.display[i][j]);
-            printf("              ");
-            for(int j=0; j<10; j++)
-                printf("%c  ",Player1.display[i][j]);
-            turn = 0;           //reset turn
+            printf("          [ Player 1 ]\n");
+            printf("\n");
         }
-        printf("\n");
+        else
+        {
+            printf("          [ Player 2 ]\n");
+            printf("\n");
+        }
+
+        printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
+        for(int i=0; i<10; i++)
+        {
+            switch(turn)
+            {
+            case 0:
+                printf("           %c  ",row[i]);       //print rows
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player1.display[i][j]);
+                printf("         %c  ",row[i]);         //print rows (Mask)
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player2.Mask[i][j]);  //print mask for player
+                break;
+
+            case 1:
+                printf("           %c  ",row[i]);       //print rows
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player2.display[i][j]);
+                printf("         %c  ",row[i]);  //print rows (Mask)
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player1.Mask[i][j]);  //print mask for player
+                break;
+            }
+            printf("\n");
+        }
+
+        switch(turn)
+        {
+        case 0:                         //Player 1 attack
+            printf("\n");
+            Choose_Coordinate();
+            RowNum = position[0]-65;
+            ColNum = position[1]-48;
+
+            if(Player2.grid[RowNum][ColNum]==1)
+            {
+                Player2.grid[RowNum][ColNum]=0;
+                Player2.Mask[RowNum][ColNum]='X';
+                Player2.display[RowNum][ColNum]='X';
+            }
+            else
+            {
+                Player2.Mask[RowNum][ColNum]=' ';
+                if(Player2.display[RowNum][ColNum]!='O')
+                    Player2.display[RowNum][ColNum]=' ';
+            }
+
+
+            system("cls");                              //Update board
+            Print_Missouri();
+            printf("          [ Player 1 ]\n");
+            printf("\n");
+            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
+            for(int i=0; i<10; i++)
+            {
+                printf("           %c  ",row[i]);       //print rows
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player1.display[i][j]);
+                printf("         %c  ",row[i]);         //print rows(Mask)
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player2.Mask[i][j]);  //print mask for player
+                printf("\n");
+            }
+            turn = 1;
+            Sleep(1500);
+            system("cls");
+            break;
+
+        case 1:                     //Player 2 attack
+            printf("\n");
+            Choose_Coordinate();
+            RowNum = position[0]-65;
+            ColNum = position[1]-48;
+
+            if(Player1.grid[RowNum][ColNum]==1)
+            {
+                Player1.grid[RowNum][ColNum]=0;
+                Player1.Mask[RowNum][ColNum]='X';
+                Player1.display[RowNum][ColNum]='X';
+            }
+            else
+            {
+                Player1.Mask[RowNum][ColNum]=' ';
+                if(Player1.display[RowNum][ColNum]!='O')
+                    Player1.display[RowNum][ColNum]=' ';
+            }
+
+
+            system("cls");                              //Update board
+            Print_Missouri();
+            printf("          [ Player 2 ]\n");
+            printf("\n");
+
+            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
+            for(int i=0; i<10; i++)
+            {
+                printf("           %c  ",row[i]);       //print rows
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player2.display[i][j]);
+                printf("         %c  ",row[i]);         //print rows(Mask)
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player1.Mask[i][j]);  //print mask for player
+                printf("\n");
+            }
+            turn = 0;
+            Sleep(1500);
+            system("cls");
+            break;
+        }
+
+        for(int i=0; i<10; i++)         //check result
+        {
+            for(int j=0; j<10; j++)
+            {
+                P1 = P1 + Player1.grid[i][j];
+                P2 = P2 + Player2.grid[i][j];
+            }
+        }
+        if(P1==0 || P2 == 0)
+            Win = 1;
+    }
+    system("cls");
+    Print_Missouri();
+    if(P1 == 0)
+    {
+        printf("              PLAYER 2 VICTORY !!!");
+        Sleep(3000);
+    }
+    else
+    {
+        printf("              PLAYER 1 VICTORY !!!");
+        Sleep(3000);
     }
 }
-
 
 
 

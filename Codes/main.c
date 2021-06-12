@@ -9,7 +9,7 @@ int Level = 0;
 
 int main()
 {
-    start();                        //press [Space] to start game; loading game
+//    start();                        //press [Space] to start game; loading game
     Mode = mode_selection();
     switch(Mode)
     {
@@ -57,3 +57,27 @@ int main()
 //    }
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
