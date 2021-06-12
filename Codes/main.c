@@ -9,27 +9,35 @@ int Level = 0;
 
 int main()
 {
-    start();           //press [Space] to start game; loading game
+    start();                        //press [Space] to start game; loading game
     Mode = mode_selection();
     switch(Mode)
     {
-        case 1:             //PvP
-            for(int i=0;i<2;i++)
-                deployment(i);
+    case 0:                     //Single Player
+        Level = choose_difficulty_level();
+        switch(Level)
+        {
+        case 0:             //Easy
+            printf("1");
+            //deployment(Player1.grid);
+            //generate_map(Player2.grid);
             break;
-        case 2:             //Single Player
-            Level = choose_difficulty_level();
-            switch(Level)
-            {
-                case 1:     //Easy
-                    deployment(Player1.grid);
-                    generate_map(Player2.grid);
-                    break;
-                case 2:     //Hard
-                    deployment_hard(Player1.grid);      //reefs in the map
-                    generate_map(Player2.grid);
-            }
+        case 1:             //Hard
+            printf("2");
+            //deployment_hard(Player1.grid);      //reefs in the map
+            //generate_map(Player2.grid);
+            break;
+        }
+        break;
+
+    case 1:                     //PvP
+        //printf("3");
+        for(int i=0; i<2; i++)
+            deployment(i);
+        //PvP_Battle();
     }
+    PvP_Battle();
+
 
 //    for(int i=0; i<2; i++)
 //        deployment(i);
@@ -47,4 +55,5 @@ int main()
 //            printf("%c",Player2.display[i][j]);
 //        printf("\n");
 //    }
+    return 0;
 }
