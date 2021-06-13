@@ -48,7 +48,7 @@ int main()
         //printf("3");
         for(int i=0; i<2; i++)
             deployment(i);
-        //PvP_Battle();
+        PvP_Battle();
     }
     //PvP_Battle();
 
