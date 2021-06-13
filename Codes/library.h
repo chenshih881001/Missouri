@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <conio.h>
+#include <time.h>
+
 struct Player
 {
     int grid[10][10];
@@ -910,7 +912,160 @@ int PvP_Battle()
 }
 
 
+void generate_map()
+{
+    int TemplateGrid1[10][10];
+    int TemplateGrid2[10][10];
+    int TemplateGrid3[10][10];
+    int TemplateGrid4[10][10];
+    int TemplateGrid5[10][10];
+    int TempNum = 0;
 
+    char TemplateDisplay1[10][10] =
+    {
+        {'-','-','O','O','-','-','-','-','-','-'},
+        {'O','-','-','-','-','O','-','-','O','-'},
+        {'O','-','O','-','-','O','-','-','O','-'},
+        {'O','-','O','-','-','O','-','-','O','-'},
+        {'O','-','O','-','-','-','-','-','-','-'},
+        {'O','-','O','-','O','O','O','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','O','O','O','O','-','-','-','-','-'},
+        {'-','-','-','-','-','O','-','O','O','-'},
+        {'-','O','O','-','-','O','-','-','-','-'},
+    };
+    char TemplateDisplay2[10][10] =
+    {
+        {'O','O','O','O','O','-','-','O','-','-'},
+        {'-','-','-','-','-','-','-','O','-','-'},
+        {'-','O','-','-','O','-','-','-','-','-'},
+        {'-','O','-','-','O','-','O','O','O','-'},
+        {'-','O','-','-','O','-','-','-','-','-'},
+        {'-','-','-','-','O','-','-','-','-','O'},
+        {'O','O','O','O','-','-','O','-','-','O'},
+        {'-','-','-','-','-','-','O','-','-','O'},
+        {'-','-','-','O','O','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','O','O','-'},
+    };
+    char TemplateDisplay3[10][10] =
+    {
+        {'-','-','O','O','-','O','-','O','-','-'},
+        {'-','-','-','-','-','O','-','O','-','O'},
+        {'O','O','O','O','-','O','-','O','-','O'},
+        {'-','-','-','-','-','O','-','-','-','-'},
+        {'-','-','-','-','-','O','-','-','-','-'},
+        {'-','-','-','O','-','-','-','O','O','O'},
+        {'-','O','-','O','-','-','-','-','-','-'},
+        {'-','O','-','O','-','-','-','-','-','-'},
+        {'-','O','-','-','-','O','O','O','O','-'},
+        {'-','-','O','O','-','-','O','O','-','-'},
+    };
+    char TemplateDisplay4[10][10] =
+    {
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','O','O','O','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','O','O','-','-'},
+        {'-','O','O','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','O','O','O','O','O'},
+        {'-','O','-','-','-','-','-','-','-','-'},
+        {'-','O','-','O','O','O','O','-','-','-'},
+        {'-','O','-','-','-','-','O','-','-','-'},
+        {'-','-','O','O','-','-','O','-','O','-'},
+        {'O','O','O','O','-','-','O','-','O','-'},
+    };
+    char TemplateDisplay5[10][10] =
+    {
+        {'O','O','O','O','-','-','-','O','-','-'},
+        {'-','-','-','-','O','O','-','O','-','-'},
+        {'-','-','-','-','-','-','-','O','-','-'},
+        {'-','-','O','O','O','O','O','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'O','O','O','-','-','-','-','-','-','O'},
+        {'-','-','-','-','-','-','O','-','-','O'},
+        {'-','-','-','O','-','-','O','-','-','O'},
+        {'O','O','-','O','-','-','O','-','-','-'},
+        {'-','-','-','-','-','-','O','-','-','-'},
+    };
+
+    srand(time(NULL));
+    TempNum = rand() % 5;                       //generate a integer num (0~4)
+
+    for(int i=0; i<10; i++)                     //set TemplateGrid
+    {
+        for(int j=0; j<10; j++)
+        {
+            switch(TempNum)
+            {
+            case 0:
+                if(TemplateDisplay1[i][j]=='-')
+                    TemplateGrid1[i][j]=0;
+                else
+                    TemplateGrid1[i][j]=1;
+                break;
+
+            case 1:
+                if(TemplateDisplay2[i][j]=='-')
+                    TemplateGrid2[i][j]=0;
+                else
+                    TemplateGrid2[i][j]=1;
+                break;
+
+            case 2:
+                if(TemplateDisplay3[i][j]=='-')
+                    TemplateGrid3[i][j]=0;
+                else
+                    TemplateGrid3[i][j]=1;
+                break;
+
+            case 3:
+                if(TemplateDisplay4[i][j]=='-')
+                    TemplateGrid4[i][j]=0;
+                else
+                    TemplateGrid4[i][j]=1;
+                break;
+
+            case 4:
+                if(TemplateDisplay5[i][j]=='-')
+                    TemplateGrid5[i][j]=0;
+                else
+                    TemplateGrid5[i][j]=1;
+                break;
+            }
+        }
+    }
+
+
+    for(int i=0; i<10; i++)
+    {
+        for(int j=0; j<10; j++)
+        {
+            switch(TempNum)
+            {
+            case 0:
+                Player2.display[i][j]=TemplateDisplay1[i][j];
+                Player2.grid[i][j]= TemplateGrid1[i][j];
+                break;
+            case 1:
+                Player2.display[i][j]=TemplateDisplay2[i][j];
+                Player2.grid[i][j]= TemplateGrid2[i][j];
+                break;
+            case 2:
+                Player2.display[i][j]=TemplateDisplay3[i][j];
+                Player2.grid[i][j]= TemplateGrid3[i][j];
+                break;
+            case 3:
+                Player2.display[i][j]=TemplateDisplay4[i][j];
+                Player2.grid[i][j]= TemplateGrid4[i][j];
+                break;
+            case 4:
+                Player2.display[i][j]=TemplateDisplay5[i][j];
+                Player2.grid[i][j]= TemplateGrid5[i][j];
+                break;
+
+            }
+        }
+    }
+}
 
 
 

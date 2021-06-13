@@ -18,9 +18,23 @@ int main()
         switch(Level)
         {
         case 0:             //Easy
-            printf("1");
-            //deployment(Player1.grid);
-            //generate_map(Player2.grid);
+            //deployment(0);
+            generate_map();
+            for(int i = 0;i<10;i++)
+            {
+                for(int j=0;j<10;j++)
+                    printf(" %c ",Player2.display[i][j]);
+                printf("\n");
+            }
+        printf("\n");
+        printf("\n");
+            for(int i = 0;i<10;i++)
+            {
+                for(int j=0;j<10;j++)
+                    printf(" %d ",Player2.grid[i][j]);
+                printf("\n");
+            }
+
             break;
         case 1:             //Hard
             printf("2");
@@ -36,25 +50,8 @@ int main()
             deployment(i);
         //PvP_Battle();
     }
-    PvP_Battle();
+    //PvP_Battle();
 
-
-//    for(int i=0; i<2; i++)
-//        deployment(i);
-
-//    for(int i=0; i<10; i++)
-//    {
-//        for(int j=0; j<10; j++)
-//            printf("%c",Player1.display[i][j]);
-//        printf("\n");
-//    }
-//
-//    for(int i=0; i<10; i++)
-//    {
-//        for(int j=0; j<10; j++)
-//            printf("%c",Player2.display[i][j]);
-//        printf("\n");
-//    }
     return 0;
 }
 
