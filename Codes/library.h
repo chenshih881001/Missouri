@@ -821,6 +821,7 @@ int PvP_Battle()
                 Player2.Mask[RowNum][ColNum]=' ';
                 if(Player2.display[RowNum][ColNum]!='O')
                     Player2.display[RowNum][ColNum]=' ';
+                turn = 1;
             }
 
 
@@ -839,7 +840,6 @@ int PvP_Battle()
                     printf("%c  ",Player2.Mask[i][j]);  //print mask for player
                 printf("\n");
             }
-            turn = 1;
             Sleep(1500);
             system("cls");
             break;
@@ -861,6 +861,7 @@ int PvP_Battle()
                 Player1.Mask[RowNum][ColNum]=' ';
                 if(Player1.display[RowNum][ColNum]!='O')
                     Player1.display[RowNum][ColNum]=' ';
+                turn = 0;
             }
 
 
@@ -880,7 +881,6 @@ int PvP_Battle()
                     printf("%c  ",Player1.Mask[i][j]);  //print mask for player
                 printf("\n");
             }
-            turn = 0;
             Sleep(1500);
             system("cls");
             break;
@@ -1067,7 +1067,159 @@ void generate_map()
     }
 }
 
+void generate_difficult_map()
+{
+    int ReefTemplateGrid1[10][10];
+    int ReefTemplateGrid2[10][10];
+    int ReefTemplateGrid3[10][10];
+    int ReefTemplateGrid4[10][10];
+    int ReefTemplateGrid5[10][10];
 
+    char ReefTemplateDisplay1[10][10] =
+    {
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','*','-','-','-'},
+        {'-','*','-','-','*','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','*','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','*','-','-'},
+        {'-','-','-','-','*','-','-','-','-','*'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','*','-','-','*','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+    };
+    char ReefTemplateDisplay2[10][10] =
+    {
+        {'-','*','-','-','-','-','*','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','*','*'},
+        {'-','-','-','-','*','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','*','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','*'},
+        {'-','-','*','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','*','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','*'},
+    };
+    char ReefTemplateDisplay3[10][10] =
+    {
+        {'-','-','-','*','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','*','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','*','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','*','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','*','*'},
+        {'-','*','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','*','-','-','-'},
+        {'*','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','*','-','-','-','-','-','-'},
+    };
+    char ReefTemplateDisplay4[10][10] =
+    {
+        {'*','-','*','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','*','-','-','-','*'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','*','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','*','-','-','*'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'*','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','*','-','-','*','-','-','-'},
+    };
+    char ReefTemplateDisplay5[10][10] =
+    {
+        {'*','-','-','-','-','*','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','*','-'},
+        {'-','-','*','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','*','*','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','*','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','*','-','-','-','-','*'},
+    };
+
+    int TempNum = 0;
+
+    srand(time(NULL));
+    TempNum = rand() % 5;                       //generate a integer num (0~4)
+
+    for(int i=0; i<10; i++)                     //set TemplateGrid
+    {
+        for(int j=0; j<10; j++)
+        {
+            switch(TempNum)
+            {
+            case 0:
+                if(ReefTemplateDisplay1[i][j]=='-')
+                    ReefTemplateGrid1[i][j]=0;
+                else
+                    ReefTemplateGrid1[i][j]=1;
+                break;
+
+            case 1:
+                if(ReefTemplateDisplay2[i][j]=='-')
+                    ReefTemplateGrid2[i][j]=0;
+                else
+                    ReefTemplateGrid2[i][j]=1;
+                break;
+
+            case 2:
+                if(ReefTemplateDisplay3[i][j]=='-')
+                    ReefTemplateGrid3[i][j]=0;
+                else
+                    ReefTemplateGrid3[i][j]=1;
+                break;
+
+            case 3:
+                if(ReefTemplateDisplay4[i][j]=='-')
+                    ReefTemplateGrid4[i][j]=0;
+                else
+                    ReefTemplateGrid4[i][j]=1;
+                break;
+
+            case 4:
+                if(ReefTemplateDisplay5[i][j]=='-')
+                    ReefTemplateGrid5[i][j]=0;
+                else
+                    ReefTemplateGrid5[i][j]=1;
+                break;
+            }
+        }
+    }
+
+    for(int i=0; i<10; i++)
+    {
+        for(int j=0; j<10; j++)
+        {
+            switch(TempNum)
+            {
+            case 0:
+                Player2.display[i][j]=ReefTemplateDisplay1[i][j];
+                Player2.grid[i][j]= ReefTemplateGrid1[i][j];
+                break;
+            case 1:
+                Player2.display[i][j]=ReefTemplateDisplay2[i][j];
+                Player2.grid[i][j]= ReefTemplateGrid2[i][j];
+                break;
+            case 2:
+                Player2.display[i][j]=ReefTemplateDisplay3[i][j];
+                Player2.grid[i][j]= ReefTemplateGrid3[i][j];
+                break;
+            case 3:
+                Player2.display[i][j]=ReefTemplateDisplay4[i][j];
+                Player2.grid[i][j]= ReefTemplateGrid4[i][j];
+                break;
+            case 4:
+                Player2.display[i][j]=ReefTemplateDisplay5[i][j];
+                Player2.grid[i][j]= ReefTemplateGrid5[i][j];
+                break;
+            }
+        }
+    }
+}
 
 
 

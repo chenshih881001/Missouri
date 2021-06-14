@@ -20,26 +20,41 @@ int main()
         case 0:             //Easy
             //deployment(0);
             generate_map();
-            for(int i = 0;i<10;i++)
+            for(int i = 0; i<10; i++)
             {
-                for(int j=0;j<10;j++)
+                for(int j=0; j<10; j++)
                     printf(" %c ",Player2.display[i][j]);
                 printf("\n");
             }
-        printf("\n");
-        printf("\n");
-            for(int i = 0;i<10;i++)
+            printf("\n");
+            printf("\n");
+            for(int i = 0; i<10; i++)
             {
-                for(int j=0;j<10;j++)
+                for(int j=0; j<10; j++)
                     printf(" %d ",Player2.grid[i][j]);
                 printf("\n");
             }
 
             break;
         case 1:             //Hard
-            printf("2");
+            //printf("2");
             //deployment_hard(Player1.grid);      //reefs in the map
-            //generate_map(Player2.grid);
+            generate_difficult_map();
+            for(int i = 0; i<10; i++)
+            {
+                for(int j=0; j<10; j++)
+                    printf(" %c ",Player2.display[i][j]);
+                printf("\n");
+            }
+            printf("\n");
+            printf("\n");
+            for(int i = 0; i<10; i++)
+            {
+                for(int j=0; j<10; j++)
+                    printf(" %d ",Player2.grid[i][j]);
+                printf("\n");
+            }
+
             break;
         }
         break;
@@ -50,8 +65,6 @@ int main()
             deployment(i);
         PvP_Battle();
     }
-    //PvP_Battle();
-
     return 0;
 }
 
