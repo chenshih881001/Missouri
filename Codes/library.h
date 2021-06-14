@@ -135,35 +135,22 @@ int Choose_Direction()
 }
 /****************************************************************************/
 
-//void update_grid(int Direction, int i, int *grid, char *display, int RowNum, int ColNum)
-//{
-//    switch(Direction)
-//    {
-//    case 0:
-//        grid[RowNum-i][ColNum]=1;
-//        display[RowNum-i][ColNum]='O';
-//    case 1:
-//        grid[RowNum][ColNum+i]=1;
-//        display[RowNum][ColNum+i]='O';
-//    case 2:
-//        grid[RowNum+i][ColNum]=1;
-//        display[RowNum+i][ColNum]='O';
-//    case 3:
-//        grid[RowNum][ColNum-i];
-//        display[RowNum][ColNum-i]='O';
-//    }
-//}
+void print_test()
+{
+    printf("                 0  1  2  3  4  5  6  7  8  9\n");
+
+    for(int i=0; i<10; i++)         //print out default map
+    {
+        printf("              %c  ",row[i]);      //print rows
+        for(int j=0; j<10; j++)
+            printf("%          d  ",grid[i][j]);  //print columns
+        printf("\n");
+    }
+}
 
 /****************************************************************************/
 
-void Msg1()                 //HERE HAS BEEN OCCUPIED
-{
-    printf("\r");
-    printf("              <HERE HAS BEEN OCCUPIED>"                      );
-    Sleep(1000);
-}
-
-void Msg2()                 //There is no enough space
+void Msg()                 //There is no enough space
 {
     printf("\r");
     printf("              <There is no enough space>                      ");
@@ -270,8 +257,8 @@ int deployment(int PlayerNum)
         Choose_Coordinate();
         RowNum = position[0]-65;
         ColNum = position[1]-48;
-        if(grid[RowNum][ColNum]!=0)
-            Msg1();        //Here has been occupied
+        if(grid[RowNum][ColNum]==1 || grid[RowNum][ColNum]==2)
+            Msg();        //Here has been occupied
         else
         {
             Direction = Choose_Direction();
@@ -279,20 +266,24 @@ int deployment(int PlayerNum)
             {
             case 0:
                 if(RowNum<4)
-                    Msg2();         //There is no enough space
+                    Msg();         //There is no enough space
                 else
                 {
                     for(int i=0; i<5; i++)
                         temp=temp+grid[RowNum-i][ColNum];
                     if(temp!=0)
-                        Msg2();         //There is no enough space
+                        Msg();         //There is no enough space
                     else
                     {
                         for(int i=0; i<5; i++)
                         {
                             grid[RowNum-i][ColNum]=1;
+                            grid[RowNum-i][ColNum-1]=2;    //left
+                            grid[RowNum-i][ColNum+1]=2;    //right
                             display[RowNum-i][ColNum]='O';
                         }
+                        grid[RowNum-5][ColNum]=2;       //up
+                        grid[RowNum+1][ColNum]=2;       //down
                         flag=1;
                     }
                 }
@@ -300,21 +291,25 @@ int deployment(int PlayerNum)
 
             case 1:
                 if(ColNum>5)
-                    Msg2();         //There is no enough space
+                    Msg();         //There is no enough space
                 else
                 {
                     for(int i=0; i<5; i++)
                         temp=temp+grid[RowNum][ColNum+i];
 
                     if(temp!=0)
-                        Msg2();         //There is no enough space
+                        Msg();         //There is no enough space
                     else
                     {
                         for(int i=0; i<5; i++)
                         {
                             grid[RowNum][ColNum+i]=1;
+                            grid[RowNum+1][ColNum+i]=2;     //up
+                            grid[RowNum-1][ColNum+i]=2;     //down
                             display[RowNum][ColNum+i]='O';
                         }
+                        grid[RowNum][ColNum+5]=2;   //right
+                        grid[RowNum][ColNum-1]=2;   //left
                         flag=1;
                     }
                 }
@@ -322,20 +317,24 @@ int deployment(int PlayerNum)
 
             case 2:
                 if(RowNum>5)
-                    Msg2();         //There is no enough space
+                    Msg();         //There is no enough space
                 else
                 {
                     for(int i=0; i<9-RowNum+1; i++)
                         temp=temp+grid[RowNum+i][ColNum];
                     if(temp!=0)
-                        Msg2();         //There is no enough space
+                        Msg();         //There is no enough space
                     else
                     {
                         for(int i=0; i<5; i++)
                         {
                             grid[RowNum+i][ColNum]=1;
+                            grid[RowNum+i][ColNum+1]=2;
+                            grid[RowNum+i][ColNum-1]=2;
                             display[RowNum+i][ColNum]='O';
                         }
+                        grid[RowNum-1][ColNum]=2;
+                        grid[RowNum+5][ColNum]=2;
                         flag=1;
                     }
                 }
@@ -343,20 +342,24 @@ int deployment(int PlayerNum)
 
             case 3:
                 if(ColNum<4)
-                    Msg2();         //There is no enough space
+                    Msg();         //There is no enough space
                 else
                 {
                     for(int i=0; i<ColNum+1; i++)
                         temp=temp+grid[RowNum][ColNum-i];
                     if(temp!=0)
-                        Msg2();         //There is no enough space
+                        Msg();         //There is no enough space
                     else
                     {
                         for(int i=0; i<5; i++)
                         {
-                            grid[RowNum][ColNum-i];
+                            grid[RowNum][ColNum-i]=1;
+                            grid[RowNum+1][ColNum-i]=2;     //right
+                            grid[RowNum-1][ColNum-i]=2;     //down
                             display[RowNum][ColNum-i]='O';
                         }
+                        grid[RowNum][ColNum-5]=2;     //right
+                        grid[RowNum][ColNum+1]=2;     //left
                         flag=1;
                     }
                 }
@@ -365,6 +368,8 @@ int deployment(int PlayerNum)
     }
     while(flag == 0);
     system("cls");
+    //print_test();
+    Sleep(4000);
 
     /***************************  Battleship deployment  ***********************************/
 
@@ -383,12 +388,8 @@ int deployment(int PlayerNum)
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
-            if(grid[RowNum][ColNum]!=0)
-            {
-                Msg1();    //Here has been occupied
-                printf("%d %d",RowNum,ColNum);
-                Sleep(3000);
-            }
+            if(grid[RowNum][ColNum]==1 || grid[RowNum][ColNum]==2)
+                Msg();    //Here has been occupied
 
             else
             {
@@ -397,13 +398,13 @@ int deployment(int PlayerNum)
                 {
                 case 0:
                     if(RowNum<3)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<4; i++)
                             temp=temp+grid[RowNum-i][ColNum];
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<4; i++)
@@ -418,14 +419,14 @@ int deployment(int PlayerNum)
 
                 case 1:
                     if(ColNum>6)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<4; i++)
                             temp=temp+grid[RowNum][ColNum+i];
 
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<4; i++)
@@ -441,13 +442,13 @@ int deployment(int PlayerNum)
 
                 case 2:
                     if(RowNum>6)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<4; i++)
                             temp=temp+grid[RowNum+i][ColNum];
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<4; i++)
@@ -462,13 +463,13 @@ int deployment(int PlayerNum)
 
                 case 3:
                     if(ColNum<3)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<4; i++)
                             temp=temp+grid[RowNum][ColNum-i];
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<4; i++)                      //changed
@@ -504,8 +505,8 @@ int deployment(int PlayerNum)
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
-            if(grid[RowNum][ColNum]!=0)
-                Msg1();    //Here has been occupied
+            if(grid[RowNum][ColNum]==1 || grid[RowNum][ColNum]==2)
+                Msg();    //Here has been occupied
             else
             {
                 Direction = Choose_Direction();
@@ -513,13 +514,13 @@ int deployment(int PlayerNum)
                 {
                 case 0:
                     if(RowNum<2)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<RowNum+1; i++)
                             temp=temp+grid[RowNum-i][ColNum];
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<3; i++)
@@ -534,14 +535,14 @@ int deployment(int PlayerNum)
 
                 case 1:
                     if(ColNum>7)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<3; i++)
                             temp=temp+grid[RowNum][ColNum+i];
 
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<3; i++)
@@ -557,13 +558,13 @@ int deployment(int PlayerNum)
 
                 case 2:
                     if(RowNum>7)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<3; i++)
                             temp=temp+grid[RowNum+i][ColNum];
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<3; i++)
@@ -578,13 +579,13 @@ int deployment(int PlayerNum)
 
                 case 3:
                     if(ColNum<2)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<3; i++)
                             temp=temp+grid[RowNum][ColNum-i];
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<3; i++)                      //changed
@@ -620,8 +621,8 @@ int deployment(int PlayerNum)
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
-            if(grid[RowNum][ColNum]!=0)
-                Msg1();    //Here has been occupied
+            if(grid[RowNum][ColNum]==1 || grid[RowNum][ColNum]==2)
+                Msg();    //Here has been occupied
             else
             {
                 Direction = Choose_Direction();
@@ -629,13 +630,13 @@ int deployment(int PlayerNum)
                 {
                 case 0:
                     if(RowNum<1)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<RowNum+1; i++)
                             temp=temp+grid[RowNum-i][ColNum];
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<2; i++)
@@ -650,13 +651,13 @@ int deployment(int PlayerNum)
 
                 case 1:
                     if(ColNum>8)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<2; i++)
                             temp=temp+grid[RowNum][ColNum+i];
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<2; i++)
@@ -671,13 +672,13 @@ int deployment(int PlayerNum)
 
                 case 2:
                     if(RowNum>8)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<2; i++)
                             temp=temp+grid[RowNum+i][ColNum];
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<2; i++)
@@ -692,13 +693,13 @@ int deployment(int PlayerNum)
 
                 case 3:
                     if(ColNum<1)
-                        Msg2();     //There is no enough space
+                        Msg();     //There is no enough space
                     else
                     {
                         for(int i=0; i<2; i++)
                             temp=temp+grid[RowNum][ColNum-i];
                         if(temp!=0)
-                            Msg2();     //There is no enough space
+                            Msg();     //There is no enough space
                         else
                         {
                             for(int i=0; i<2; i++)
@@ -955,23 +956,23 @@ void generate_map()
         {'-','-','-','-','-','O','-','-','-','-'},
         {'-','-','-','-','-','O','-','-','-','-'},
         {'-','-','-','O','-','-','-','O','O','O'},
-        {'-','O','-','O','-','O','O','-','-','-'},
+        {'-','O','-','O','-','-','-','-','-','-'},
         {'-','O','-','O','-','-','-','-','-','-'},
         {'-','O','-','-','-','O','O','O','O','-'},
-        {'-','-','O','O','-','-','-','-','-','-'},
+        {'-','-','O','O','-','-','O','O','-','-'},
     };
     char TemplateDisplay4[10][10] =
     {
-        {'-','-','-','-','-','O','O','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','-'},
         {'-','O','O','O','-','-','-','-','-','-'},
         {'-','-','-','-','-','-','O','O','-','-'},
         {'-','O','O','-','-','-','-','-','-','-'},
         {'-','-','-','-','-','O','O','O','O','O'},
         {'-','O','-','-','-','-','-','-','-','-'},
         {'-','O','-','O','O','O','O','-','-','-'},
-        {'-','O','-','-','-','-','-','O','-','-'},
-        {'-','-','-','-','-','-','-','O','-','O'},
-        {'O','O','O','O','-','-','-','O','-','O'},
+        {'-','O','-','-','-','-','O','-','-','-'},
+        {'-','-','O','O','-','-','O','-','O','-'},
+        {'O','O','O','O','-','-','O','-','O','-'},
     };
     char TemplateDisplay5[10][10] =
     {
@@ -980,7 +981,7 @@ void generate_map()
         {'-','-','-','-','-','-','-','O','-','-'},
         {'-','-','O','O','O','O','O','-','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
-        {'O','O','O','-','O','O','-','-','-','O'},
+        {'O','O','O','-','-','-','-','-','-','O'},
         {'-','-','-','-','-','-','O','-','-','O'},
         {'-','-','-','O','-','-','O','-','-','O'},
         {'O','O','-','O','-','-','O','-','-','-'},
@@ -1079,66 +1080,66 @@ void generate_difficult_map()
     {
         {'-','-','-','-','-','-','-','-','-','-'},
         {'-','-','-','-','-','-','*','-','-','-'},
-        {'-','*','-','-','-','-','-','-','-','-'},
+        {'-','*','-','-','*','-','-','-','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','*','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','*','-','-'},
         {'-','-','-','-','*','-','-','-','-','*'},
         {'-','-','-','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','*','-','-','-'},
+        {'-','-','-','*','-','-','*','-','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
     };
     char ReefTemplateDisplay2[10][10] =
     {
-        {'-','-','-','-','-','-','*','-','-','-'},
+        {'-','*','-','-','-','-','*','-','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','*'},
-        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','*','*'},
+        {'-','-','-','-','*','-','-','-','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
         {'-','*','-','-','-','-','-','-','-','-'},
         {'-','-','-','-','-','-','-','-','-','*'},
-        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','*','-','-','-','-','-','-','-'},
         {'-','-','-','-','-','-','*','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','-','*'},
     };
     char ReefTemplateDisplay3[10][10] =
     {
         {'-','-','-','*','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','*','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
         {'-','*','-','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','*'},
-        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','*','-','-','-','-','-'},
+        {'-','-','-','-','-','-','-','-','*','*'},
+        {'-','*','-','-','-','-','-','-','-','-'},
         {'-','-','-','-','-','-','*','-','-','-'},
         {'*','-','-','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','*','-','-','-','-','-','-'},
     };
     char ReefTemplateDisplay4[10][10] =
     {
-        {'*','-','-','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','*','-','-','-','-'},
+        {'*','-','*','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','*','-','-','-','*'},
         {'-','-','-','-','-','-','-','-','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
         {'-','-','*','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','*','-','-','*'},
         {'-','-','-','-','-','-','-','-','-','-'},
         {'*','-','-','-','-','-','-','-','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','*','-','-','-'},
+        {'-','-','-','*','-','-','*','-','-','-'},
     };
     char ReefTemplateDisplay5[10][10] =
     {
-        {'-','-','-','-','-','*','-','-','-','-'},
+        {'*','-','-','-','-','*','-','-','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
         {'-','-','-','-','-','-','-','-','*','-'},
         {'-','-','*','-','-','-','-','-','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','*','*','-','-','-','-','-'},
         {'-','-','-','-','-','-','-','*','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
         {'-','-','-','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','-'},
+        {'-','-','-','-','*','-','-','-','-','*'},
     };
 
     int TempNum = 0;
