@@ -247,7 +247,7 @@ int deployment(int PlayerNum)
     Print_Missouri();
     Print_Grid();
     printf("\n");
-    printf("              OOOOO Carrier Missouri\n");
+    printf("              OOOOO Carrier\n");
     printf("              [TAB] : cycle through options\n");
     printf("              [Space] : confirm\n");
 
@@ -410,8 +410,12 @@ int deployment(int PlayerNum)
                             for(int i=0; i<4; i++)
                             {
                                 grid[RowNum-i][ColNum]=1;
+                                grid[RowNum-i][ColNum-1]=2;    //left
+                                grid[RowNum-i][ColNum+1]=2;    //right
                                 display[RowNum-i][ColNum]='O';
                             }
+                            grid[RowNum-4][ColNum]=2;       //up
+                            grid[RowNum+1][ColNum]=2;       //down
                             flag=1;
                         }
                     }
@@ -432,9 +436,13 @@ int deployment(int PlayerNum)
                             for(int i=0; i<4; i++)
                             {
                                 grid[RowNum][ColNum+i]=1;
+                                grid[RowNum+1][ColNum+i]=2;     //up
+                                grid[RowNum-1][ColNum+i]=2;     //down
                                 display[RowNum][ColNum+i]='O';
                             }
-                            flag=1;
+                            grid[RowNum][ColNum+4]=2;   //right
+                            grid[RowNum][ColNum-1]=2;   //left
+                            flag=1;              
                         }
 
                     }
@@ -454,8 +462,12 @@ int deployment(int PlayerNum)
                             for(int i=0; i<4; i++)
                             {
                                 grid[RowNum+i][ColNum]=1;
+                                grid[RowNum+i][ColNum+1]=2;
+                                grid[RowNum+i][ColNum-1]=2;
                                 display[RowNum+i][ColNum]='O';
                             }
+                            grid[RowNum-1][ColNum]=2;
+                            grid[RowNum+4][ColNum]=2;
                             flag=1;
                         }
                     }
@@ -474,9 +486,13 @@ int deployment(int PlayerNum)
                         {
                             for(int i=0; i<4; i++)                      //changed
                             {
-                                grid[RowNum][ColNum-i];
+                                grid[RowNum][ColNum-i]=1;
+                                grid[RowNum+1][ColNum-i]=2;     //right
+                                grid[RowNum-1][ColNum-i]=2;     //down
                                 display[RowNum][ColNum-i]='O';
                             }
+                            grid[RowNum][ColNum-4]=2;     //right
+                            grid[RowNum][ColNum+1]=2;     //left
                             flag=1;
                         }
                     }
