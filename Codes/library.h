@@ -195,7 +195,7 @@ int mode_selection()
     system("cls");
     return flag;
 }
-/****************************************************************************/
+/*******************************************************************************/
 
 int choose_difficulty_level()
 {
@@ -227,7 +227,7 @@ int choose_difficulty_level()
     system("cls");
     return flag;
 }
-/****************************************************************************/
+/*******************************************************************************/
 
 int deployment(int PlayerNum,int mode)
 {
@@ -913,39 +913,13 @@ int Battle(int Battle_type)
             printf("\n");
         }
 
-//        printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
-//        for(int i=0; i<10; i++)
-//        {
-//            switch(turn)
-//            {
-//            case 0:
-//                printf("           %c  ",row[i]);       //print rows
-//                for(int j=0; j<10; j++)
-//                    printf("%c  ",Player1.display[i][j]);
-//                printf("         %c  ",row[i]);         //print rows (Mask)
-//                for(int j=0; j<10; j++)
-//                    printf("%c  ",Player2.Mask[i][j]);  //print mask for player
-//                break;
-//
-//            case 1:
-//                printf("           %c  ",row[i]);       //print rows
-//                for(int j=0; j<10; j++)
-//                    printf("%c  ",Player2.display[i][j]);
-//                printf("         %c  ",row[i]);  //print rows (Mask)
-//                for(int j=0; j<10; j++)
-//                    printf("%c  ",Player1.Mask[i][j]);  //print mask for player
-//                break;
-//            }
-//            printf("\n");
-//        }
-
-
         switch(turn)          //display
         {
         case 0:
             printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
             for(int i=0; i<10; i++)
             {
+                printf("           %c  ",row[i]);       //print rows
                 for(int j=0; j<10; j++)
                     printf("%c  ",Player1.display[i][j]);
                 printf("         %c  ",row[i]);         //print rows (Mask)
@@ -1025,11 +999,15 @@ int Battle(int Battle_type)
             }
             else if(Battle_type == 1)       //Easy
             {
-
+                srand(time(NULL));
+                RowNum = rand() % 9;
+                ColNum = rand() % 9;
             }
             else if(Battle_type == 2)       //Hard
             {
-
+                srand(time(NULL));
+                RowNum = rand() % 9;
+                ColNum = rand() % 9;
             }
 
             if(Player1.grid[RowNum][ColNum]==1)
@@ -1046,9 +1024,9 @@ int Battle(int Battle_type)
                 turn = 0;
             }
 
-            if(Battle_type == 0)    //PvP only
+            if(Battle_type == 0)    //PvP Update board
             {
-                system("cls");                              //Update board
+                system("cls");
                 Print_Missouri();
                 printf("          [ Player 2 ]\n");
                 printf("\n");
@@ -1062,6 +1040,23 @@ int Battle(int Battle_type)
                     printf("         %c  ",row[i]);         //print rows(Mask)
                     for(int j=0; j<10; j++)
                         printf("%c  ",Player1.Mask[i][j]);  //print mask for player
+                    printf("\n");
+                }
+                Sleep(1500);
+                system("cls");
+            }
+            else                    //Easy & Hard mode
+            {
+                system("cls");
+                Print_Missouri();
+                printf("              Attacking... \n");
+                printf("\n");
+                printf("              0  1  2  3  4  5  6  7  8  9\n");
+                for(int i=0; i<10; i++)
+                {
+                    printf("           %c  ",row[i]);       //print rows
+                    for(int j=0; j<10; j++)
+                        printf("%c  ",Player1.display[i][j]);
                     printf("\n");
                 }
                 Sleep(1500);
@@ -1094,17 +1089,15 @@ int Battle(int Battle_type)
         Sleep(3000);
     }
 }
+/*******************************************************************************/
 
-
-
-void generate_map()
+void generate_map(int map_type)
 {
     int TemplateGrid1[10][10];
     int TemplateGrid2[10][10];
     int TemplateGrid3[10][10];
     int TemplateGrid4[10][10];
     int TemplateGrid5[10][10];
-    int TempNum = 0;
 
     char TemplateDisplay1[10][10] =
     {
@@ -1172,88 +1165,6 @@ void generate_map()
         {'-','-','-','-','-','-','O','-','-','-'},
     };
 
-    srand(time(NULL));
-    TempNum = rand() % 5;                       //generate a integer num (0~4)
-
-    for(int i=0; i<10; i++)                     //set TemplateGrid
-    {
-        for(int j=0; j<10; j++)
-        {
-            switch(TempNum)
-            {
-            case 0:
-                if(TemplateDisplay1[i][j]=='-')
-                    TemplateGrid1[i][j]=0;
-                else
-                    TemplateGrid1[i][j]=1;
-                break;
-
-            case 1:
-                if(TemplateDisplay2[i][j]=='-')
-                    TemplateGrid2[i][j]=0;
-                else
-                    TemplateGrid2[i][j]=1;
-                break;
-
-            case 2:
-                if(TemplateDisplay3[i][j]=='-')
-                    TemplateGrid3[i][j]=0;
-                else
-                    TemplateGrid3[i][j]=1;
-                break;
-
-            case 3:
-                if(TemplateDisplay4[i][j]=='-')
-                    TemplateGrid4[i][j]=0;
-                else
-                    TemplateGrid4[i][j]=1;
-                break;
-
-            case 4:
-                if(TemplateDisplay5[i][j]=='-')
-                    TemplateGrid5[i][j]=0;
-                else
-                    TemplateGrid5[i][j]=1;
-                break;
-            }
-        }
-    }
-
-
-    for(int i=0; i<10; i++)
-    {
-        for(int j=0; j<10; j++)
-        {
-            switch(TempNum)
-            {
-            case 0:
-                Player2.display[i][j]=TemplateDisplay1[i][j];
-                Player2.grid[i][j]= TemplateGrid1[i][j];
-                break;
-            case 1:
-                Player2.display[i][j]=TemplateDisplay2[i][j];
-                Player2.grid[i][j]= TemplateGrid2[i][j];
-                break;
-            case 2:
-                Player2.display[i][j]=TemplateDisplay3[i][j];
-                Player2.grid[i][j]= TemplateGrid3[i][j];
-                break;
-            case 3:
-                Player2.display[i][j]=TemplateDisplay4[i][j];
-                Player2.grid[i][j]= TemplateGrid4[i][j];
-                break;
-            case 4:
-                Player2.display[i][j]=TemplateDisplay5[i][j];
-                Player2.grid[i][j]= TemplateGrid5[i][j];
-                break;
-
-            }
-        }
-    }
-}
-
-void generate_difficult_map()
-{
     int ReefTemplateGrid1[10][10];
     int ReefTemplateGrid2[10][10];
     int ReefTemplateGrid3[10][10];
@@ -1327,7 +1238,6 @@ void generate_difficult_map()
     };
 
     int TempNum = 0;
-
     srand(time(NULL));
     TempNum = rand() % 5;                       //generate a integer num (0~4)
 
@@ -1338,68 +1248,117 @@ void generate_difficult_map()
             switch(TempNum)
             {
             case 0:
-                if(ReefTemplateDisplay1[i][j]=='-')
-                    ReefTemplateGrid1[i][j]=0;
-                else
-                    ReefTemplateGrid1[i][j]=1;
+                switch(map_type)
+                {
+                case 0:
+                    if(TemplateDisplay1[i][j]=='-')
+                        TemplateGrid1[i][j]=0;
+                    else
+                        TemplateGrid1[i][j]=1;
+                    Player2.display[i][j]=TemplateDisplay1[i][j];
+                    Player2.grid[i][j]= TemplateGrid1[i][j];
+                    break;
+
+                case 1:
+                    if(ReefTemplateDisplay1[i][j]=='-')
+                        ReefTemplateGrid1[i][j]=0;
+                    else
+                        ReefTemplateGrid1[i][j]=1;
+                    Player1.display[i][j]=ReefTemplateDisplay1[i][j];
+                    Player1.grid[i][j]= ReefTemplateGrid1[i][j];
+                    break;
+                }
                 break;
 
+
             case 1:
-                if(ReefTemplateDisplay2[i][j]=='-')
-                    ReefTemplateGrid2[i][j]=0;
-                else
-                    ReefTemplateGrid2[i][j]=1;
+                switch(map_type)
+                {
+                case 0:
+                    if(TemplateDisplay2[i][j]=='-')
+                        TemplateGrid2[i][j]=0;
+                    else
+                        TemplateGrid2[i][j]=1;
+                    Player2.display[i][j]=TemplateDisplay2[i][j];
+                    Player2.grid[i][j]= TemplateGrid2[i][j];
+                    break;
+                case 1:
+                    if(ReefTemplateDisplay2[i][j]=='-')
+                        ReefTemplateGrid2[i][j]=0;
+                    else
+                        ReefTemplateGrid2[i][j]=1;
+                    Player1.display[i][j]=ReefTemplateDisplay2[i][j];
+                    Player1.grid[i][j]= ReefTemplateGrid2[i][j];
+                    break;
+                }
                 break;
 
             case 2:
-                if(ReefTemplateDisplay3[i][j]=='-')
-                    ReefTemplateGrid3[i][j]=0;
-                else
-                    ReefTemplateGrid3[i][j]=1;
+                switch(map_type)
+                {
+                case 0:
+                    if(TemplateDisplay3[i][j]=='-')
+                        TemplateGrid3[i][j]=0;
+                    else
+                        TemplateGrid3[i][j]=1;
+                    Player2.display[i][j]=TemplateDisplay3[i][j];
+                    Player2.grid[i][j]= TemplateGrid3[i][j];
+                    break;
+                case 1:
+                    if(ReefTemplateDisplay3[i][j]=='-')
+                        ReefTemplateGrid3[i][j]=0;
+                    else
+                        ReefTemplateGrid3[i][j]=1;
+                    Player1.display[i][j]=ReefTemplateDisplay3[i][j];
+                    Player1.grid[i][j]= ReefTemplateGrid3[i][j];
+                    break;
+                }
                 break;
+
 
             case 3:
-                if(ReefTemplateDisplay4[i][j]=='-')
-                    ReefTemplateGrid4[i][j]=0;
-                else
-                    ReefTemplateGrid4[i][j]=1;
+                switch(map_type)
+                {
+                case 0:
+                    if(TemplateDisplay4[i][j]=='-')
+                        TemplateGrid4[i][j]=0;
+                    else
+                        TemplateGrid4[i][j]=1;
+                    Player2.display[i][j]=TemplateDisplay4[i][j];
+                    Player2.grid[i][j]= TemplateGrid4[i][j];
+                    break;
+                case 1:
+                    if(ReefTemplateDisplay4[i][j]=='-')
+                        ReefTemplateGrid4[i][j]=0;
+                    else
+                        ReefTemplateGrid4[i][j]=1;
+                    Player1.display[i][j]=ReefTemplateDisplay4[i][j];
+                    Player1.grid[i][j]= ReefTemplateGrid4[i][j];
+                    break;
+                }
                 break;
+
 
             case 4:
-                if(ReefTemplateDisplay5[i][j]=='-')
-                    ReefTemplateGrid5[i][j]=0;
-                else
-                    ReefTemplateGrid5[i][j]=1;
-                break;
-            }
-        }
-    }
-
-    for(int i=0; i<10; i++)
-    {
-        for(int j=0; j<10; j++)
-        {
-            switch(TempNum)
-            {
-            case 0:
-                Player1.display[i][j]=ReefTemplateDisplay1[i][j];
-                Player1.grid[i][j]= ReefTemplateGrid1[i][j];
-                break;
-            case 1:
-                Player1.display[i][j]=ReefTemplateDisplay2[i][j];
-                Player1.grid[i][j]= ReefTemplateGrid2[i][j];
-                break;
-            case 2:
-                Player1.display[i][j]=ReefTemplateDisplay3[i][j];
-                Player1.grid[i][j]= ReefTemplateGrid3[i][j];
-                break;
-            case 3:
-                Player1.display[i][j]=ReefTemplateDisplay4[i][j];
-                Player1.grid[i][j]= ReefTemplateGrid4[i][j];
-                break;
-            case 4:
-                Player1.display[i][j]=ReefTemplateDisplay5[i][j];
-                Player1.grid[i][j]= ReefTemplateGrid5[i][j];
+                switch(map_type)
+                {
+                case 0:
+                    if(TemplateDisplay5[i][j]=='-')
+                        TemplateGrid5[i][j]=0;
+                    else
+                        TemplateGrid5[i][j]=1;
+                    Player2.display[i][j]=TemplateDisplay5[i][j];
+                    Player2.grid[i][j]= TemplateGrid5[i][j];
+                    break;
+                case 1:
+                    if(ReefTemplateDisplay5[i][j]=='-')
+                        ReefTemplateGrid5[i][j]=0;
+                    else
+                        ReefTemplateGrid5[i][j]=1;
+                    Player1.display[i][j]=ReefTemplateDisplay5[i][j];
+                    Player1.grid[i][j]= ReefTemplateGrid5[i][j];
+                    break;
+                }
                 break;
             }
         }
@@ -1407,321 +1366,12 @@ void generate_difficult_map()
 }
 
 
-Battle_hard()
-{
-    int Win = 0;
-    int turn = 0;
-    int P1 = 0;
-    int P2 = 0;
-
-    for(int i = 0; i<10; i++)           //initialize mask
-    {
-        for(int j=0; j<10; j++)
-        {
-            Player1.Mask[i][j]='-';
-            Player2.Mask[i][j]='-';
-        }
-    }
-
-    while(Win!=1)
-    {
-
-        if(turn==0)
-        {
-            Print_Missouri();
-            printf("          [ Player 1 ]\n");
-            printf("\n");
-        }
-
-        if(turn == 0)
-        {
-            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
-            for(int i=0; i<10; i++)
-            {
-                printf("           %c  ",row[i]);       //print rows
-                for(int j=0; j<10; j++)
-                    printf("%c  ",Player1.display[i][j]);
-                printf("         %c  ",row[i]);         //print rows (Mask)
-                for(int j=0; j<10; j++)
-                    printf("%c  ",Player2.Mask[i][j]);  //print mask for player
-                printf("\n");
-            }
-        }
-        else
-        {
-            Print_Missouri();
-            printf("              Robot attacking...");
-            Sleep(1000);
-            system("cls");
-        }
-
-        switch(turn)
-        {
-        case 0:                         //Player 1 attack
-            printf("\n");
-            Choose_Coordinate();
-            RowNum = position[0]-65;
-            ColNum = position[1]-48;
-
-            if(Player2.grid[RowNum][ColNum]==1)
-            {
-                Player2.grid[RowNum][ColNum]=0;             //SUNK SHIP = 2
-                Player2.Mask[RowNum][ColNum]='X';
-                Player2.display[RowNum][ColNum]='X';
-            }
-            else
-            {
-                Player2.Mask[RowNum][ColNum]=' ';
-                if(Player2.display[RowNum][ColNum]!='O' && Player2.display[RowNum][ColNum]!='X')
-                    Player2.display[RowNum][ColNum]=' ';
-                turn = 1;
-            }
-
-
-            system("cls");                              //Update board
-            Print_Missouri();
-            printf("          [ Player 1 ]\n");
-            printf("\n");
-            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
-            for(int i=0; i<10; i++)
-            {
-                printf("           %c  ",row[i]);       //print rows
-                for(int j=0; j<10; j++)
-                    printf("%c  ",Player1.display[i][j]);
-                printf("         %c  ",row[i]);         //print rows(Mask)
-                for(int j=0; j<10; j++)
-                    printf("%c  ",Player2.Mask[i][j]);  //print mask for player
-                printf("\n");
-            }
-            Sleep(1500);
-            system("cls");
-            break;
-
-        case 1:                     //Player 2 attack
-            printf("\n");
-            srand(time(NULL));
-            RowNum = rand() % 9;
-            ColNum = rand() % 9;
-
-            if(Player1.grid[RowNum][ColNum]==1)
-            {
-                Player1.grid[RowNum][ColNum]=0;
-                Player1.Mask[RowNum][ColNum]='X';
-                Player1.display[RowNum][ColNum]='X';
-            }
-            else
-            {
-                Player1.Mask[RowNum][ColNum]=' ';
-                if(Player1.display[RowNum][ColNum]!='O' && Player1.display[RowNum][ColNum]!='X')
-                    Player1.display[RowNum][ColNum]=' ';
-                turn = 0;
-            }
-
-
-//            system("cls");                              //Update board
-//            Print_Missouri();
-//            printf("          [ Player 2 ]\n");
-//            printf("\n");
-//
-//            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
-//            for(int i=0; i<10; i++)
-//            {
-//                printf("           %c  ",row[i]);       //print rows
-//                for(int j=0; j<10; j++)
-//                    printf("%c  ",Player2.display[i][j]);
-//                printf("         %c  ",row[i]);         //print rows(Mask)
-//                for(int j=0; j<10; j++)
-//                    printf("%c  ",Player1.Mask[i][j]);  //print mask for player
-//                printf("\n");
-//            }
-//            Sleep(1500);
-            //system("cls");
-            break;
-        }
-
-        for(int i=0; i<10; i++)         //check result
-        {
-            for(int j=0; j<10; j++)
-            {
-                P1 = P1 + Player1.grid[i][j];
-                P2 = P2 + Player2.grid[i][j];
-            }
-        }
-        if(P1==0 || P2 == 0)
-            Win = 1;
-    }
-    system("cls");
-    Print_Missouri();
-    if(P1 == 0)
-    {
-        printf("              PLAYER 2 VICTORY !!!");
-        Sleep(3000);
-    }
-    else
-    {
-        printf("              PLAYER 1 VICTORY !!!");
-        Sleep(3000);
-    }
-}
 
 
 
-int Battle_easy()
-{
-    int Win = 0;
-    int turn = 0;
-    int P1 = 0;
-    int P2 = 0;
-
-    for(int i = 0; i<10; i++)           //initialize mask
-    {
-        for(int j=0; j<10; j++)
-        {
-            Player1.Mask[i][j]='-';
-            Player2.Mask[i][j]='-';
-        }
-    }
-
-    while(Win!=1)
-    {
-
-        if(turn==0)
-        {
-            Print_Missouri();
-            printf("          [ Player 1 ]\n");
-            printf("\n");
-        }
-
-        if(turn == 0)
-        {
-            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
-            for(int i=0; i<10; i++)
-            {
-                printf("           %c  ",row[i]);       //print rows
-                for(int j=0; j<10; j++)
-                    printf("%c  ",Player1.display[i][j]);
-                printf("         %c  ",row[i]);         //print rows (Mask)
-                for(int j=0; j<10; j++)
-                    printf("%c  ",Player2.Mask[i][j]);  //print mask for player
-                printf("\n");
-            }
-        }
-        else
-        {
-            Print_Missouri();
-            printf("              Robot attacking...");
-            Sleep(1000);
-            system("cls");
-        }
-
-        switch(turn)
-        {
-        case 0:                         //Player 1 attack
-            printf("\n");
-            Choose_Coordinate();
-            RowNum = position[0]-65;
-            ColNum = position[1]-48;
-
-            if(Player2.grid[RowNum][ColNum]==1)
-            {
-                Player2.grid[RowNum][ColNum]=0;             //SUNK SHIP = 2
-                Player2.Mask[RowNum][ColNum]='X';
-                Player2.display[RowNum][ColNum]='X';
-            }
-            else
-            {
-                Player2.Mask[RowNum][ColNum]=' ';
-                if(Player2.display[RowNum][ColNum]!='O' && Player2.display[RowNum][ColNum]!='X')
-                    Player2.display[RowNum][ColNum]=' ';
-                turn = 1;
-            }
 
 
-            system("cls");                              //Update board
-            Print_Missouri();
-            printf("          [ Player 1 ]\n");
-            printf("\n");
-            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
-            for(int i=0; i<10; i++)
-            {
-                printf("           %c  ",row[i]);       //print rows
-                for(int j=0; j<10; j++)
-                    printf("%c  ",Player1.display[i][j]);
-                printf("         %c  ",row[i]);         //print rows(Mask)
-                for(int j=0; j<10; j++)
-                    printf("%c  ",Player2.Mask[i][j]);  //print mask for player
-                printf("\n");
-            }
-            Sleep(1500);
-            system("cls");
-            break;
 
-        case 1:                     //Player 2 attack
-            printf("\n");
-            srand(time(NULL));
-            RowNum = rand() % 9;
-            ColNum = rand() % 9;
-
-            if(Player1.grid[RowNum][ColNum]==1)
-            {
-                Player1.grid[RowNum][ColNum]=0;
-                Player1.Mask[RowNum][ColNum]='X';
-                Player1.display[RowNum][ColNum]='X';
-            }
-            else
-            {
-                Player1.Mask[RowNum][ColNum]=' ';
-                if(Player1.display[RowNum][ColNum]!='O' && Player1.display[RowNum][ColNum]!='X')
-                    Player1.display[RowNum][ColNum]=' ';
-                turn = 0;
-            }
-
-
-//            system("cls");                              //Update board
-//            Print_Missouri();
-//            printf("          [ Player 2 ]\n");
-//            printf("\n");
-//
-//            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
-//            for(int i=0; i<10; i++)
-//            {
-//                printf("           %c  ",row[i]);       //print rows
-//                for(int j=0; j<10; j++)
-//                    printf("%c  ",Player2.display[i][j]);
-//                printf("         %c  ",row[i]);         //print rows(Mask)
-//                for(int j=0; j<10; j++)
-//                    printf("%c  ",Player1.Mask[i][j]);  //print mask for player
-//                printf("\n");
-//            }
-//            Sleep(1500);
-            //system("cls");
-            break;
-        }
-
-        for(int i=0; i<10; i++)         //check result
-        {
-            for(int j=0; j<10; j++)
-            {
-                P1 = P1 + Player1.grid[i][j];
-                P2 = P2 + Player2.grid[i][j];
-            }
-        }
-        if(P1==0 || P2 == 0)
-            Win = 1;
-    }
-    system("cls");
-    Print_Missouri();
-    if(P1 == 0)
-    {
-        printf("              PLAYER 2 VICTORY !!!");
-        Sleep(3000);
-    }
-    else
-    {
-        printf("              PLAYER 1 VICTORY !!!");
-        Sleep(3000);
-    }
-}
 
 
 

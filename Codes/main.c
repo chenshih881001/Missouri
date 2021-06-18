@@ -11,6 +11,10 @@ int Mode;
 int player_1 = 0;
 int player_2 = 1;
 
+int Bot = 0;
+int Human = 1;
+
+
 int PvP = 0;
 int Easy = 1;
 int Hard = 2;
@@ -27,29 +31,24 @@ int main()
         switch(Level)
         {
         case 0:                //Easy
-            generate_map();
+            generate_map(Bot);
             deployment(player_1,Easy);
-            //deployment(player_1);
-            Battle_easy();
-            //Battle(Easy);
+            Battle(Easy);
             break;
 
         case 1:                //Hard
-            generate_difficult_map();
+            generate_map(Human);
+            generate_map(Bot);
             deployment(player_1,Hard);
-            Battle_hard();
-            //Battle(Hard);
+            Battle(Hard);
             break;
         }
         break;
 
     case 1:                    //PvP
-//        for(int i=0; i<2; i++)
-//            deployment(i);
         deployment(player_1,PvP);
         deployment(player_2,PvP);
-        Battle();
-        //Battle(PvP);
+        Battle(PvP);
     }
     return 0;
 }
