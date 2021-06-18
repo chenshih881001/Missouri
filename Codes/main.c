@@ -5,14 +5,21 @@
 #include "library.h"
 
 
-int Level = 0;
-int human = 0;
+int Level;
+int Mode;
+
+int player_1 = 0;
+int player_2 = 1;
+
+int PvP = 0;
+int Easy = 1;
+int Hard = 2;
 
 
 int main()
 {
 //  start();                    //press [Space] to start game; loading game
-    int Mode = mode_selection();
+    Mode = mode_selection();
     switch(Mode)
     {
     case 0:                    //Single Player
@@ -21,22 +28,28 @@ int main()
         {
         case 0:                //Easy
             generate_map();
-            deployment(human);
+            deployment(player_1,Easy);
+            //deployment(player_1);
             Battle_easy();
+            //Battle(Easy);
             break;
 
         case 1:                //Hard
             generate_difficult_map();
-            deployment_hard(human);
+            deployment(player_1,Hard);
             Battle_hard();
+            //Battle(Hard);
             break;
         }
         break;
 
     case 1:                    //PvP
-        for(int i=0; i<2; i++)
-            deployment(i);
+//        for(int i=0; i<2; i++)
+//            deployment(i);
+        deployment(player_1,PvP);
+        deployment(player_2,PvP);
         Battle();
+        //Battle(PvP);
     }
     return 0;
 }
