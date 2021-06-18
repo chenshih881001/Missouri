@@ -4,14 +4,14 @@
 #include <conio.h>
 #include "library.h"
 
-int Mode = 0;
+
 int Level = 0;
 int human = 0;
 
 int main()
 {
 //  start();                    //press [Space] to start game; loading game
-    Mode = mode_selection();
+    int Mode = mode_selection();
     switch(Mode)
     {
     case 0:                    //Single Player
