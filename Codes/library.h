@@ -609,7 +609,7 @@ int deployment(int PlayerNum)
                             Msg();     //There is no enough space
                         else
                         {
-                            for(int i=0; i<4; i++)
+                            for(int i=0; i<3; i++)
                             {
                                 grid[RowNum][ColNum+i]=1;
                                 if(RowNum-1>=0)
@@ -618,8 +618,8 @@ int deployment(int PlayerNum)
                                     grid[RowNum+1][ColNum+i]=2;				//below
                                 display[RowNum][ColNum+i]='O';
                             }
-                            if(ColNum+4<=9)
-                                grid[RowNum][ColNum+4]=2;							//right
+                            if(ColNum+3<=9)
+                                grid[RowNum][ColNum+3]=2;							//right
                             if(ColNum-1>=0)
                                 grid[RowNum][ColNum-1]=2;							//left
                             flag=1;
