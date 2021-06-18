@@ -285,14 +285,22 @@ int deployment(int PlayerNum)
                         for(int i=0; i<5; i++)
                         {
                             grid[RowNum-i][ColNum]=1;
+                            if(ColNum-1>=0)
+                                grid[RowNum-i][ColNum-1]=2;      //left side
+                            if(ColNum+1<=9)
+                                grid[RowNum-i][ColNum+1]=2;      //right side
                             display[RowNum-i][ColNum]='O';
                         }
+                        if(RowNum-5>=0)
+                            grid[RowNum-5][ColNum]=2;      		//above
+                        if(RowNum+1<=9)
+                            grid[RowNum+1][ColNum]=2;      		//below
                         flag=1;
                     }
                 }
                 break;
 
-            case 1:
+            case 1:												//right
                 if(ColNum>5)
                     Msg();         //There is no enough space
                 else
@@ -307,14 +315,22 @@ int deployment(int PlayerNum)
                         for(int i=0; i<5; i++)
                         {
                             grid[RowNum][ColNum+i]=1;
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum+i]=2;				//above
+                            if(RowNum+1<=9)
+                                grid[RowNum+1][ColNum+i]=2;				//below
                             display[RowNum][ColNum+i]='O';
                         }
+                        if(ColNum+5<=9)
+                            grid[RowNum][ColNum+5]=2;							//right
+                        if(ColNum-1>=0)
+                            grid[RowNum][ColNum-1]=2;							//left
                         flag=1;
                     }
                 }
                 break;
 
-            case 2:
+            case 2:										//down
                 if(RowNum>5)
                     Msg();         //There is no enough space
                 else
@@ -328,14 +344,22 @@ int deployment(int PlayerNum)
                         for(int i=0; i<5; i++)
                         {
                             grid[RowNum+i][ColNum]=1;
+                            if(ColNum-1>=0)
+                                grid[RowNum+i][ColNum-1]=2;      //left side
+                            if(ColNum+1<=9)
+                                grid[RowNum+i][ColNum+1]=2;      //right side
                             display[RowNum+i][ColNum]='O';
                         }
+                        if(RowNum-1>=0)
+                            grid[RowNum-1][ColNum]=2;      		//above
+                        if(RowNum+5<=9)
+                            grid[RowNum+5][ColNum]=2;      		//below
                         flag=1;
                     }
                 }
                 break;
 
-            case 3:
+            case 3:														//left
                 if(ColNum<4)
                     Msg();         //There is no enough space
                 else
@@ -349,8 +373,16 @@ int deployment(int PlayerNum)
                         for(int i=0; i<5; i++)
                         {
                             grid[RowNum][ColNum-i];
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum-i]=2;				//above
+                            if(RowNum+1<=9)
+                                grid[RowNum+1][ColNum-i]=2;				//below
                             display[RowNum][ColNum-i]='O';
                         }
+                        if(ColNum+1<=9)
+                            grid[RowNum][ColNum+1]=2;							//right
+                        if(ColNum-5>=0)
+                            grid[RowNum][ColNum-5]=2;							//left
                         flag=1;
                     }
                 }
@@ -395,18 +427,19 @@ int deployment(int PlayerNum)
                     else
                     {
                         for(int i=0; i<4; i++)
-                            temp=temp+grid[RowNum-i][ColNum];
-                        if(temp!=0)
-                            Msg();     //There is no enough space
-                        else
                         {
-                            for(int i=0; i<4; i++)
-                            {
-                                grid[RowNum-i][ColNum]=1;
-                                display[RowNum-i][ColNum]='O';
-                            }
-                            flag=1;
+                            grid[RowNum-i][ColNum]=1;
+                            if(ColNum-1>=0)
+                                grid[RowNum-i][ColNum-1]=2;      //left side
+                            if(ColNum+1<=9)
+                                grid[RowNum-i][ColNum+1]=2;      //right side
+                            display[RowNum-i][ColNum]='O';
                         }
+                        if(RowNum-4>=0)
+                            grid[RowNum-4][ColNum]=2;      		//above
+                        if(RowNum+1<=9)
+                            grid[RowNum+1][ColNum]=2;      		//below
+                        flag=1;
                     }
                     break;
 
@@ -416,20 +449,19 @@ int deployment(int PlayerNum)
                     else
                     {
                         for(int i=0; i<4; i++)
-                            temp=temp+grid[RowNum][ColNum+i];
-
-                        if(temp!=0)
-                            Msg();     //There is no enough space
-                        else
                         {
-                            for(int i=0; i<4; i++)
-                            {
-                                grid[RowNum][ColNum+i]=1;
-                                display[RowNum][ColNum+i]='O';
-                            }
-                            flag=1;
+                            grid[RowNum][ColNum+i]=1;
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum+i]=2;				//above
+                            if(RowNum+1<=9)
+                                grid[RowNum+1][ColNum+i]=2;				//below
+                            display[RowNum][ColNum+i]='O';
                         }
-
+                        if(ColNum+4<=9)
+                            grid[RowNum][ColNum+4]=2;							//right
+                        if(ColNum-1>=0)
+                            grid[RowNum][ColNum-1]=2;							//left
+                        flag=1;
                     }
                     break;
 
@@ -447,8 +479,16 @@ int deployment(int PlayerNum)
                             for(int i=0; i<4; i++)
                             {
                                 grid[RowNum+i][ColNum]=1;
+                                if(ColNum-1>=0)
+                                    grid[RowNum+i][ColNum-1]=2;      //left side
+                                if(ColNum+1<=9)
+                                    grid[RowNum+i][ColNum+1]=2;      //right side
                                 display[RowNum+i][ColNum]='O';
                             }
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum]=2;      		//above
+                            if(RowNum+4<=9)
+                                grid[RowNum+4][ColNum]=2;      		//below
                             flag=1;
                         }
                     }
@@ -468,8 +508,16 @@ int deployment(int PlayerNum)
                             for(int i=0; i<4; i++)                      //changed
                             {
                                 grid[RowNum][ColNum-i];
+                                if(RowNum-1>=0)
+                                    grid[RowNum-1][ColNum-i]=2;				//above
+                                if(RowNum+1<=9)
+                                    grid[RowNum+1][ColNum-i]=2;				//below
                                 display[RowNum][ColNum-i]='O';
                             }
+                            if(ColNum+1<=9)
+                                grid[RowNum][ColNum+1]=2;							//right
+                            if(ColNum-4>=0)
+                                grid[RowNum][ColNum-4]=2;							//left
                             flag=1;
                         }
                     }
@@ -510,19 +558,20 @@ int deployment(int PlayerNum)
                         Msg();     //There is no enough space
                     else
                     {
-                        for(int i=0; i<RowNum+1; i++)
-                            temp=temp+grid[RowNum-i][ColNum];
-                        if(temp!=0)
-                            Msg();     //There is no enough space
-                        else
+                        for(int i=0; i<3; i++)
                         {
-                            for(int i=0; i<3; i++)
-                            {
-                                grid[RowNum-i][ColNum]=1;
-                                display[RowNum-i][ColNum]='O';
-                            }
-                            flag=1;
+                            grid[RowNum-i][ColNum]=1;
+                            if(ColNum-1>=0)
+                                grid[RowNum-i][ColNum-1]=2;      //left side
+                            if(ColNum+1<=9)
+                                grid[RowNum-i][ColNum+1]=2;      //right side
+                            display[RowNum-i][ColNum]='O';
                         }
+                        if(RowNum-3>=0)
+                            grid[RowNum-3][ColNum]=2;      		//above
+                        if(RowNum+1<=9)
+                            grid[RowNum+1][ColNum]=2;      		//below
+                        flag=1;
                     }
                     break;
 
@@ -532,20 +581,19 @@ int deployment(int PlayerNum)
                     else
                     {
                         for(int i=0; i<3; i++)
-                            temp=temp+grid[RowNum][ColNum+i];
-
-                        if(temp!=0)
-                            Msg();     //There is no enough space
-                        else
                         {
-                            for(int i=0; i<3; i++)
-                            {
-                                grid[RowNum][ColNum+i]=1;
-                                display[RowNum][ColNum+i]='O';
-                            }
-                            flag=1;
+                            grid[RowNum][ColNum+i]=1;
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum+i]=2;				//above
+                            if(RowNum+1<=9)
+                                grid[RowNum+1][ColNum+i]=2;				//below
+                            display[RowNum][ColNum+i]='O';
                         }
-
+                        if(ColNum+3<=9)
+                            grid[RowNum][ColNum+3]=2;							//right
+                        if(ColNum-1>=0)
+                            grid[RowNum][ColNum-1]=2;							//left
+                        flag=1;
                     }
                     break;
 
@@ -563,8 +611,16 @@ int deployment(int PlayerNum)
                             for(int i=0; i<3; i++)
                             {
                                 grid[RowNum+i][ColNum]=1;
+                                if(ColNum-1>=0)
+                                    grid[RowNum+i][ColNum-1]=2;      //left side
+                                if(ColNum+1<=9)
+                                    grid[RowNum+i][ColNum+1]=2;      //right side
                                 display[RowNum+i][ColNum]='O';
                             }
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum]=2;      		//above
+                            if(RowNum+3<=9)
+                                grid[RowNum+3][ColNum]=2;      		//below
                             flag=1;
                         }
                     }
@@ -584,8 +640,16 @@ int deployment(int PlayerNum)
                             for(int i=0; i<3; i++)                      //changed
                             {
                                 grid[RowNum][ColNum-i];
+                                if(RowNum-1>=0)
+                                    grid[RowNum-1][ColNum-i]=2;				//above
+                                if(RowNum+1<=9)
+                                    grid[RowNum+1][ColNum-i]=2;				//below
                                 display[RowNum][ColNum-i]='O';
                             }
+                            if(ColNum+1<=9)
+                                grid[RowNum][ColNum+1]=2;							//right
+                            if(ColNum-3>=0)
+                                grid[RowNum][ColNum-3]=2;							//left
                             flag=1;
                         }
                     }
@@ -626,19 +690,20 @@ int deployment(int PlayerNum)
                         Msg();     //There is no enough space
                     else
                     {
-                        for(int i=0; i<RowNum+1; i++)
-                            temp=temp+grid[RowNum-i][ColNum];
-                        if(temp!=0)
-                            Msg();     //There is no enough space
-                        else
+                        for(int i=0; i<2; i++)
                         {
-                            for(int i=0; i<2; i++)
-                            {
-                                grid[RowNum-i][ColNum]=1;
-                                display[RowNum-i][ColNum]='O';
-                            }
-                            flag=1;
+                            grid[RowNum-i][ColNum]=1;
+                            if(ColNum-1>=0)
+                                grid[RowNum-i][ColNum-1]=2;      //left side
+                            if(ColNum+1<=9)
+                                grid[RowNum-i][ColNum+1]=2;      //right side
+                            display[RowNum-i][ColNum]='O';
                         }
+                        if(RowNum-2>=0)
+                            grid[RowNum-2][ColNum]=2;      		//above
+                        if(RowNum+1<=9)
+                            grid[RowNum+1][ColNum]=2;      		//below
+                        flag=1;
                     }
                     break;
 
@@ -648,18 +713,19 @@ int deployment(int PlayerNum)
                     else
                     {
                         for(int i=0; i<2; i++)
-                            temp=temp+grid[RowNum][ColNum+i];
-                        if(temp!=0)
-                            Msg();     //There is no enough space
-                        else
                         {
-                            for(int i=0; i<2; i++)
-                            {
-                                grid[RowNum][ColNum+i]=1;
-                                display[RowNum][ColNum+i]='O';
-                            }
-                            flag=1;
+                            grid[RowNum][ColNum+i]=1;
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum+i]=2;				//above
+                            if(RowNum+1<=9)
+                                grid[RowNum+1][ColNum+i]=2;				//below
+                            display[RowNum][ColNum+i]='O';
                         }
+                        if(ColNum+2<=9)
+                            grid[RowNum][ColNum+2]=2;							//right
+                        if(ColNum-1>=0)
+                            grid[RowNum][ColNum-1]=2;							//left
+                        flag=1;
                     }
                     break;
 
@@ -677,8 +743,16 @@ int deployment(int PlayerNum)
                             for(int i=0; i<2; i++)
                             {
                                 grid[RowNum+i][ColNum]=1;
+                                if(ColNum-1>=0)
+                                    grid[RowNum+i][ColNum-1]=2;      //left side
+                                if(ColNum+1<=9)
+                                    grid[RowNum+i][ColNum+1]=2;      //right side
                                 display[RowNum+i][ColNum]='O';
                             }
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum]=2;      		//above
+                            if(RowNum+2<=9)
+                                grid[RowNum+2][ColNum]=2;      		//below
                             flag=1;
                         }
                     }
@@ -698,8 +772,16 @@ int deployment(int PlayerNum)
                             for(int i=0; i<2; i++)
                             {
                                 grid[RowNum][ColNum-i]=1;
+                                if(RowNum-1>=0)
+                                    grid[RowNum-1][ColNum-i]=2;				//above
+                                if(RowNum+1<=9)
+                                    grid[RowNum+1][ColNum-i]=2;				//below
                                 display[RowNum][ColNum-i]='O';
                             }
+                            if(ColNum+1<=9)
+                                grid[RowNum][ColNum+1]=2;							//right
+                            if(ColNum-2>=0)
+                                grid[RowNum][ColNum-2]=2;							//left
                             flag=1;
                         }
                     }
@@ -1036,9 +1118,8 @@ int deployment(int PlayerNum)
     printf("              Your Fleet is now complete!");
     Sleep(2000);
     system("cls");
-    return 0;
+    //return 0;
 }
-
 /*******************************************************************************/
 
 int Battle()
