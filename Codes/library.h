@@ -865,7 +865,7 @@ int deployment(int PlayerNum)
 
 /*******************************************************************************/
 
-int PvP_Battle()
+int Battle()
 {
     int Win = 0;
     int turn = 0;
@@ -1317,29 +1317,188 @@ void generate_difficult_map()
             switch(TempNum)
             {
             case 0:
-                Player2.display[i][j]=ReefTemplateDisplay1[i][j];
-                Player2.grid[i][j]= ReefTemplateGrid1[i][j];
+                Player1.display[i][j]=ReefTemplateDisplay1[i][j];
+                Player1.grid[i][j]= ReefTemplateGrid1[i][j];
                 break;
             case 1:
-                Player2.display[i][j]=ReefTemplateDisplay2[i][j];
-                Player2.grid[i][j]= ReefTemplateGrid2[i][j];
+                Player1.display[i][j]=ReefTemplateDisplay2[i][j];
+                Player1.grid[i][j]= ReefTemplateGrid2[i][j];
                 break;
             case 2:
-                Player2.display[i][j]=ReefTemplateDisplay3[i][j];
-                Player2.grid[i][j]= ReefTemplateGrid3[i][j];
+                Player1.display[i][j]=ReefTemplateDisplay3[i][j];
+                Player1.grid[i][j]= ReefTemplateGrid3[i][j];
                 break;
             case 3:
-                Player2.display[i][j]=ReefTemplateDisplay4[i][j];
-                Player2.grid[i][j]= ReefTemplateGrid4[i][j];
+                Player1.display[i][j]=ReefTemplateDisplay4[i][j];
+                Player1.grid[i][j]= ReefTemplateGrid4[i][j];
                 break;
             case 4:
-                Player2.display[i][j]=ReefTemplateDisplay5[i][j];
-                Player2.grid[i][j]= ReefTemplateGrid5[i][j];
+                Player1.display[i][j]=ReefTemplateDisplay5[i][j];
+                Player1.grid[i][j]= ReefTemplateGrid5[i][j];
                 break;
             }
         }
     }
 }
+
+
+Battle_hard()
+{
+    int Win = 0;
+    int turn = 0;
+    int P1 = 0;
+    int P2 = 0;
+
+    for(int i = 0; i<10; i++)           //initialize mask
+    {
+        for(int j=0; j<10; j++)
+        {
+            Player1.Mask[i][j]='-';
+            Player2.Mask[i][j]='-';
+        }
+    }
+
+    while(Win!=1)
+    {
+
+        if(turn==0)
+        {
+            Print_Missouri();
+            printf("          [ Player 1 ]\n");
+            printf("\n");
+        }
+
+        if(turn == 0)
+        {
+            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
+            for(int i=0; i<10; i++)
+            {
+                printf("           %c  ",row[i]);       //print rows
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player1.display[i][j]);
+                printf("         %c  ",row[i]);         //print rows (Mask)
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player2.Mask[i][j]);  //print mask for player
+                printf("\n");
+            }
+        }
+        else
+        {
+            Print_Missouri();
+            printf("              Robot attacking...");
+            Sleep(1000);
+            system("cls");
+        }
+
+        switch(turn)
+        {
+        case 0:                         //Player 1 attack
+            printf("\n");
+            Choose_Coordinate();
+            RowNum = position[0]-65;
+            ColNum = position[1]-48;
+
+            if(Player2.grid[RowNum][ColNum]==1)
+            {
+                Player2.grid[RowNum][ColNum]=0;             //SUNK SHIP = 2
+                Player2.Mask[RowNum][ColNum]='X';
+                Player2.display[RowNum][ColNum]='X';
+            }
+            else
+            {
+                Player2.Mask[RowNum][ColNum]=' ';
+                if(Player2.display[RowNum][ColNum]!='O' && Player2.display[RowNum][ColNum]!='X')
+                    Player2.display[RowNum][ColNum]=' ';
+                turn = 1;
+            }
+
+
+            system("cls");                              //Update board
+            Print_Missouri();
+            printf("          [ Player 1 ]\n");
+            printf("\n");
+            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
+            for(int i=0; i<10; i++)
+            {
+                printf("           %c  ",row[i]);       //print rows
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player1.display[i][j]);
+                printf("         %c  ",row[i]);         //print rows(Mask)
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player2.Mask[i][j]);  //print mask for player
+                printf("\n");
+            }
+            Sleep(1500);
+            system("cls");
+            break;
+
+        case 1:                     //Player 2 attack
+            printf("\n");
+            srand(time(NULL));
+            RowNum = rand() % 9;
+            ColNum = rand() % 9;
+
+            if(Player1.grid[RowNum][ColNum]==1)
+            {
+                Player1.grid[RowNum][ColNum]=0;
+                Player1.Mask[RowNum][ColNum]='X';
+                Player1.display[RowNum][ColNum]='X';
+            }
+            else
+            {
+                Player1.Mask[RowNum][ColNum]=' ';
+                if(Player1.display[RowNum][ColNum]!='O' && Player1.display[RowNum][ColNum]!='X')
+                    Player1.display[RowNum][ColNum]=' ';
+                turn = 0;
+            }
+
+
+//            system("cls");                              //Update board
+//            Print_Missouri();
+//            printf("          [ Player 2 ]\n");
+//            printf("\n");
+//
+//            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
+//            for(int i=0; i<10; i++)
+//            {
+//                printf("           %c  ",row[i]);       //print rows
+//                for(int j=0; j<10; j++)
+//                    printf("%c  ",Player2.display[i][j]);
+//                printf("         %c  ",row[i]);         //print rows(Mask)
+//                for(int j=0; j<10; j++)
+//                    printf("%c  ",Player1.Mask[i][j]);  //print mask for player
+//                printf("\n");
+//            }
+//            Sleep(1500);
+            //system("cls");
+            break;
+        }
+
+        for(int i=0; i<10; i++)         //check result
+        {
+            for(int j=0; j<10; j++)
+            {
+                P1 = P1 + Player1.grid[i][j];
+                P2 = P2 + Player2.grid[i][j];
+            }
+        }
+        if(P1==0 || P2 == 0)
+            Win = 1;
+    }
+    system("cls");
+    Print_Missouri();
+    if(P1 == 0)
+    {
+        printf("              PLAYER 2 VICTORY !!!");
+        Sleep(3000);
+    }
+    else
+    {
+        printf("              PLAYER 1 VICTORY !!!");
+        Sleep(3000);
+    }
+}
+
 
 
 int Battle_easy()
@@ -1500,10 +1659,646 @@ int Battle_easy()
 }
 
 
+deployment_hard(int PlayerNum)
+{
+    int ship = 1;
+    int flag = 0;
+    int RowNum = 0;
+    int ColNum = 0;
+    int temp=0;
+    int Direction;
+    char key;
 
+    /****************************** initialize grid *********************************/
+    for(int i=0; i<=9; i++)
+    {
+        for(int j=0; j<=9; j++)
+        {
+            display[i][j]=Player1.display[i][j];
+            grid[i][j]=Player1.grid[i][j];
+        }
+    }
 
+    /****************************  Carrier deployment  ***************************/
 
+    Print_Missouri();
+    Print_Grid();
+    printf("\n");
+    printf("              OOOOO Carrier\n");
+    printf("              [TAB] : cycle through options\n");
+    printf("              [Space] : confirm\n");
 
+    do
+    {
+        temp=0;     //reset temp
+        Choose_Coordinate();
+        RowNum = position[0]-65;
+        ColNum = position[1]-48;
+        if(grid[RowNum][ColNum]==1 || grid[RowNum][ColNum]==2)
+            Msg();        //Here has been occupied
+        else
+        {
+            Direction = Choose_Direction();
+            switch(Direction)
+            {
+            case 0:
+                if(RowNum<4)
+                    Msg();         //There is no enough space
+                else
+                {
+                    for(int i=0; i<5; i++)
+                        temp=temp+grid[RowNum-i][ColNum];
+                    if(temp!=0)
+                        Msg();         //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<5; i++)
+                        {
+                            grid[RowNum-i][ColNum]=1;
+                            if(ColNum-1>=0)
+                                grid[RowNum-i][ColNum-1]=2;    //left side
+                            if(ColNum+1<=9)
+                                grid[RowNum-i][ColNum+1]=2;    //right side
+                            display[RowNum-i][ColNum]='O';
+                        }
+                        if(RowNum-5>=0)
+                            grid[RowNum-5][ColNum]=2;       //up
+                        if(RowNum+1<=9)
+                            grid[RowNum+1][ColNum]=2;       //down
+                        flag=1;
+                    }
+                }
+                break;
+
+            case 1:
+                if(ColNum>5)
+                    Msg();         //There is no enough space
+                else
+                {
+                    for(int i=0; i<5; i++)
+                        temp=temp+grid[RowNum][ColNum+i];
+
+                    if(temp!=0)
+                        Msg();         //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<5; i++)
+                        {
+                            grid[RowNum][ColNum+i]=1;
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum+i]=2;     //above
+                            if(RowNum-1<=9)
+                                grid[RowNum+1][ColNum+i]=2;     //below
+                            display[RowNum][ColNum+i]='O';
+                        }
+                        if(ColNum+5<=9)
+                            grid[RowNum][ColNum+5]=2;   //right
+                        if(ColNum-1>=0)
+                            grid[RowNum][ColNum-1]=2;   //left
+                        flag=1;
+                    }
+                }
+                break;
+
+            case 2:
+                if(RowNum>5)
+                    Msg();         //There is no enough space
+                else
+                {
+                    for(int i=0; i<9-RowNum+1; i++)
+                        temp=temp+grid[RowNum+i][ColNum];
+                    if(temp!=0)
+                        Msg();         //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<5; i++)
+                        {
+                            grid[RowNum+i][ColNum]=1;
+                            if(ColNum+1<=9)
+                                grid[RowNum+i][ColNum+1]=2;
+                            if(ColNum-1>=0)
+                                grid[RowNum+i][ColNum-1]=2;
+                            display[RowNum+i][ColNum]='O';
+                        }
+                        if(RowNum-1>=0)
+                            grid[RowNum-1][ColNum]=2;
+                        if(RowNum+5<=9)
+                            grid[RowNum+5][ColNum]=2;
+                        flag=1;
+                    }
+                }
+                break;
+
+            case 3:
+                if(ColNum<4)
+                    Msg();         //There is no enough space
+                else
+                {
+                    for(int i=0; i<ColNum+1; i++)
+                        temp=temp+grid[RowNum][ColNum-i];
+                    if(temp!=0)
+                        Msg();         //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<5; i++)
+                        {
+                            grid[RowNum][ColNum-i]=1;
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum-i]=2;     //above
+                            if(RowNum+1<=9)
+                                grid[RowNum-1][ColNum-i]=2;     //below
+                            display[RowNum][ColNum-i]='O';
+                        }
+                        if(ColNum-5>=0)
+                            grid[RowNum][ColNum-5]=2;     //left
+                        if(ColNum+1<=9)
+                            grid[RowNum][ColNum+1]=2;     //right
+                        flag=1;
+                    }
+                }
+            }
+        }
+    }
+    while(flag == 0);
+    system("cls");
+//    print_test();
+//    Sleep(4000);
+
+    /***************************  Battleship deployment  ***********************************/
+
+    for(int i=0; i<2; i++)
+    {
+        Print_Missouri();
+        Print_Grid();
+        printf("\n");
+        printf("              OOOO Battleship\n");
+        printf("              [TAB] : cycle through options\n");
+        printf("              [Space] : confirm\n");
+        flag = 0;   //reset flag
+        do
+        {
+            temp=0;     //reset temp
+            Choose_Coordinate();
+            RowNum = position[0]-65;
+            ColNum = position[1]-48;
+            if(grid[RowNum][ColNum]==1 || grid[RowNum][ColNum]==2)
+                Msg();    //Here has been occupied
+
+            else
+            {
+                Direction = Choose_Direction();
+                switch(Direction)
+                {
+                case 0:
+                    if(RowNum<3)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<4; i++)
+                            temp=temp+grid[RowNum-i][ColNum];
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<4; i++)
+                            {
+                                grid[RowNum-i][ColNum]=1;
+                                if(ColNum-1>=0)
+                                    grid[RowNum-i][ColNum-1]=2;    //left side
+                                if(ColNum+1<=9)
+                                    grid[RowNum-i][ColNum+1]=2;    //right side
+                                display[RowNum-i][ColNum]='O';
+                            }
+                            if(RowNum-4>=0)
+                                grid[RowNum-4][ColNum]=2;       //above
+                            if(RowNum+1<=9)
+                                grid[RowNum+1][ColNum]=2;       //below
+                            flag=1;
+                        }
+                    }
+                    break;
+
+                case 1:
+                    if(ColNum>6)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<4; i++)
+                            temp=temp+grid[RowNum][ColNum+i];
+
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<4; i++)
+                            {
+                                grid[RowNum][ColNum+i]=1;
+                                if(RowNum-1>=0)
+                                    grid[RowNum-1][ColNum+i]=2;     //above
+                                if(RowNum-1<=9)
+                                    grid[RowNum+1][ColNum+i]=2;     //below
+                                display[RowNum][ColNum+i]='O';
+                            }
+                            if(ColNum+4<=9)
+                                grid[RowNum][ColNum+4]=2;   //right
+                            if(ColNum-1>=0)
+                                grid[RowNum][ColNum-1]=2;   //left
+                            flag=1;
+                        }
+
+                    }
+                    break;
+
+                case 2:
+                    if(RowNum>6)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<4; i++)
+                            temp=temp+grid[RowNum+i][ColNum];
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<4; i++)
+                            {
+                                grid[RowNum+i][ColNum]=1;
+                                if(ColNum+1<=9)
+                                    grid[RowNum+i][ColNum+1]=2;
+                                if(ColNum-1>=0)
+                                    grid[RowNum+i][ColNum-1]=2;
+                                display[RowNum+i][ColNum]='O';
+                            }
+                            if(RowNum-1>=0)               //above
+                                grid[RowNum-1][ColNum]=2;
+                            if(RowNum+4<=9)               //below
+                                grid[RowNum+4][ColNum]=2;
+                            flag=1;
+                        }
+                    }
+                    break;
+
+                case 3:
+                    if(ColNum<3)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<4; i++)
+                            temp=temp+grid[RowNum][ColNum-i];
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<4; i++)                      //changed
+                            {
+                                grid[RowNum][ColNum-i]=1;
+                                if(RowNum-1>=0)
+                                    grid[RowNum-1][ColNum-i]=2;     //above
+                                if(RowNum+1<=9)
+                                    grid[RowNum-1][ColNum-i]=2;     //below
+                                display[RowNum][ColNum-i]='O';
+                            }
+                            if(ColNum-4>=0)
+                                grid[RowNum][ColNum-4]=2;     //left
+                            if(ColNum+1<=9)
+                                grid[RowNum][ColNum+1]=2;     //right
+                            flag=1;
+                        }
+                    }
+                }
+            }
+        }
+        while(flag == 0);
+        system("cls");
+//        print_test();
+//        Sleep(4000);
+    }
+
+    /****************************  Cruiser deployment ***************************************/
+
+    for(int i=0; i<3; i++)
+    {
+        Print_Missouri();
+        Print_Grid();
+        printf("\n");
+        printf("              OOO Cruiser\n");
+        printf("              [TAB] : cycle through options\n");
+        printf("              [Space] : confirm\n");
+        int i=0;
+        int flag = 0;   //reset flag
+        do
+        {
+            temp=0;     //reset temp
+            Choose_Coordinate();
+            RowNum = position[0]-65;
+            ColNum = position[1]-48;
+            if(grid[RowNum][ColNum]==1 || grid[RowNum][ColNum]==2)
+                Msg();    //Here has been occupied
+            else
+            {
+                Direction = Choose_Direction();
+                switch(Direction)
+                {
+                case 0:
+                    if(RowNum<2)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<RowNum+1; i++)
+                            temp=temp+grid[RowNum-i][ColNum];
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<3; i++)
+                            {
+                                grid[RowNum-i][ColNum]=1;
+                                if(ColNum-1>=0)
+                                    grid[RowNum-i][ColNum-1]=2;    //left side
+                                if(ColNum+1<=9)
+                                    grid[RowNum-i][ColNum+1]=2;    //right side
+                                display[RowNum-i][ColNum]='O';
+                            }
+                            if(RowNum-3>=0)
+                                grid[RowNum-3][ColNum]=2;       //up
+                            if(RowNum+1<=9)
+                                grid[RowNum+1][ColNum]=2;       //down
+                            flag=1;
+                        }
+                    }
+                    break;
+
+                case 1:
+                    if(ColNum>7)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<3; i++)
+                            temp=temp+grid[RowNum][ColNum+i];
+
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<3; i++)
+                            {
+                                grid[RowNum][ColNum+i]=1;
+                                if(RowNum-1>=0)
+                                    grid[RowNum-1][ColNum+i]=2;     //above
+                                if(RowNum-1<=9)
+                                    grid[RowNum+1][ColNum+i]=2;     //below
+                                display[RowNum][ColNum+i]='O';
+                            }
+                            if(ColNum+3<=9)
+                                grid[RowNum][ColNum+3]=2;   //right
+                            if(ColNum-1>=0)
+                                grid[RowNum][ColNum-1]=2;   //left
+                            flag=1;
+                        }
+
+                    }
+                    break;
+
+                case 2:
+                    if(RowNum>7)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<3; i++)
+                            temp=temp+grid[RowNum+i][ColNum];
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<3; i++)
+                            {
+                                grid[RowNum+i][ColNum]=1;
+                                if(ColNum+1<=9)
+                                    grid[RowNum+i][ColNum+1]=2;
+                                if(ColNum-1>=0)
+                                    grid[RowNum+i][ColNum-1]=2;
+                                display[RowNum+i][ColNum]='O';
+                            }
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum]=2;
+                            if(RowNum+3<=9)
+                                grid[RowNum+3][ColNum]=2;
+                            flag=1;
+                        }
+                    }
+                    break;
+
+                case 3:
+                    if(ColNum<2)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<3; i++)
+                            temp=temp+grid[RowNum][ColNum-i];
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<3; i++)                      //changed
+                            {
+                                grid[RowNum][ColNum-i]=1;
+                                if(RowNum-1>=0)
+                                    grid[RowNum-1][ColNum-i]=2;     //above
+                                if(RowNum+1<=9)
+                                    grid[RowNum-1][ColNum-i]=2;     //below
+                                display[RowNum][ColNum-i]='O';
+                            }
+                            if(ColNum-3>=0)
+                                grid[RowNum][ColNum-3]=2;     //left
+                            if(ColNum+1<=9)
+                                grid[RowNum][ColNum+1]=2;     //right
+                            flag=1;
+                        }
+                    }
+                }
+            }
+        }
+        while(flag == 0);
+        system("cls");
+//        print_test();
+//        Sleep(4000);
+    }
+
+    /****************************  Destroyer deployment *******************************************/
+
+    for(int i=0; i<4; i++)
+    {
+        Print_Missouri();
+        Print_Grid();
+        printf("\n");
+        printf("              OO Destroyer\n");
+        printf("              [TAB] : cycle through options\n");
+        printf("              [Space] : confirm\n");
+
+        flag = 0;   //reset flag
+        do
+        {
+            temp=0;     //reset temp
+            Choose_Coordinate();
+            RowNum = position[0]-65;
+            ColNum = position[1]-48;
+            if(grid[RowNum][ColNum]==1 || grid[RowNum][ColNum]==2)
+                Msg();    //Here has been occupied
+            else
+            {
+                Direction = Choose_Direction();
+                switch(Direction)
+                {
+                case 0:
+                    if(RowNum<1)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<RowNum+1; i++)
+                            temp=temp+grid[RowNum-i][ColNum];
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<2; i++)
+                            {
+                                grid[RowNum-i][ColNum]=1;
+                                if(ColNum-1>=0)
+                                    grid[RowNum-i][ColNum-1]=2;    //left side
+                                if(ColNum+1<=9)
+                                    grid[RowNum-i][ColNum+1]=2;    //right side
+                                display[RowNum-i][ColNum]='O';
+                            }
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum]=2;       //above
+                            if(RowNum+1<=9)
+                                grid[RowNum+1][ColNum]=2;       //below
+                            flag=1;
+                        }
+                    }
+                    break;
+
+                case 1:
+                    if(ColNum>8)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<2; i++)
+                            temp=temp+grid[RowNum][ColNum+i];
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<2; i++)
+                            {
+                                grid[RowNum][ColNum+i]=1;
+                                if(RowNum-1>=0)
+                                    grid[RowNum-1][ColNum+i]=2;     //above
+                                if(RowNum-1<=9)
+                                    grid[RowNum+1][ColNum+i]=2;     //below
+                                display[RowNum][ColNum+i]='O';
+                            }
+                            if(ColNum+2<=9)
+                                grid[RowNum][ColNum+2]=2;   //right
+                            if(ColNum-1>=0)
+                                grid[RowNum][ColNum-1]=2;   //left
+                            flag=1;
+                        }
+                    }
+                    break;
+
+                case 2:
+                    if(RowNum>8)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<2; i++)
+                            temp=temp+grid[RowNum+i][ColNum];
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<2; i++)
+                            {
+                                grid[RowNum+i][ColNum]=1;
+                                if(ColNum+1<=9)
+                                    grid[RowNum+i][ColNum+1]=2;
+                                if(ColNum-1>=0)
+                                    grid[RowNum+i][ColNum-1]=2;
+                                display[RowNum+i][ColNum]='O';
+                            }
+                            if(RowNum-1>=0)
+                                grid[RowNum-1][ColNum]=2;
+                            if(RowNum+2<=9)
+                                grid[RowNum+2][ColNum]=2;
+                            flag=1;
+                        }
+                    }
+                    break;
+
+                case 3:
+                    if(ColNum<1)
+                        Msg();     //There is no enough space
+                    else
+                    {
+                        for(int i=0; i<2; i++)
+                            temp=temp+grid[RowNum][ColNum-i];
+                        if(temp!=0)
+                            Msg();     //There is no enough space
+                        else
+                        {
+                            for(int i=0; i<2; i++)
+                            {
+                                grid[RowNum][ColNum-i]=1;
+                                if(RowNum-1>=0)
+                                    grid[RowNum-1][ColNum-i]=2;     //above
+                                if(RowNum+1<=9)
+                                    grid[RowNum-1][ColNum-i]=2;     //below
+                                display[RowNum][ColNum-i]='O';
+                            }
+                            if(ColNum-2>=0)
+                                grid[RowNum][ColNum-2]=2;     //left
+                            if(ColNum+1<=9)
+                                grid[RowNum][ColNum+1]=2;     //right
+                            flag=1;
+                        }
+                    }
+                }
+            }
+        }
+        while(flag == 0);
+        system("cls");
+//        print_test();
+//        Sleep(4000);
+    }
+    Print_Missouri();
+    Print_Grid();
+
+    /*******************************************************************************/
+
+    for(int i=0; i<10; i++)
+    {
+        for(int j=0; j<10; j++)
+        {
+            if(PlayerNum == 0)                          //set player 1's grid
+            {
+                Player1.grid[i][j] = grid[i][j];
+                Player1.display[i][j] = display[i][j];
+            }
+            else                                        //set player 2's grid
+            {
+                Player2.grid[i][j] = grid[i][j];
+                Player2.display[i][j] = display[i][j];
+            }
+        }
+    }
+
+    printf("\n");
+    printf("              Your Fleet is now complete!");
+    Sleep(2000);
+    system("cls");
+    return 0;
+}
 
 
 
