@@ -8,16 +8,16 @@
 
 char Display_Original[10][10] =
 {
-        {'-','-','O','O','-','-','-','-','-','-'},
-        {'O','-','-','-','-','O','-','-','O','-'},
-        {'O','-','O','-','-','O','-','-','O','-'},
-        {'O','-','O','-','-','O','-','-','O','-'},
-        {'O','-','O','-','-','-','-','-','-','-'},
-        {'O','-','O','-','O','O','O','-','-','-'},
-        {'-','-','-','-','-','-','-','-','-','-'},
-        {'-','O','O','O','O','-','-','-','-','-'},
-        {'-','-','-','-','-','O','-','O','O','-'},
-        {'-','O','O','-','-','O','-','-','-','-'},
+    {'-','-','O','O','-','O','-','O','-','-'},
+    {'-','-','-','-','-','O','-','O','-','O'},
+    {'O','O','O','O','-','O','-','O','-','O'},
+    {'-','-','-','-','-','O','-','-','-','-'},
+    {'-','-','-','-','-','O','-','-','-','-'},
+    {'-','-','-','O','-','-','-','O','O','O'},
+    {'-','O','-','O','-','-','-','-','-','-'},
+    {'-','O','-','O','-','-','-','-','-','-'},
+    {'-','O','-','-','-','O','O','O','O','-'},
+    {'-','-','O','O','-','-','O','O','-','-'},
 };
 
 char Display_test[10][10];
@@ -27,8 +27,8 @@ int step = 0;
 int Grid_test[10][10];
 int RowNum;
 int ColNum;
-int Row_Check = 0;
-int Col_Check = 0;
+int TempRowNum = 0;
+int TempColNum = 0;
 int turn = 0;
 int flag = 0;
 int temp;
@@ -76,7 +76,7 @@ void print()
 //        printf("\n");
 //        printf("        ");
 //    }
-    Sleep(500);
+    Sleep(100);
 }
 
 int main()
@@ -97,12 +97,18 @@ int main()
         switch(action)
         {
         case 0:
-            if(temp<15)
+            if(turn == 0)
             {
-                srand(time(NULL));
-                RowNum = rand() % 9;       //generate a integer num (0~9)
-                ColNum = rand() % 9;       //generate a integer num (0~9)
-                //turn = 1;
+                do
+                {
+                    srand(time(NULL));
+                    TempRowNum = rand() % 9;       //generate a integer num (0~9)
+                    TempColNum = rand() % 9;       //generate a integer num (0~9)
+                }
+                while(Grid_test[TempRowNum][TempColNum]!=0)
+                RowNum = TempRowNum;
+                ColNum = TempRowNum;
+                turn = 1;
             }
             else
             {
@@ -119,7 +125,7 @@ int main()
                         }
                     }
                 }
-                //turn = 0;
+                turn = 0;
             }
 
             if(Display_Original[RowNum][ColNum]== 'O')    // if its a Hit
