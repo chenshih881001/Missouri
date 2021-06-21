@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <conio.h>
 #include <time.h>
+#include <mmsystem.h>
 
 struct Player
 {
@@ -56,7 +57,7 @@ void start()
     Print_Missouri();
     printf("          Press [Space] to start the game");
     char key = getch();
-    while(key!='\t'&& key!=' ')
+    while(key!=' ')
         key = getch();
 
     for(int i=0; i<10; i++)
@@ -938,9 +939,10 @@ int Battle(int Battle_type)
                     printf("           %c  ",row[i]);       //print rows
                     for(int j=0; j<10; j++)
                         printf("%c  ",Player2.display[i][j]);
-                    printf("         %c  ",row[i]);  //print rows (Mask)
+                    printf("         %c  ",row[i]);         //print rows (Mask)
                     for(int j=0; j<10; j++)
                         printf("%c  ",Player1.Mask[i][j]);  //print mask for player
+                    printf("\n");
                 }
             }
             break;
@@ -961,12 +963,14 @@ int Battle(int Battle_type)
                 Player2.grid[RowNum][ColNum]=0;
                 Player2.Mask[RowNum][ColNum]='X';
                 Player2.display[RowNum][ColNum]='X';
+                PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
             }
             else
             {
-                Player2.Mask[RowNum][ColNum]=' ';
+                //Player2.Mask[RowNum][ColNum]=' ';
                 if(Player2.display[RowNum][ColNum]!='O' && Player2.display[RowNum][ColNum]!='X')
                     Player2.display[RowNum][ColNum]=' ';
+                PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                 turn = 1;
             }
 
@@ -1015,12 +1019,14 @@ int Battle(int Battle_type)
                 Player1.grid[RowNum][ColNum]=0;
                 Player1.Mask[RowNum][ColNum]='X';
                 Player1.display[RowNum][ColNum]='X';
+                PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
             }
             else
             {
-                Player1.Mask[RowNum][ColNum]=' ';
+                //Player1.Mask[RowNum][ColNum]=' ';
                 if(Player1.display[RowNum][ColNum]!='O' && Player1.display[RowNum][ColNum]!='X')
                     Player1.display[RowNum][ColNum]=' ';
+                PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                 turn = 0;
             }
 
@@ -1080,13 +1086,15 @@ int Battle(int Battle_type)
     Print_Missouri();
     if(P1 == 0)
     {
+        PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
         printf("              PLAYER 2 VICTORY !!!");
-        Sleep(3000);
+        Sleep(6000);
     }
     else
     {
+        PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
         printf("              PLAYER 1 VICTORY !!!");
-        Sleep(3000);
+        Sleep(6000);
     }
 }
 /*******************************************************************************/
