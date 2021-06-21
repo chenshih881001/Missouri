@@ -105,7 +105,7 @@ int main()
                     TempRowNum = rand() % 9;       //generate a integer num (0~9)
                     TempColNum = rand() % 9;       //generate a integer num (0~9)
                 }
-                while(Grid_test[TempRowNum][TempColNum]!=0)
+                while(Grid_test[TempRowNum][TempColNum]!=0);
                 RowNum = TempRowNum;
                 ColNum = TempRowNum;
                 turn = 1;
@@ -136,7 +136,7 @@ int main()
             }
             else
             {
-                Grid_test[RowNum][ColNum] = 3;
+                Grid_test[RowNum][ColNum] = 2;
                 if(Display_test[RowNum][ColNum]!='X')
                     Display_test[RowNum][ColNum] = ' ';
             }
