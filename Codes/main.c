@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <conio.h>
 #include "library.h"
+#include <mmsystem.h>
 
 
 int Level;
@@ -22,7 +23,8 @@ int Hard = 2;
 
 int main()
 {
-//  start();                    //press [Space] to start game; loading game
+    PlaySound(TEXT("test.wav"),NULL,SND_ASYNC);
+    start();                    //press [Space] to start game; loading game
     Mode = mode_selection();
     switch(Mode)
     {
