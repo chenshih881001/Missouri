@@ -12,6 +12,8 @@ struct Player
     char Mask[10][10];
 } Player1,Player2;
 
+int Smart_Grid[10][10];       //for AI
+
 char key;
 const char row[10]= {'A','B','C','D','E','F','G','H','I','J'};
 const char column[10]= {'0','1','2','3','4','5','6','7','8','9'};
@@ -258,9 +260,6 @@ int deployment(int PlayerNum,int mode)
 
         }
     }
-
-
-
 
     /****************************  Carrier deployment  ***************************/
 
@@ -890,13 +889,21 @@ int Battle(int Battle_type)
     int P1 = 0;
     int P2 = 0;
 
+    int action = 0;     //Random attack = 0; Look around = 1;
+    int TempRowNum = 0;
+    int TempColNum = 0;
+    int FLAG = 0;
+    int Attack_direction = 0;     //North = 0; South = 1; East = 2 ; West = 3;
+    int hit = 0;
 
-    for(int i = 0; i<10; i++)    //initialize mask
+
+    for(int i = 0; i<10; i++)    //initialize mask & smart grid
     {
         for(int j=0; j<10; j++)
         {
             Player1.Mask[i][j]='-';
             Player2.Mask[i][j]='-';
+            Smart_Grid[i][j]=0;                 //smart grid
         }
     }
 
@@ -1003,9 +1010,87 @@ int Battle(int Battle_type)
             }
             else if(Battle_type == 1)       //Easy
             {
-                srand(time(NULL));
-                RowNum = rand() % 9;
-                ColNum = rand() % 9;
+                switch(action)
+                {
+                case 0:
+                    if(p1<20)
+                    {
+                        do
+                        {
+                            srand(time(NULL));
+                            TempRowNum = rand() % 9;       //generate a integer num (0~9)
+                            TempColNum = rand() % 9;       //generate a integer num (0~9)
+                        }
+                        while(Smart_Grid[TempRowNum][TempColNum]!=0);
+                        RowNum = TempRowNum;
+                        ColNum = TempRowNum;
+                    }
+                    else
+                    {
+                        FLAG = 0;   //reset flag
+                        for(int i=0; i<10; i++)
+                        {
+                            for(int j=0; j<10; j++)
+                            {
+                                if(Smart_Grid[i][j]== 0 && FLAG == 0)
+                                {
+                                    RowNum = i;
+                                    ColNum = j;
+                                    FLAG = 1;
+                                }
+                            }
+                        }
+                    }
+
+                    if(Display_Original[RowNum][ColNum]== 'O')    // if its a Hit
+                    {
+                        Smart_Grid[RowNum][ColNum]=1;
+                        Player1.display[RowNum][ColNum]='X';
+                        action = 1;
+                    }
+                    else
+                    {
+                        Smart_Grid[RowNum][ColNum] = 2;
+                        if(Player1.display[RowNum][ColNum]!='X')
+                            Player1.display[RowNum][ColNum] = ' ';
+                    }
+                    break;
+
+                case 1:
+                    TempRowNum = RowNum;
+                    TempColNum = ColNum;
+                    hit = 0;
+                    switch(Attack_direction)
+                    {
+                    case 0:          //North
+                        TempRowNum--;
+                        while(Player1.display[TempRowNum][ColNum]=='O' && TempRowNum>=0)
+                        {
+                            Player1.display[TempRowNum][ColNum]=='X';
+                            Smart_Grid[TempRowNum][ColNum]=1;
+                            if(ColNum-1>=0)                                     //left boundary
+                                Smart_Grid[TempRowNum][ColNum-1]=2;
+                            if(ColNum+1<=9)                                     //right boundary
+                                Smart_Grid[TempRowNum][ColNum+1]=2;
+                            //update display on screen
+                        }
+
+                        if(TempRowNum>=0)
+                        {
+                            Player1.display[TempRowNum][ColNum]=' ';
+                            Smart_Grid[TempRowNum][ColNum] = 2;
+                        }
+                        if(TempColNum<0)
+                            Attack_direction = 1;
+                        break;
+
+                    case 1:          //South
+                    case 2:          //East
+                    case 3:          //West
+                    }
+
+
+                }
             }
             else if(Battle_type == 2)       //Hard
             {
@@ -1071,20 +1156,24 @@ int Battle(int Battle_type)
             break;
         }
 
+        P1 = 0;         //reset P1
+        P2 = 0;         //reset P2
         for(int i=0; i<10; i++)         //check result
         {
             for(int j=0; j<10; j++)
             {
-                P1 = P1 + Player1.grid[i][j];
-                P2 = P2 + Player2.grid[i][j];
+                if(Player1.display[i][j]=='X')
+                    P1++;
+                if(Player2.display[i][j]=='X')
+                    p2++;
             }
         }
-        if(P1==0 || P2 == 0)
+        if(P1=30 || P2 == 30)
             Win = 1;
     }
     system("cls");
     Print_Missouri();
-    if(P1 == 0)
+    if(P1 == 30)
     {
         PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
         printf("              PLAYER 2 VICTORY !!!");
