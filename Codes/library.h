@@ -958,7 +958,7 @@ int Battle(int Battle_type)
         }
     }
 
-    while(Win!=1)
+    while(Win==0)
     {
         Print_Missouri();
         if(turn==0)
@@ -1274,30 +1274,27 @@ int Battle(int Battle_type)
         }
         break;
 
-
-
-        /******************************************************************************/
-
         P1 = 0;         //reset P1
         P2 = 0;         //reset P2
         for(int i=0; i<10; i++)         //check result
         {
             for(int j=0; j<10; j++)
             {
-                if(Player1.display[i][j]=='X')
+                if(Player1.display[i][j]=='O')
                     P1++;
-                if(Player2.display[i][j]=='X')
+                if(Player2.display[i][j]=='O')
                     P2++;
             }
         }
-        if(P1==30 || P2 == 30)
+        if(P1==0 || P2 == 0)
             Win = 1;
     }
     printf("%d %d",P1,P2);
-    Sleep(5000);
+    Sleep(3000);
 
     system("cls");
     Print_Missouri();
+
     if(P1 == 30)
     {
         PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
