@@ -923,13 +923,13 @@ int Battle(int Battle_type)
             Player1.display[i][j]=Player1_test[i][j];
     }
 
-//    for(int i=0; i<10; i++)
-//    {
-//        for(int j=0; j<10; j++)
-//            printf("%c ",Player1.display[i][j]);
-//        printf("\n");
-//    }
-//    Sleep(5000);
+    for(int i=0; i<10; i++)
+    {
+        for(int j=0; j<10; j++)
+            printf("%c ",Player1.display[i][j]);
+        printf("\n");
+    }
+    Sleep(5000);
 
 
 
@@ -1019,7 +1019,7 @@ int Battle(int Battle_type)
                 //Player2.grid[RowNum][ColNum]=0;
                 Player2.Mask[RowNum][ColNum]='X';
                 Player2.display[RowNum][ColNum]='X';
-                PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
             }
             else
             {
@@ -1027,7 +1027,7 @@ int Battle(int Battle_type)
                 if(Player2.display[RowNum][ColNum]!='O' && Player2.display[RowNum][ColNum]!='X')
                     Player2.display[RowNum][ColNum]=' ';
                 Player2.Mask[RowNum][ColNum]=' ';
-                PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                 turn = 1;
             }
 
@@ -1063,14 +1063,14 @@ int Battle(int Battle_type)
                     Player1.grid[RowNum][ColNum]=0;
                     Player1.Mask[RowNum][ColNum]='X';
                     Player1.display[RowNum][ColNum]='X';
-                    PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                    //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
                 }
                 else
                 {
                     //Player1.Mask[RowNum][ColNum]=' ';
                     if(Player1.display[RowNum][ColNum]!='O' && Player1.display[RowNum][ColNum]!='X')
                         Player1.display[RowNum][ColNum]=' ';
-                    PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                    //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                     turn = 0;
                 }
             }
@@ -1122,7 +1122,6 @@ int Battle(int Battle_type)
                         printf("North");
                         Sleep(3000);
                         system("cls");
-
 
                         Count = 1;     //reset count
                         hit = 0;       // reset hit
@@ -1276,6 +1275,9 @@ int Battle(int Battle_type)
 
         P1 = 0;         //reset P1
         P2 = 0;         //reset P2
+
+
+
         for(int i=0; i<10; i++)         //check result
         {
             for(int j=0; j<10; j++)
@@ -1286,24 +1288,25 @@ int Battle(int Battle_type)
                     P2++;
             }
         }
-        if(P1==0 || P2 == 0)
+        if(P1==0 || P2 ==0)
             Win = 1;
     }
+
     printf("%d %d",P1,P2);
     Sleep(3000);
 
     system("cls");
     Print_Missouri();
 
-    if(P1 == 30)
+    if(P1 == 0)
     {
-        PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
+        //PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
         printf("              PLAYER 2 VICTORY !!!");
         Sleep(6000);
     }
-    else
+    if(P2 == 0)
     {
-        PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
+        //PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
         printf("              PLAYER 1 VICTORY !!!");
         Sleep(6000);
     }
