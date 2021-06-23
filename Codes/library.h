@@ -923,16 +923,13 @@ int Battle(int Battle_type)
             Player1.display[i][j]=Player1_test[i][j];
     }
 
-    for(int i=0; i<10; i++)
-    {
-        for(int j=0; j<10; j++)
-            printf("%c ",Player1.display[i][j]);
-        printf("\n");
-    }
-    Sleep(5000);
-
-
-
+//    for(int i=0; i<10; i++)
+//    {
+//        for(int j=0; j<10; j++)
+//            printf("%c ",Player1.display[i][j]);
+//        printf("\n");
+//    }
+//    Sleep(5000);
 
     int Win = 0;
     int turn = 0;
@@ -1006,7 +1003,7 @@ int Battle(int Battle_type)
             break;
         }
 
-        switch(turn)
+        switch(turn)                    //ATTACK
         {
         case 0:                         //Player 1 attack
             printf("\n");
@@ -1014,7 +1011,7 @@ int Battle(int Battle_type)
             RowNum = position[0]-65;
             ColNum = position[1]-48;
 
-            if(Player2.display[RowNum][ColNum]==1)
+            if(Player2.display[RowNum][ColNum]=='O')
             {
                 //Player2.grid[RowNum][ColNum]=0;
                 Player2.Mask[RowNum][ColNum]='X';
@@ -1024,9 +1021,11 @@ int Battle(int Battle_type)
             else
             {
                 //Player2.Mask[RowNum][ColNum]=' ';
-                if(Player2.display[RowNum][ColNum]!='O' && Player2.display[RowNum][ColNum]!='X')
+                if(Player2.display[RowNum][ColNum]!='X')
+                {
                     Player2.display[RowNum][ColNum]=' ';
-                Player2.Mask[RowNum][ColNum]=' ';
+                    Player2.Mask[RowNum][ColNum]=' ';
+                }
                 //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                 turn = 1;
             }
@@ -1058,7 +1057,7 @@ int Battle(int Battle_type)
                 Choose_Coordinate();
                 RowNum = position[0]-65;
                 ColNum = position[1]-48;
-                if(Player1.display[RowNum][ColNum]==1)
+                if(Player1.display[RowNum][ColNum]=='O')
                 {
                     Player1.grid[RowNum][ColNum]=0;
                     Player1.Mask[RowNum][ColNum]='X';
@@ -1068,7 +1067,7 @@ int Battle(int Battle_type)
                 else
                 {
                     //Player1.Mask[RowNum][ColNum]=' ';
-                    if(Player1.display[RowNum][ColNum]!='O' && Player1.display[RowNum][ColNum]!='X')
+                    if(Player1.display[RowNum][ColNum]!='X')
                         Player1.display[RowNum][ColNum]=' ';
                     //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                     turn = 0;
@@ -1093,23 +1092,20 @@ int Battle(int Battle_type)
                             FLAG = 1;
                     }
                     while(FLAG==0);
-                    RowNum = TempRowNum;
-                    ColNum = TempColNum;
 
-
-                    if(Player1.display[RowNum][ColNum]=='O')    // if its a Hit
+                    if(Player1.display[TempRowNum][TempColNum]=='O')    // if its a Hit
                     {
-                        Smart_Grid[RowNum][ColNum]=1;
-                        Player1.display[RowNum][ColNum]='X';
+                        Smart_Grid[TempRowNum][TempColNum]=1;
+                        Player1.display[TempRowNum]TempColNum]='X';
                         action = 1;
                         printf("hit");
                         Sleep(2000);
                     }
                     else                                        //if it's a miss
                     {
-                        Smart_Grid[RowNum][ColNum] = 2;
-                        if(Player1.display[RowNum][ColNum]!='X')
-                            Player1.display[RowNum][ColNum] = ' ';
+                        Smart_Grid[TempRowNum][TempColNum] = 2;
+                        if(Player1.display[TempRowNum][TempColNum]!='X')
+                            Player1.display[TempRowNum][TempColNum] = ' ';
                         printf("miss");
                         Sleep(2000);
                         break;
@@ -1265,7 +1261,6 @@ int Battle(int Battle_type)
                         Attack_direction = 1;   //reset attack direction
                         break;
                     }
-
                     break;
                 }
                 turn = 0;
