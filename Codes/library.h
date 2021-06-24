@@ -1082,9 +1082,9 @@ void AI_Battle()
         {'O','O','O','O','-','-','-','O','-','O'},
     };
 
-    for(int i=0;i<10;i++)
+    for(int i=0; i<10; i++)
     {
-        for(int j=0;j<10;j++)
+        for(int j=0; j<10; j++)
             Player1.display[i][j]=Player1_Test[i][j];
     }
 
@@ -1150,7 +1150,7 @@ void AI_Battle()
                     Player2.display[RowNum][ColNum]=' ';
                     Player2.Mask[RowNum][ColNum]=' ';
                 }
-                PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                 turn = 1;
             }
 
@@ -1177,34 +1177,38 @@ void AI_Battle()
             Print_Missouri();
             printf("\n");
             printf("              Robot attacking...\n");
-            do
-            {
-                srand(time(NULL));
-                TempRowNum = rand() % 9;
-                TempColNum = rand() % 9;
-            }
-            while(smart_grid[TempRowNum][TempColNum]!=0);
 
-            if(Player1.display[TempRowNum][TempColNum]=='O')
+            if(Searching == 0)
             {
-                smart_grid[TempRowNum][TempColNum]=1;
-                Player1.display[TempRowNum][TempColNum]='X';
-                Searching = 1;
-            }
-            else
-            {
-                if(Player1.display[TempRowNum][TempColNum]!='X')
-                    Player1.display[TempRowNum][TempColNum]=' ';
-                turn = 0;
-                system("cls");
-                Print_Missouri();
-                Print_Player1();
-                break;                  //return to player1
-            }
+                do
+                {
+                    srand(time(NULL));
+                    TempRowNum = rand() % 9;
+                    TempColNum = rand() % 9;
+                }
+                while(smart_grid[TempRowNum][TempColNum]!=0);
 
+                if(Player1.display[TempRowNum][TempColNum]=='O')
+                {
+                    smart_grid[TempRowNum][TempColNum]=1;
+                    Player1.display[TempRowNum][TempColNum]='X';
+                    Searching = 1;
+                }
+                else
+                {
+                    if(Player1.display[TempRowNum][TempColNum]!='X')
+                        Player1.display[TempRowNum][TempColNum]=' ';
+                    turn = 0;
+                    system("cls");
+                    Print_Missouri();
+                    Print_Player1();
+                    break;                  //return to player1
+                }
+            }
 
             if(Searching == 1)
             {
+
                 switch(Attack_Direction)
                 {
                 case 0:     //North
@@ -1233,12 +1237,15 @@ void AI_Battle()
                         system("cls");
                         Print_Missouri();
                         Print_Player1();
+                        Attack_Direction = 1;
                         break;
                     }
                     else                            //if hit the wall
                         Attack_Direction = 1;
 
                 case 1:     //South
+//                    printf("south");
+//                    Sleep(3000);
                     Count = 1;
                     while(Player1.display[TempRowNum+Count][TempColNum]=='O' && TempColNum+Count<=9)
                     {
@@ -1258,21 +1265,26 @@ void AI_Battle()
 
                     if(TempRowNum-Count<=9)         // if miss
                     {
-                        Player1.display[TempRowNum-Count][TempColNum] = ' ';
-                        if(TempColNum+1<=9)                                 //mark right boundary of starting point
-                            smart_grid[TempRowNum][TempColNum+1]=2;
-                        if(TempColNum-1>=0)                                 //mark left boundary of starting point
-                            smart_grid[TempRowNum][TempColNum-1]=2;
+                        Player1.display[TempRowNum+Count][TempColNum]=' ';
 
                         if(hit!=0)                  //finish vertical check - ship found
+                        {
+                            if(TempColNum+1<=9)                                 //mark right boundary of starting point
+                                smart_grid[TempRowNum][TempColNum+1]=2;
+                            if(TempColNum-1>=0)                                 //mark left boundary of starting point
+                                smart_grid[TempRowNum][TempColNum-1]=2;
                             Searching = 0;          //return to random mode
+                            break;
+                        }
                         else                        //finish vertical check - ship not found
+                        {
                             Attack_Direction = 2;   //start checking horizontally
+                            break;
+                        }
 
                         system("cls");
                         Print_Missouri();
                         Print_Player1();
-                        break;
                     }
 
                     else                            //if hit the wall
@@ -1307,6 +1319,7 @@ void AI_Battle()
                         Player1.display[TempRowNum][TempColNum+Count]==' ';
                         smart_grid[TempRowNum][TempColNum+Count]=2;
 
+                        Attack_Direction = 3;
                         system("cls");
                         Print_Missouri();
                         Print_Player1();
@@ -1334,7 +1347,7 @@ void AI_Battle()
 
                     if(TempColNum-Count>=0)               //if miss
                     {
-                        Player1.display[TempRowNum][TempColNum-Count]==' ';
+                        Player1.display[TempRowNum][TempColNum-Count]=' ';
                         smart_grid[TempRowNum][TempColNum+Count]=2;
                         system("cls");
                         Print_Missouri();
