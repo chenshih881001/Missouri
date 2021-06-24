@@ -1201,9 +1201,13 @@ void AI_Battle()
                     turn = 0;
                     system("cls");
                     Print_Missouri();
+                    printf("              %c    %d\n",row[TempRowNum],TempColNum);
                     Print_Player1();
+
                     break;                  //return to player1
                 }
+
+
             }
 
             if(Searching == 1)
@@ -1212,8 +1216,10 @@ void AI_Battle()
                 switch(Attack_Direction)
                 {
                 case 0:     //North
+
                     Count=1;
                     hit=0;
+                    Sleep(1500);
                     while(Player1.display[TempRowNum-Count][TempColNum]=='O' && TempRowNum-Count>=0)
                     {
                         Player1.display[TempRowNum-Count][TempColNum] = 'X';
@@ -1238,14 +1244,15 @@ void AI_Battle()
                         Print_Missouri();
                         Print_Player1();
                         Attack_Direction = 1;
+                        turn = 0;
                         break;
                     }
                     else                            //if hit the wall
                         Attack_Direction = 1;
 
                 case 1:     //South
-//                    printf("south");
-//                    Sleep(3000);
+
+                    Sleep(1500);
                     Count = 1;
                     while(Player1.display[TempRowNum+Count][TempColNum]=='O' && TempColNum+Count<=9)
                     {
@@ -1262,6 +1269,8 @@ void AI_Battle()
                         Print_Missouri();
                         Print_Player1();
                     }
+                    printf("       %d",hit);
+                    Sleep(3000);
 
                     if(TempRowNum-Count<=9)         // if miss
                     {
@@ -1274,11 +1283,13 @@ void AI_Battle()
                             if(TempColNum-1>=0)                                 //mark left boundary of starting point
                                 smart_grid[TempRowNum][TempColNum-1]=2;
                             Searching = 0;          //return to random mode
+                            turn = 0;
                             break;
                         }
                         else                        //finish vertical check - ship not found
                         {
                             Attack_Direction = 2;   //start checking horizontally
+                            turn = 0;               //return to player 1
                             break;
                         }
 
@@ -1291,14 +1302,18 @@ void AI_Battle()
                     {
                         if(hit!=0)                  //finish vertical check - ship found
                         {
-                            Searching = 0;
+                            Searching = 0;          //return to random mode
+                            Attack_Direction = 0;   //reset attack direction
                             break;
                         }
                         else                        //finish vertical check - ship not found
                             Attack_Direction = 2;   //start checking horizontally
                     }
+                    hit = 0;                        //reset hit
 
                 case 2:     //East
+
+                    Sleep(1500);
                     Count = 1;
                     while(Player1.display[TempRowNum][TempColNum+Count]=='O'&&TempColNum+Count<=9)
                     {
@@ -1316,19 +1331,22 @@ void AI_Battle()
                     }
                     if(TempColNum+Count<=9)               //if miss
                     {
-                        Player1.display[TempRowNum][TempColNum+Count]==' ';
+                        Player1.display[TempRowNum][TempColNum+Count]=' ';
                         smart_grid[TempRowNum][TempColNum+Count]=2;
 
                         Attack_Direction = 3;
                         system("cls");
                         Print_Missouri();
                         Print_Player1();
+                        turn = 0;
                         break;
                     }
                     else
                         Attack_Direction = 3;
 
                 case 3:     //West
+
+                    Sleep(1500);
                     Count = 1;
                     while(Player1.display[TempRowNum][TempColNum-Count]=='O'&&TempColNum-Count>=0)
                     {
@@ -1349,6 +1367,7 @@ void AI_Battle()
                     {
                         Player1.display[TempRowNum][TempColNum-Count]=' ';
                         smart_grid[TempRowNum][TempColNum+Count]=2;
+                        turn = 0;
                         system("cls");
                         Print_Missouri();
                         Print_Player1();
@@ -1357,7 +1376,7 @@ void AI_Battle()
                     Attack_Direction = 0;                 //reset attack direction
                     break;
                 }
-                turn = 0;                                 //return to player 1;
+                //turn = 0;                                 //return to player 1;
             }
         }
 
