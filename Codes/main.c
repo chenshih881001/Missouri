@@ -23,8 +23,7 @@ int Hard = 2;
 
 int main()
 {
-    //PlaySound(TEXT("test.wav"),NULL,SND_ASYNC);
-    //start();                    //press [Space] to start game; loading game
+    start();                    //press [Space] to start game; loading game
     Mode = mode_selection();
     switch(Mode)
     {
@@ -34,7 +33,7 @@ int main()
         {
         case 0:                //Easy
             generate_map(Bot);
-            //deployment(player_1,Easy);
+            deployment(player_1,Easy);
             AI_Battle();
             break;
 
