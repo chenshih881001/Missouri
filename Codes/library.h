@@ -81,7 +81,7 @@ void start()
     PlaySound(TEXT("loading.wav"),NULL,SND_ASYNC);
     printf("\n");
     printf("          Game Loading:\n");
-    for(int i=0;i<10;i++)
+    for(int i=0;i<11;i++)
     {
         printf("          ");
         for(int j=0;j<i;j++)
@@ -89,7 +89,7 @@ void start()
             printf("|||");
         }
         printf("%d percent",i*10);
-        Sleep(600);
+        Sleep(500);
         printf("\r");
     }
 
@@ -123,6 +123,7 @@ void Choose_Coordinate()
             i=0;
     }
     while(key !=' ');
+
     i=0;     //initialize i
     do       //choose column
     {
@@ -221,6 +222,8 @@ int mode_selection()
         }
     };
     system("cls");
+    PlaySound(TEXT("select.wav"),NULL,SND_ASYNC);
+    Sleep(400);
     return flag;
 }
 /*******************************************************************************/
@@ -253,13 +256,15 @@ int choose_difficulty_level()
         }
     };
     system("cls");
+    PlaySound(TEXT("select.wav"),NULL,SND_ASYNC);
+    Sleep(400);
     return flag;
 }
 /*******************************************************************************/
 
 int deployment(int PlayerNum,int mode)
 {
-    PlaySound(TEXT("test.wav"),NULL,SND_ASYNC);
+    PlaySound(TEXT("background.wav"),NULL,SND_ASYNC);
     int ship = 1;
     int flag = 0;
     int RowNum = 0;
