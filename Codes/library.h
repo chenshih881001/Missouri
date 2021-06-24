@@ -12,8 +12,6 @@ struct Player
     char Mask[10][10];
 } Player1,Player2;
 
-int Smart_Grid[10][10];       //for AI
-
 char key;
 const char row[10]= {'A','B','C','D','E','F','G','H','I','J'};
 const char column[10]= {'0','1','2','3','4','5','6','7','8','9'};
@@ -54,10 +52,10 @@ void Print_Grid()
 }
 /****************************************************************************/
 
-void Print_Player1_Grid()
+void Print_Player1()
 {
-    printf("          [ Player 1 ]\n");
     printf("\n");
+    printf("              Robot attacking...\n");
     printf("              0  1  2  3  4  5  6  7  8  9\n");
     for(int i=0; i<10; i++)
     {
@@ -66,7 +64,7 @@ void Print_Player1_Grid()
             printf("%c  ",Player1.display[i][j]);
         printf("\n");
     }
-    Sleep(4000);
+    Sleep(2500);
     system("cls");
 }
 
@@ -278,6 +276,9 @@ int deployment(int PlayerNum,int mode)
 
         }
     }
+
+
+
 
     /****************************  Carrier deployment  ***************************/
 
@@ -900,78 +901,29 @@ int deployment(int PlayerNum,int mode)
 }
 /*******************************************************************************/
 
-int Battle(int Battle_type)
+void PvP_Battle()
 {
-
-    char Player1_test[10][10] =
-    {
-        {'-','-','-','-','-','O','O','-','-','-'},
-        {'-','O','O','O','-','-','-','-','-','-'},
-        {'-','-','-','-','-','-','O','O','-','-'},
-        {'-','O','O','-','-','-','-','-','-','-'},
-        {'-','-','-','-','-','O','O','O','O','O'},
-        {'-','O','-','-','-','-','-','-','-','-'},
-        {'-','O','-','O','O','O','O','-','-','-'},
-        {'-','O','-','-','-','-','-','O','-','-'},
-        {'-','-','-','-','-','-','-','O','-','O'},
-        {'O','O','O','O','-','-','-','O','-','O'},
-    };
-
-    for(int i=0; i<10; i++)
-    {
-        for(int j=0; j<10; j++)
-            Player1.display[i][j]=Player1_test[i][j];
-    }
-
-//    for(int i=0; i<10; i++)
-//    {
-//        for(int j=0; j<10; j++)
-//            printf("%c ",Player1.display[i][j]);
-//        printf("\n");
-//    }
-//    Sleep(5000);
-
     int Win = 0;
     int turn = 0;
     int P1 = 0;
     int P2 = 0;
 
-    int action = 0;     //Random attack = 0; Look around = 1;
-    int TempRowNum = 0;
-    int TempColNum = 0;
-    int FLAG = 0;
-    int Attack_direction = 0;     //North = 0; South = 1; East = 2 ; West = 3;
-    int hit = 0;
-    int Count;
-
-
-    for(int i = 0; i<10; i++)    //initialize mask & smart grid
+    for(int i = 0; i<10; i++)    //initialize mask
     {
         for(int j=0; j<10; j++)
         {
             Player1.Mask[i][j]='-';
             Player2.Mask[i][j]='-';
-            Smart_Grid[i][j]=0;                 //smart grid
         }
     }
-
-    while(Win==0)
+    while(Win!=1)
     {
         Print_Missouri();
-        if(turn==0)
+        switch(turn)
         {
+        case 0:                         //Player 1 attack
             printf("          [ Player 1 ]\n");
             printf("\n");
-        }
-        else if(Battle_type == 0)  //PvP only
-        {
-            printf("          [ Player 2 ]\n");
-            printf("\n");
-        }
-
-        switch(turn)          //display
-        {
-        case 0:
             printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
             for(int i=0; i<10; i++)
             {
@@ -983,29 +935,7 @@ int Battle(int Battle_type)
                     printf("%c  ",Player2.Mask[i][j]);  //print mask for player
                 printf("\n");
             }
-            break;
 
-        case 1:
-            if(Battle_type == 0)    //PvP  only
-            {
-                printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
-                for(int i=0; i<10; i++)
-                {
-                    printf("           %c  ",row[i]);       //print rows
-                    for(int j=0; j<10; j++)
-                        printf("%c  ",Player2.display[i][j]);
-                    printf("         %c  ",row[i]);         //print rows (Mask)
-                    for(int j=0; j<10; j++)
-                        printf("%c  ",Player1.Mask[i][j]);  //print mask for player
-                    printf("\n");
-                }
-            }
-            break;
-        }
-
-        switch(turn)                    //ATTACK
-        {
-        case 0:                         //Player 1 attack
             printf("\n");
             Choose_Coordinate();
             RowNum = position[0]-65;
@@ -1016,17 +946,16 @@ int Battle(int Battle_type)
                 //Player2.grid[RowNum][ColNum]=0;
                 Player2.Mask[RowNum][ColNum]='X';
                 Player2.display[RowNum][ColNum]='X';
-                //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
             }
             else
             {
-                //Player2.Mask[RowNum][ColNum]=' ';
                 if(Player2.display[RowNum][ColNum]!='X')
                 {
                     Player2.display[RowNum][ColNum]=' ';
                     Player2.Mask[RowNum][ColNum]=' ';
                 }
-                //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                 turn = 1;
             }
 
@@ -1049,231 +978,66 @@ int Battle(int Battle_type)
             system("cls");
             break;
 
-
-        case 1:                             //Player 2 attack
-            if(Battle_type == 0)            //PvP
+        case 1:
+            printf("          [ Player 2 ]\n");
+            printf("\n");
+            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
+            for(int i=0; i<10; i++)
             {
+                printf("           %c  ",row[i]);       //print rows
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player2.display[i][j]);
+                printf("         %c  ",row[i]);         //print rows (Mask)
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player1.Mask[i][j]);  //print mask for player
                 printf("\n");
-                Choose_Coordinate();
-                RowNum = position[0]-65;
-                ColNum = position[1]-48;
-                if(Player1.display[RowNum][ColNum]=='O')
-                {
-                    Player1.grid[RowNum][ColNum]=0;
-                    Player1.Mask[RowNum][ColNum]='X';
-                    Player1.display[RowNum][ColNum]='X';
-                    //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
-                }
-                else
-                {
-                    //Player1.Mask[RowNum][ColNum]=' ';
-                    if(Player1.display[RowNum][ColNum]!='X')
-                        Player1.display[RowNum][ColNum]=' ';
-                    //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
-                    turn = 0;
-                }
             }
+            printf("\n");
+            Choose_Coordinate();
+            RowNum = position[0]-65;
+            ColNum = position[1]-48;
 
-            if(Battle_type == 1)       //Easy
+            if(Player1.display[RowNum][ColNum]=='O')
             {
-                system("cls");
-                Print_Missouri();
-                printf("\n");
-                switch(action)
+                //Player2.grid[RowNum][ColNum]=0;
+                Player1.Mask[RowNum][ColNum]='X';
+                Player1.display[RowNum][ColNum]='X';
+                PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+            }
+            else
+            {
+                if(Player1.display[RowNum][ColNum]!='X')
                 {
-                case 0:
-                    FLAG = 0;     //reset flag
-                    do
-                    {
-                        srand(time(NULL));
-                        TempRowNum = rand() % 9;       //generate a integer num (0~9)
-                        TempColNum = rand() % 9;       //generate a integer num (0~9)
-                        if(Smart_Grid[TempColNum][TempColNum]==0)
-                            FLAG = 1;
-                    }
-                    while(FLAG==0);
-
-                    if(Player1.display[TempRowNum][TempColNum]=='O')    // if its a Hit
-                    {
-                        Smart_Grid[TempRowNum][TempColNum]=1;
-                        Player1.display[TempRowNum]TempColNum]='X';
-                        action = 1;
-                        printf("hit");
-                        Sleep(2000);
-                    }
-                    else                                        //if it's a miss
-                    {
-                        Smart_Grid[TempRowNum][TempColNum] = 2;
-                        if(Player1.display[TempRowNum][TempColNum]!='X')
-                            Player1.display[TempRowNum][TempColNum] = ' ';
-                        printf("miss");
-                        Sleep(2000);
-                        break;
-                    }
-                case 1:
-                    switch(Attack_direction)
-                    {
-                    case 0:            //North
-                        printf("\n");
-                        printf("North");
-                        Sleep(3000);
-                        system("cls");
-
-                        Count = 1;     //reset count
-                        hit = 0;       // reset hit
-                        while(Player1.display[TempRowNum-Count][TempColNum]=='O' && TempRowNum-Count>=0)
-                        {
-                            Player1.display[TempRowNum-Count][TempColNum]=='X';
-                            Smart_Grid[TempRowNum-Count][TempColNum]=1;
-                            if(TempColNum-1>=0)                                     //left boundary
-                                Smart_Grid[TempRowNum-Count][TempColNum-1]=2;
-                            if(TempColNum+1<=9)                                     //right boundary
-                                Smart_Grid[TempRowNum-Count][TempColNum+1]=2;
-                            Count++;
-                            hit++;
-                            Print_Player1_Grid();
-                        }
-
-                        if(TempRowNum-Count>=0)
-                        {
-                            Player1.display[TempRowNum-Count][TempColNum]='-';
-                            Smart_Grid[TempRowNum-Count][TempColNum] = 2;
-                            Print_Missouri();
-                            printf("\n");
-                            Print_Player1_Grid();
-                        }
-                        else       //TempColNum-Count<0 : hit the wall
-                            Attack_direction = 1;
-
-                        break;
-
-                    case 1:          //South
-                        printf("\n");
-                        printf("South");
-                        Sleep(3000);
-                        system("cls");
-
-                        Count = 1;
-                        while(Player1.display[TempRowNum+Count][TempColNum]=='O' && TempRowNum+Count<=9)        //check south
-                        {
-                            Smart_Grid[TempRowNum+Count][TempColNum]=1;
-                            if(ColNum-1>=0)
-                                Smart_Grid[TempRowNum+Count][TempColNum-1]=2;       //left boundary
-                            if(ColNum+1<=9)
-                                Smart_Grid[TempRowNum+Count][ColNum+1]=2;           //right boundary
-                            Count++;
-                            hit++;
-                            Print_Missouri();
-                            printf("\n");
-                            Print_Player1_Grid();
-                        }
-
-                        if(TempRowNum+Count<=9)                                     //mark miss|empty
-                        {
-                            Player1.display[TempRowNum+Count][ColNum]='-';
-                            Smart_Grid[TempRowNum+Count][ColNum] = 2;
-                            Print_Missouri();
-                            printf("\n");
-                            Print_Player1_Grid();
-                        }
-                        else              //TempColNum>9 : hit the wall
-                            Attack_direction = 2;
-
-                        if(hit>0)         //mark 2 around the start point
-                        {
-                            if(TempColNum-1>=0)
-                                Smart_Grid[RowNum][ColNum-1]=2;
-                            if(TempColNum+1<=9)
-                                Smart_Grid[RowNum][ColNum+1]=2;
-
-                            Attack_direction = 0;        //reset attack direction
-                            action = 0;                  //reset  action
-                        }
-                        else
-                            Attack_direction = 2;       //if north & south are empty
-
-                        break;
-
-                    case 2:          //East
-                        printf("\n");
-                        printf("East");
-                        Sleep(3000);
-                        system("cls");
-
-                        Count = 1;
-                        while(Player1.display[TempRowNum][TempColNum+Count]=='O' && TempColNum+Count<=9)        //check south
-                        {
-                            Smart_Grid[TempRowNum][TempColNum+Count]=1;
-                            if(TempRowNum-1>=0)
-                                Smart_Grid[TempRowNum][TempColNum+Count]=2;
-                            if(TempRowNum+1<=9)
-                                Smart_Grid[TempRowNum][TempColNum+Count]=2;
-                            Count++;
-                            hit++;
-                            Print_Missouri();
-                            printf("\n");
-                            Print_Player1_Grid();
-                        }
-
-                        if(TempColNum+Count<=9)
-                        {
-                            Player1.display[TempRowNum][ColNum]='-';
-                            Smart_Grid[TempRowNum][ColNum] = 2;
-                            Print_Missouri();
-                            printf("\n");
-                            Print_Player1_Grid();
-                        }
-                        else                //TempColNum>9 : hit the wall
-                            Attack_direction = 3;
-
-                        break;
-
-                    case 3:          //West
-                        printf("\n");
-                        printf("West");
-                        Sleep(3000);
-                        system("cls");
-
-                        Count = 1;
-                        while(Player1.display[TempRowNum][TempColNum-Count]=='O' && TempColNum-Count>=9)        //check south
-                        {
-                            Smart_Grid[TempRowNum][TempColNum-Count]=1;
-                            if(TempRowNum-1>=0)
-                                Smart_Grid[TempRowNum][TempColNum-Count]=2;
-                            if(TempRowNum+1<=9)
-                                Smart_Grid[TempRowNum][TempColNum-Count]=2;
-                            Count++;
-                            hit++;
-                            Print_Missouri();
-                            printf("\n");
-                            Print_Player1_Grid();
-                        }
-
-                        if(TempColNum-Count>=9)
-                        {
-                            Player1.display[TempRowNum][ColNum-Count]='-';
-                            Smart_Grid[TempRowNum][ColNum-Count] = 2;
-                            Print_Missouri();
-                            printf("\n");
-                            Print_Player1_Grid();
-                        }
-                        action = 0;             //go back to choose random spot
-                        Attack_direction = 1;   //reset attack direction
-                        break;
-                    }
-                    break;
+                    Player1.Mask[RowNum][ColNum]=' ';
+                    Player1.display[RowNum][ColNum]=' ';
                 }
+                PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                 turn = 0;
             }
+
+            system("cls");                              //Update board
+            Print_Missouri();
+            printf("          [ Player 2 ]\n");
+            printf("\n");
+            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
+            for(int i=0; i<10; i++)
+            {
+                printf("           %c  ",row[i]);       //print rows
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player2.display[i][j]);
+                printf("         %c  ",row[i]);         //print rows(Mask)
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player1.Mask[i][j]);  //print mask for player
+                printf("\n");
+            }
+            Sleep(1500);
+            system("cls");
+            break;
         }
-        break;
 
-        P1 = 0;         //reset P1
-        P2 = 0;         //reset P2
-
-
-
-        for(int i=0; i<10; i++)         //check result
+        P1 = 0;
+        P2 = 0;
+        for(int i=0; i<10; i++)
         {
             for(int j=0; j<10; j++)
             {
@@ -1283,29 +1047,329 @@ int Battle(int Battle_type)
                     P2++;
             }
         }
-        if(P1==0 || P2 ==0)
+        if(P1==0 ||P2==0)
             Win = 1;
     }
 
-    printf("%d %d",P1,P2);
-    Sleep(3000);
+    system("cls");
+    Print_Missouri();
+    printf("\n");
+    PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
+    if(P1==0)
+        printf("              Player 2 Victory");
+    else
+        printf("              Player 2 Victory");
+    Sleep(6000);
+}
+
+/***********************************************************************************/
+
+void AI_Battle()
+{
+
+    char Player1_Test[10][10] =
+    {
+        {'-','-','-','-','-','O','O','-','-','-'},
+        {'-','O','O','O','-','-','-','-','-','-'},
+        {'-','-','-','-','-','-','O','O','-','-'},
+        {'-','O','O','-','-','-','-','-','-','-'},
+        {'-','-','-','-','-','O','O','O','O','O'},
+        {'-','O','-','-','-','-','-','-','-','-'},
+        {'-','O','-','O','O','O','O','-','-','-'},
+        {'-','O','-','-','-','-','-','O','-','-'},
+        {'-','-','-','-','-','-','-','O','-','O'},
+        {'O','O','O','O','-','-','-','O','-','O'},
+    };
+
+    for(int i=0;i<10;i++)
+    {
+        for(int j=0;j<10;j++)
+            Player1.display[i][j]=Player1_Test[i][j];
+    }
+
+
+
+    int Win = 0;
+    int turn = 0;
+    int Searching = 0;
+    int P1 = 0;
+    int P2 = 0;
+    int Count;
+    int hit;
+    int TempRowNum;
+    int TempColNum;
+    int Attack_Direction = 0;
+    int smart_grid[10][10];
+
+    for(int i = 0; i<10; i++)    //initialize mask 1 & smart grid
+    {
+        for(int j=0; j<10; j++)
+        {
+            Player2.Mask[i][j]='-';
+            smart_grid[i][j] = 0;
+        }
+    }
+
+    while(Win!=1)
+    {
+        Print_Missouri();
+        switch(turn)
+        {
+        case 0:                         //Player 1 attack
+            printf("          [ Player 1 ]\n");
+            printf("\n");
+            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
+            for(int i=0; i<10; i++)
+            {
+                printf("           %c  ",row[i]);       //print rows
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player1.display[i][j]);
+                printf("         %c  ",row[i]);         //print rows (Mask)
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player2.Mask[i][j]);  //print mask for player
+                printf("\n");
+            }
+
+            printf("\n");
+            Choose_Coordinate();
+            RowNum = position[0]-65;
+            ColNum = position[1]-48;
+
+            if(Player2.display[RowNum][ColNum]=='O')
+            {
+                //Player2.grid[RowNum][ColNum]=0;
+                Player2.Mask[RowNum][ColNum]='X';
+                Player2.display[RowNum][ColNum]='X';
+                PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+            }
+            else
+            {
+                if(Player2.display[RowNum][ColNum]!='X')
+                {
+                    Player2.display[RowNum][ColNum]=' ';
+                    Player2.Mask[RowNum][ColNum]=' ';
+                }
+                PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                turn = 1;
+            }
+
+            system("cls");                              //Update board
+            Print_Missouri();
+            printf("          [ Player 1 ]\n");
+            printf("\n");
+            printf("              0  1  2  3  4  5  6  7  8  9              0  1  2  3  4  5  6  7  8  9\n");
+            for(int i=0; i<10; i++)
+            {
+                printf("           %c  ",row[i]);       //print rows
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player1.display[i][j]);
+                printf("         %c  ",row[i]);         //print rows(Mask)
+                for(int j=0; j<10; j++)
+                    printf("%c  ",Player2.Mask[i][j]);  //print mask for player
+                printf("\n");
+            }
+            Sleep(1500);
+            system("cls");
+            break;
+
+        case 1:
+            Print_Missouri();
+            printf("\n");
+            printf("              Robot attacking...\n");
+            do
+            {
+                srand(time(NULL));
+                TempRowNum = rand() % 9;
+                TempColNum = rand() % 9;
+            }
+            while(smart_grid[TempRowNum][TempColNum]!=0);
+
+            if(Player1.display[TempRowNum][TempColNum]=='O')
+            {
+                smart_grid[TempRowNum][TempColNum]=1;
+                Player1.display[TempRowNum][TempColNum]='X';
+                Searching = 1;
+            }
+            else
+            {
+                if(Player1.display[TempRowNum][TempColNum]!='X')
+                    Player1.display[TempRowNum][TempColNum]=' ';
+                break;                  //return to player1
+            }
+            Print_Player1();
+
+            if(Searching == 1)
+            {
+                switch(Attack_Direction)
+                {
+                case 0:     //North
+                    Count=1;
+                    hit=0;
+                    while(Player1.display[TempRowNum-Count][TempColNum]=='O' && TempRowNum-Count>=0)
+                    {
+                        Player1.display[TempRowNum-Count][TempColNum] = 'X';
+                        smart_grid[TempRowNum-Count][TempColNum] = 1;
+                        if(TempColNum+1<=9)                                     //Right Boundary
+                            smart_grid[TempRowNum-Count][TempColNum+1] = 2;
+                        if(TempColNum-1>=0)                                     //Left Boundary
+                            smart_grid[TempRowNum-Count][TempColNum-1] = 2;
+                        hit++;
+                        Count++;
+
+                        system("cls");
+                        Print_Missouri();
+                        Print_Player1();
+                    }
+                    if(TempRowNum-Count>=0)         //if miss
+                    {
+                        Player1.display[TempRowNum-Count][TempColNum]=' ';
+                        smart_grid[TempRowNum-Count][TempColNum]=2;
+
+                        system("cls");
+                        Print_Missouri();
+                        Print_Player1();
+                        break;
+                    }
+                    else                            //if hit the wall
+                        Attack_Direction = 1;
+
+                case 1:     //South
+                    Count = 1;
+                    while(Player1.display[TempRowNum+Count][TempColNum]=='O' && TempColNum+Count<=9)
+                    {
+                        Player1.display[TempRowNum+Count][TempColNum] = 'X';
+                        smart_grid[TempRowNum+Count][TempColNum] = 1;
+                        if(TempColNum+1<=9)                                     //Right Boundary
+                            smart_grid[TempRowNum+Count][TempColNum+1] = 2;
+                        if(TempColNum-1>=0)                                     //Left Boundary
+                            smart_grid[TempRowNum+Count][TempColNum-1] = 2;
+                        hit++;
+                        Count++;
+
+                        system("cls");
+                        Print_Missouri();
+                        Print_Player1();
+                    }
+
+                    if(TempRowNum-Count<=9)         // if miss
+                    {
+                        Player1.display[TempRowNum-Count][TempColNum] = ' ';
+                        if(TempColNum+1<=9)                                 //mark right boundary of starting point
+                            smart_grid[TempRowNum][TempColNum+1]=2;
+                        if(TempColNum-1>=0)                                 //mark left boundary of starting point
+                            smart_grid[TempRowNum][TempColNum-1]=2;
+
+                        if(hit!=0)                  //finish vertical check - ship found
+                            Searching = 0;          //return to random mode
+                        else                        //finish vertical check - ship not found
+                            Attack_Direction = 2;   //start checking horizontally
+
+                        system("cls");
+                        Print_Missouri();
+                        Print_Player1();
+                        break;
+                    }
+
+                    else                            //if hit the wall
+                    {
+                        if(hit!=0)                  //finish vertical check - ship found
+                        {
+                            Searching = 0;
+                            break;
+                        }
+                        else                        //finish vertical check - ship not found
+                            Attack_Direction = 2;   //start checking horizontally
+                    }
+
+                case 2:     //East
+                    Count = 1;
+                    while(Player1.display[TempRowNum][TempColNum+Count]=='O'&&TempColNum+Count<=9)
+                    {
+                        Player1.display[TempRowNum][TempColNum+Count] = 'X';
+                        smart_grid[TempRowNum][TempColNum+Count] = 1;
+                        if(TempRowNum-1>=0)                                     //top Boundary
+                            smart_grid[TempRowNum-1][TempColNum+Count] = 2;
+                        if(TempRowNum+1<=9)                                     //bottom Boundary
+                            smart_grid[TempRowNum+1][TempColNum+Count] = 2;
+                        Count++;
+
+                        system("cls");
+                        Print_Missouri();
+                        Print_Player1();
+                    }
+                    if(TempColNum+Count<=9)               //if miss
+                    {
+                        Player1.display[TempRowNum][TempColNum+Count]==' ';
+                        smart_grid[TempRowNum][TempColNum+Count]=2;
+
+                        system("cls");
+                        Print_Missouri();
+                        Print_Player1();
+                        break;
+                    }
+                    else
+                        Attack_Direction = 3;
+
+                case 3:     //West
+                    Count = 1;
+                    while(Player1.display[TempRowNum][TempColNum-Count]=='O'&&TempColNum-Count>=0)
+                    {
+                        Player1.display[TempRowNum][TempColNum-Count] = 'X';
+                        smart_grid[TempRowNum][TempColNum-Count] = 1;
+                        if(TempRowNum-1>=0)                                     //top Boundary
+                            smart_grid[TempRowNum-1][TempColNum-Count] = 2;
+                        if(TempRowNum+1<=9)                                     //bottom Boundary
+                            smart_grid[TempRowNum+1][TempColNum-Count] = 2;
+                        Count++;
+
+                        system("cls");
+                        Print_Missouri();
+                        Print_Player1();
+                    }
+
+                    if(TempColNum-Count>=0)               //if miss
+                    {
+                        Player1.display[TempRowNum][TempColNum-Count]==' ';
+                        smart_grid[TempRowNum][TempColNum+Count]=2;
+                        system("cls");
+                        Print_Missouri();
+                        Print_Player1();
+                    }
+                    Searching = 0;                        //return to random mode
+                    Attack_Direction = 0;                 //reset attack direction
+                    break;
+                }
+                turn = 0;                                 //return to player 1;
+            }
+        }
+
+        P1 = 0;
+        P2 = 0;
+        for(int i=0; i<10; i++)
+        {
+            for(int j=0; j<10; j++)
+            {
+                if(Player1.display[i][j]=='O')
+                    P1++;
+                if(Player2.display[i][j]=='O')
+                    P2++;
+            }
+        }
+        if(P1==0 ||P2==0)
+            Win = 1;
+    }
 
     system("cls");
     Print_Missouri();
-
-    if(P1 == 0)
-    {
-        //PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
-        printf("              PLAYER 2 VICTORY !!!");
-        Sleep(6000);
-    }
-    if(P2 == 0)
-    {
-        //PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
-        printf("              PLAYER 1 VICTORY !!!");
-        Sleep(6000);
-    }
+    printf("\n");
+    PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
+    if(P1==0)
+        printf("              Player 2 Victory");
+    else
+        printf("              Player 2 Victory");
+    Sleep(6000);
 }
+
 
 /*******************************************************************************/
 
