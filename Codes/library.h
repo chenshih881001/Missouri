@@ -56,6 +56,7 @@ void Print_Player1()
 {
     printf("\n");
     printf("              Robot attacking...\n");
+    printf("\n");
     printf("              0  1  2  3  4  5  6  7  8  9\n");
     for(int i=0; i<10; i++)
     {
@@ -64,7 +65,7 @@ void Print_Player1()
             printf("%c  ",Player1.display[i][j]);
         printf("\n");
     }
-    Sleep(2500);
+    Sleep(5000);
     system("cls");
 }
 
@@ -1140,7 +1141,7 @@ void AI_Battle()
                 //Player2.grid[RowNum][ColNum]=0;
                 Player2.Mask[RowNum][ColNum]='X';
                 Player2.display[RowNum][ColNum]='X';
-                PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
             }
             else
             {
@@ -1194,9 +1195,13 @@ void AI_Battle()
             {
                 if(Player1.display[TempRowNum][TempColNum]!='X')
                     Player1.display[TempRowNum][TempColNum]=' ';
+                turn = 0;
+                system("cls");
+                Print_Missouri();
+                Print_Player1();
                 break;                  //return to player1
             }
-            Print_Player1();
+
 
             if(Searching == 1)
             {
@@ -1362,7 +1367,7 @@ void AI_Battle()
     system("cls");
     Print_Missouri();
     printf("\n");
-    PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
+    //PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
     if(P1==0)
         printf("              Player 2 Victory");
     else
