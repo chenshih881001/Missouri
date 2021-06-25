@@ -189,8 +189,8 @@ void print_test()
 void Msg()                 //There is no enough space
 {
     printf("\r");
-    printf("              <There is no enough space>                      ");
-    Sleep(1000);
+    printf("              There is no enough space                    ");
+    Sleep(800);
 }
 /****************************************************************************/
 
@@ -257,7 +257,7 @@ int choose_difficulty_level()
     };
     system("cls");
     PlaySound(TEXT("select.wav"),NULL,SND_ASYNC);
-    Sleep(400);
+    Sleep(600);
     return flag;
 }
 /*******************************************************************************/
