@@ -54,7 +54,7 @@ void Print_Grid()
 
 void Print_Player1()
 {
-    printf("              Robot attacking...\n");
+    printf("              Computer is attacking...\n");
     printf("\n");
     printf("              0  1  2  3  4  5  6  7  8  9\n");
     for(int i=0; i<10; i++)
@@ -78,7 +78,7 @@ void start()
     while(key!=' ')
         key = getch();
 
-    PlaySound(TEXT("loading.wav"),NULL,SND_ASYNC);
+    //PlaySound(TEXT("loading.wav"),NULL,SND_ASYNC);
     printf("\n");
     printf("          Game Loading:\n");
     for(int i=0;i<11;i++)
@@ -189,7 +189,7 @@ void print_test()
 void Msg()                 //There is no enough space
 {
     printf("\r");
-    printf("              <There is no enough space>                      ");
+    printf("              <Ship can't be placed here.>                      ");
     Sleep(1000);
 }
 /****************************************************************************/
@@ -197,7 +197,7 @@ void Msg()                 //There is no enough space
 int mode_selection()
 {
     Print_Missouri();
-    printf("          Please choose game mode using [TAB] and press [SPACE] to continue\n");
+    printf("          Cycle through Game Modes using [TAB] and press [SPACE] to confirm\n");
     printf("\n");
     printf("          [Single Player]     PvP                  ");
 
@@ -222,7 +222,7 @@ int mode_selection()
         }
     };
     system("cls");
-    PlaySound(TEXT("select.wav"),NULL,SND_ASYNC);
+    //PlaySound(TEXT("select.wav"),NULL,SND_ASYNC);
     Sleep(400);
     return flag;
 }
@@ -231,7 +231,7 @@ int mode_selection()
 int choose_difficulty_level()
 {
     Print_Missouri();
-    printf("          Please choose difficulty level using [TAB] and press [SPACE] to continue\n");
+    printf("          Cycle through difficulty levels using [TAB] and press [SPACE] to confirm\n");
     printf("\n");
     printf("          [Easy]     Hard                  ");
 
@@ -256,15 +256,50 @@ int choose_difficulty_level()
         }
     };
     system("cls");
-    PlaySound(TEXT("select.wav"),NULL,SND_ASYNC);
+    //PlaySound(TEXT("select.wav"),NULL,SND_ASYNC);
     Sleep(400);
     return flag;
 }
 /*******************************************************************************/
 
+
+void Sunk_Ship()
+{
+    printf("          Was a ship sunk?\n");
+    printf("\n");
+    printf("          [Yes]     No                  ");
+
+    int flag=0;
+
+    while(1)
+    {
+        Check_key();
+        if(key ==' ')
+            break;
+        else if(key == '\t' && flag == 0)
+        {
+            printf("\r");
+            printf("           Yes     [No]        ");
+            flag = 1;
+        }
+        else if(key == '\t' && flag == 1)
+        {
+            printf("\r");
+            printf("          [Yes]     No             ");
+            flag = 0;
+        }
+    };
+
+    if(flag == 0)
+        printf("          A ship has been sunk!\n");
+    else printf ("          No ship was sunk this turn!\n");
+
+}
+/****************************************************************************/
+
 int deployment(int PlayerNum,int mode)
 {
-    PlaySound(TEXT("background.wav"),NULL,SND_ASYNC);
+    //PlaySound(TEXT("background.wav"),NULL,SND_ASYNC);
     int ship = 1;
     int flag = 0;
     int RowNum = 0;
@@ -300,9 +335,10 @@ int deployment(int PlayerNum,int mode)
     Print_Missouri();
     Print_Grid();
     printf("\n");
+    printf("              || DEPLOYMENT PHASE ||\n");
     printf("              OOOOO Carrier\n");
-    printf("              [TAB] : cycle through options\n");
-    printf("              [Space] : confirm\n");
+    printf("              [TAB] : Cycle through Options\n");
+    printf("              [Space] : Confirm\n");
 
     do
     {
@@ -442,12 +478,13 @@ int deployment(int PlayerNum,int mode)
 
     for(int i=0; i<2; i++)
     {
-        Print_Missouri();
+        Print_Missouri(); 
         Print_Grid();
         printf("\n");
+        printf("              || DEPLOYMENT PHASE ||\n");  
         printf("              OOOO Battleship\n");
-        printf("              [TAB] : cycle through options\n");
-        printf("              [Space] : confirm\n");
+        printf("              [TAB] : Cycle through Options\n");
+        printf("              [Space] : Confirm\n");
         flag = 0;   //reset flag
         do
         {
@@ -592,9 +629,10 @@ int deployment(int PlayerNum,int mode)
         Print_Missouri();
         Print_Grid();
         printf("\n");
+        printf("              || DEPLOYMENT PHASE ||\n");
         printf("              OOO Cruiser\n");
-        printf("              [TAB] : cycle through options\n");
-        printf("              [Space] : confirm\n");
+        printf("              [TAB] : Cycle through Options\n");
+        printf("              [Space] : Confirm\n");
         int i=0;
         int flag = 0;   //reset flag
         do
@@ -739,9 +777,10 @@ int deployment(int PlayerNum,int mode)
         Print_Missouri();
         Print_Grid();
         printf("\n");
+        printf("              || DEPLOYMENT PHASE ||\n");      
         printf("              OO Destroyer\n");
-        printf("              [TAB] : cycle through options\n");
-        printf("              [Space] : confirm\n");
+        printf("              [TAB] : Cycle through Options\n");
+        printf("              [Space] : Confirm\n");
 
         flag = 0;   //reset flag
         do
@@ -905,7 +944,7 @@ int deployment(int PlayerNum,int mode)
     }
 
     printf("\n");
-    printf("              Your Fleet is now complete!");
+    printf("              Your Fleet is ready for battle!");
     Sleep(2000);
     system("cls");
     //return 0;
@@ -948,6 +987,9 @@ void PvP_Battle()
             }
 
             printf("\n");
+            //Sunk_Ship();
+            printf("              || BATTLE || \n");
+            printf("              Choose a Coordinate to attack: \n");
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
@@ -957,7 +999,7 @@ void PvP_Battle()
                 //Player2.grid[RowNum][ColNum]=0;
                 Player2.Mask[RowNum][ColNum]='X';
                 Player2.display[RowNum][ColNum]='X';
-                PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
             }
             else
             {
@@ -966,7 +1008,7 @@ void PvP_Battle()
                     Player2.display[RowNum][ColNum]=' ';
                     Player2.Mask[RowNum][ColNum]=' ';
                 }
-                PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                 turn = 1;
             }
 
@@ -1004,6 +1046,9 @@ void PvP_Battle()
                 printf("\n");
             }
             printf("\n");
+            //Sunk_Ship();
+            printf("              || BATTLE || \n");
+            printf("              Choose a Coordinate to attack: \n");
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
@@ -1013,7 +1058,7 @@ void PvP_Battle()
                 //Player2.grid[RowNum][ColNum]=0;
                 Player1.Mask[RowNum][ColNum]='X';
                 Player1.display[RowNum][ColNum]='X';
-                PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
             }
             else
             {
@@ -1022,7 +1067,7 @@ void PvP_Battle()
                     Player1.Mask[RowNum][ColNum]=' ';
                     Player1.display[RowNum][ColNum]=' ';
                 }
-                PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                 turn = 0;
             }
 
@@ -1065,11 +1110,11 @@ void PvP_Battle()
     system("cls");
     Print_Missouri();
     printf("\n");
-    PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
+    //PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
     if(P1==0)
         printf("              Player 2 Victory");
     else
-        printf("              Player 2 Victory");
+        printf("              Player 1 Victory");
     Sleep(6000);
 }
 
@@ -1142,7 +1187,9 @@ void AI_Battle()
                 printf("\n");
             }
 
-            printf("\n");
+            printf("\n");                      
+            printf("              || BATTLE || \n");
+            printf("              Choose a Coordinate to attack: \n");
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
@@ -1151,7 +1198,7 @@ void AI_Battle()
             {
                 Player2.Mask[RowNum][ColNum]='X';
                 Player2.display[RowNum][ColNum]='X';
-                PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
             }
             else
             {
@@ -1160,7 +1207,7 @@ void AI_Battle()
                     Player2.display[RowNum][ColNum]=' ';
                     Player2.Mask[RowNum][ColNum]=' ';
                 }
-                PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                 turn = 1;
             }
 
@@ -1222,7 +1269,7 @@ void AI_Battle()
                     smart_grid[TempRowNum][TempColNum]=1;
                     Player1.display[TempRowNum][TempColNum]='X';
                     Searching = 1;
-                    PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                    //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
                     Print_Player1();
                 }
                 else
@@ -1232,7 +1279,7 @@ void AI_Battle()
                     smart_grid[TempRowNum][TempColNum] = 2;
                     turn = 0;
 //                    printf("              %c    %d\n",row[TempRowNum],TempColNum);
-                    PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                    //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                     Print_Player1();
 
                     break;                  //return to player1
@@ -1260,7 +1307,7 @@ void AI_Battle()
 
                         system("cls");
                         Print_Missouri();
-                        PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                        //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
                         Print_Player1();
                     }
                     if(TempRowNum-Count>=0 && smart_grid[TempRowNum-Count][TempColNum]==0)         //if miss
@@ -1270,7 +1317,7 @@ void AI_Battle()
 
                         system("cls");
                         Print_Missouri();
-                        PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                        //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                         Print_Player1();
                         Attack_Direction = 1;
                         turn = 0;
@@ -1298,7 +1345,7 @@ void AI_Battle()
 
                         system("cls");
                         Print_Missouri();
-                        PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                        //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
                         Print_Player1();
                     }
 
@@ -1306,7 +1353,7 @@ void AI_Battle()
                     {
                         Player1.display[TempRowNum+Count][TempColNum]=' ';
                         smart_grid[TempRowNum+Count][TempColNum]=2;
-                        PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                        //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
 
                         if(hit!=0)                  //finish vertical check - ship found
                         {
@@ -1362,7 +1409,7 @@ void AI_Battle()
 
                         system("cls");
                         Print_Missouri();
-                        PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                        //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
                         Print_Player1();
                     }
                     if(TempColNum+Count<=9 && smart_grid[TempRowNum][TempColNum+Count]==0)               //if miss
@@ -1373,7 +1420,7 @@ void AI_Battle()
                         Attack_Direction = 3;
                         system("cls");
                         Print_Missouri();
-                        PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                        //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                         Print_Player1();
                         turn = 0;
                         break;
@@ -1395,7 +1442,7 @@ void AI_Battle()
 
                         system("cls");
                         Print_Missouri();
-                        PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
+                        //PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
                         Print_Player1();
                     }
 
@@ -1406,7 +1453,7 @@ void AI_Battle()
                         turn = 0;
                         system("cls");
                         Print_Missouri();
-                        PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
+                        //PlaySound(TEXT("Water Splash.wav"),NULL,SND_ASYNC);
                         Print_Player1();
                     }
 
@@ -1437,11 +1484,11 @@ void AI_Battle()
     system("cls");
     Print_Missouri();
     printf("\n");
-    PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
+    //PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
     if(P1==0)
         printf("              Player 2 Victory");
     else
-        printf("              Player 2 Victory");
+        printf("              Player 1 Victory");
     Sleep(6000);
 }
 
