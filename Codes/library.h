@@ -1349,8 +1349,6 @@ void AI_Battle()
 
 
                 case 2:     //East
-
-                    Sleep(1500);
                     Count = 1;
                     while(Player1.display[TempRowNum][TempColNum+Count]=='O'&&TempColNum+Count<=9 && smart_grid[TempRowNum][TempColNum+Count]!=2)
                     {
@@ -1384,8 +1382,6 @@ void AI_Battle()
                         Attack_Direction = 3;
 
                 case 3:     //West
-
-                    Sleep(1500);
                     Count = 1;
                     while(Player1.display[TempRowNum][TempColNum-Count]=='O' && TempColNum-Count>=0 && smart_grid[TempRowNum][TempColNum-Count]!=2)
                     {
