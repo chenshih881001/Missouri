@@ -54,7 +54,7 @@ void Print_Grid()
 
 void Print_Player1()
 {
-    printf("              Robot attacking...\n");
+    printf("              Computer is attacking...\n");
     printf("\n");
     printf("              0  1  2  3  4  5  6  7  8  9\n");
     for(int i=0; i<10; i++)
@@ -189,7 +189,7 @@ void print_test()
 void Msg()                 //There is no enough space
 {
     printf("\r");
-    printf("              There is no enough space                    ");
+    printf("              <Ship can't be placed here.>                    ");
     Sleep(800);
 }
 /****************************************************************************/
@@ -197,7 +197,7 @@ void Msg()                 //There is no enough space
 int mode_selection()
 {
     Print_Missouri();
-    printf("          Please choose game mode using [TAB] and press [SPACE] to continue\n");
+    printf("          Cycle through Game Modes using [TAB] and press [SPACE] to confirm\n");
     printf("\n");
     printf("          [Single Player]     PvP                  ");
 
@@ -231,7 +231,7 @@ int mode_selection()
 int choose_difficulty_level()
 {
     Print_Missouri();
-    printf("          Please choose difficulty level using [TAB] and press [SPACE] to continue\n");
+    printf("          Cycle through Difficulties using [TAB] and press [SPACE] to confirm\n");
     printf("\n");
     printf("          [Easy]     Hard                  ");
 
@@ -261,6 +261,40 @@ int choose_difficulty_level()
     return flag;
 }
 /*******************************************************************************/
+
+void Sunk_Ship()
+{
+    printf("          Was a ship sunk?\n");
+    printf("\n");
+    printf("          [Yes]     No                  ");
+
+    int flag=0;
+
+    while(1)
+    {
+        Check_key();
+        if(key ==' ')
+            break;
+        else if(key == '\t' && flag == 0)
+        {
+            printf("\r");
+            printf("           Yes     [No]        ");
+            flag = 1;
+        }
+        else if(key == '\t' && flag == 1)
+        {
+            printf("\r");
+            printf("          [Yes]     No             ");
+            flag = 0;
+        }
+    };
+
+    if(flag == 0)
+        printf("          A ship has been sunk!\n");
+    else printf ("          No ship was sunk this turn!\n");
+
+}
+/****************************************************************************/
 
 int deployment(int PlayerNum,int mode)
 {
@@ -300,9 +334,10 @@ int deployment(int PlayerNum,int mode)
     Print_Missouri();
     Print_Grid();
     printf("\n");
+    printf("              || DEPLOYMENT PHASE ||\n");
     printf("              OOOOO Carrier\n");
-    printf("              [TAB] : cycle through options\n");
-    printf("              [Space] : confirm\n");
+    printf("              [TAB] : Cycle through Options\n");
+    printf("              [Space] : Confirm\n");
 
     do
     {
@@ -445,9 +480,10 @@ int deployment(int PlayerNum,int mode)
         Print_Missouri();
         Print_Grid();
         printf("\n");
+        printf("              || DEPLOYMENT PHASE ||\n");  
         printf("              OOOO Battleship\n");
-        printf("              [TAB] : cycle through options\n");
-        printf("              [Space] : confirm\n");
+        printf("              [TAB] : Cycle through Options\n");
+        printf("              [Space] : Confirm\n");
         flag = 0;   //reset flag
         do
         {
@@ -592,9 +628,10 @@ int deployment(int PlayerNum,int mode)
         Print_Missouri();
         Print_Grid();
         printf("\n");
+        printf("              || DEPLOYMENT PHASE ||\n");
         printf("              OOO Cruiser\n");
-        printf("              [TAB] : cycle through options\n");
-        printf("              [Space] : confirm\n");
+        printf("              [TAB] : Cycle through Options\n");
+        printf("              [Space] : Confirm\n");
         int i=0;
         int flag = 0;   //reset flag
         do
@@ -739,9 +776,10 @@ int deployment(int PlayerNum,int mode)
         Print_Missouri();
         Print_Grid();
         printf("\n");
+        printf("              || DEPLOYMENT PHASE ||\n");      
         printf("              OO Destroyer\n");
-        printf("              [TAB] : cycle through options\n");
-        printf("              [Space] : confirm\n");
+        printf("              [TAB] : Cycle through Options\n");
+        printf("              [Space] : Confirm\n");
 
         flag = 0;   //reset flag
         do
@@ -905,7 +943,7 @@ int deployment(int PlayerNum,int mode)
     }
 
     printf("\n");
-    printf("              Your Fleet is now complete!");
+    printf("              Your Fleet is ready for battle!");
     Sleep(2000);
     system("cls");
     //return 0;
@@ -948,6 +986,9 @@ void PvP_Battle()
             }
 
             printf("\n");
+            //Sunk_Ship();
+            printf("              || BATTLE || \n");
+            printf("              Choose a Coordinate to attack: \n");            
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
@@ -1004,6 +1045,9 @@ void PvP_Battle()
                 printf("\n");
             }
             printf("\n");
+            //Sunk_Ship();
+            printf("              || BATTLE || \n");
+            printf("              Choose a Coordinate to attack: \n");            
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
@@ -1143,6 +1187,8 @@ void AI_Battle()
             }
 
             printf("\n");
+            printf("              || BATTLE || \n");
+            printf("              Choose a Coordinate to attack: \n");            
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
@@ -1439,9 +1485,9 @@ void AI_Battle()
     printf("\n");
     PlaySound(TEXT("Victory.wav"),NULL,SND_ASYNC);
     if(P1==0)
-        printf("              Player 2 Victory");
+        printf("              Computer Victory");
     else
-        printf("              Player 2 Victory");
+        printf("              Player Victory");
     Sleep(6000);
 }
 
