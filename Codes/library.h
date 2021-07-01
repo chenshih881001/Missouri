@@ -164,28 +164,6 @@ int Choose_Direction()
 }
 /****************************************************************************/
 
-void print_test()
-{
-    printf("\n");
-    printf("                 0  1  2  3  4  5  6  7  8  9\n");
-    for(int i=0; i<10; i++)         //print out default map
-    {
-        printf("              %c  ",row[i]);      //print rows
-        for(int j=0; j<10; j++)
-            printf("%          d  ",grid[i][j]);  //print columns
-        printf("\n");
-    }
-    for(int i=0; i<10; i++)         //print out default map
-    {
-        printf("              %c  ",row[i]);      //print rows
-        for(int j=0; j<10; j++)
-            printf("%          d  ",display[i][j]);  //print columns
-        printf("\n");
-    }
-}
-
-/****************************************************************************/
-
 void Msg()                 //There is no enough space
 {
     printf("\r");
@@ -264,9 +242,8 @@ int choose_difficulty_level()
 
 void Sunk_Ship()
 {
-    printf("          Was a ship sunk?\n");
-    printf("\n");
-    printf("          [Yes]     No                  ");
+    printf("              Was a ship sunk?\n");
+    printf("              [Yes]     No                  ");
 
     int flag=0;
 
@@ -278,21 +255,20 @@ void Sunk_Ship()
         else if(key == '\t' && flag == 0)
         {
             printf("\r");
-            printf("           Yes     [No]        ");
+            printf("              Yes     [No]        ");
             flag = 1;
         }
         else if(key == '\t' && flag == 1)
         {
             printf("\r");
-            printf("          [Yes]     No             ");
+            printf("              [Yes]     No             ");
             flag = 0;
         }
     };
-
+    printf("\n");
     if(flag == 0)
-        printf("          A ship has been sunk!\n");
-    else printf ("          No ship was sunk this turn!\n");
-
+        printf("              A ship has been sunk!\n");
+    else printf ("              No ship was sunk this turn!\n");
 }
 /****************************************************************************/
 
@@ -480,7 +456,7 @@ int deployment(int PlayerNum,int mode)
         Print_Missouri();
         Print_Grid();
         printf("\n");
-        printf("              || DEPLOYMENT PHASE ||\n");  
+        printf("              || DEPLOYMENT PHASE ||\n");
         printf("              OOOO Battleship\n");
         printf("              [TAB] : Cycle through Options\n");
         printf("              [Space] : Confirm\n");
@@ -776,7 +752,7 @@ int deployment(int PlayerNum,int mode)
         Print_Missouri();
         Print_Grid();
         printf("\n");
-        printf("              || DEPLOYMENT PHASE ||\n");      
+        printf("              || DEPLOYMENT PHASE ||\n");
         printf("              OO Destroyer\n");
         printf("              [TAB] : Cycle through Options\n");
         printf("              [Space] : Confirm\n");
@@ -986,9 +962,9 @@ void PvP_Battle()
             }
 
             printf("\n");
-            //Sunk_Ship();
+            Sunk_Ship();
             printf("              || BATTLE || \n");
-            printf("              Choose a Coordinate to attack: \n");            
+            printf("              Choose a Coordinate to attack: \n");
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
@@ -1045,16 +1021,15 @@ void PvP_Battle()
                 printf("\n");
             }
             printf("\n");
-            //Sunk_Ship();
+            Sunk_Ship();
             printf("              || BATTLE || \n");
-            printf("              Choose a Coordinate to attack: \n");            
+            printf("              Choose a Coordinate to attack: \n");
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
 
             if(Player1.display[RowNum][ColNum]=='O')
             {
-                //Player2.grid[RowNum][ColNum]=0;
                 Player1.Mask[RowNum][ColNum]='X';
                 Player1.display[RowNum][ColNum]='X';
                 PlaySound(TEXT("explosion.wav"),NULL,SND_ASYNC);
@@ -1188,7 +1163,7 @@ void AI_Battle()
 
             printf("\n");
             printf("              || BATTLE || \n");
-            printf("              Choose a Coordinate to attack: \n");            
+            printf("              Choose a Coordinate to attack: \n");
             Choose_Coordinate();
             RowNum = position[0]-65;
             ColNum = position[1]-48;
