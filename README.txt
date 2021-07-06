@@ -1,25 +1,23 @@
 
-
-
 --------------------------------------------------   Missouri   --------------------------------------------------
 
+===============
 Game Modes :
 1. PvP   ----------------------- Two Players play against each other.
 2. Single Player   ------------ Player verus AI.
 
-
+===============
 Difficulty Levels :
-1. Easy  ----------------------- Default Map ( Empty, no obstacles)
-2. Hard   ---------------------- Pre-made Map (Obstacles in the maps)
+1. Easy  ----------------------- Default Map (Empty, no obstacles)
+2. Hard   ---------------------- Pre-made Map (Obstacles in player's map)
 
-
+===============
 Rules :
-1. Players play in turns. If a player has hit a piece of a ship, he or she can lauch attacks again until miss.
-2. The one sink all the opponent's ships first is the winner!
-3. The map is intially filled with dash lines. If a ship is found,it will be marked as X, and a miss shot will become an empty spot.
 
+1. Ship deployment
+First player is asked to deploy the ships
 
-You are in charge of a fleet of 10 ships : 
+The player is in charge of a fleet of 10 ships : 
 - 1 Carrier   ----------------- size of 5 blocks
 - 2 Battleships   ------------ size of 4 blocks
 - 3 Cruisers   --------------- size of 3 blocks
@@ -28,10 +26,18 @@ You are in charge of a fleet of 10 ships :
 *The ships are supposed to be placed on the board either vertically or horizontally.
 *Between two ships must be a gap (at least one block).
 
+2. Battle
+After deploying all the ship, the gameplay begins.
 
-Control:
+- Players play in turns, and shoot at coordinates where they think enemy ships are.
+- The map is intially filled with dash lines. If a ship is found, it will be marked as X, and a missed shot will become an empty spot.
+- If a player has hit a piece of a ship, they can lauch attacks again until miss.
+- The one sink all the opponent's ships first is the winner!
+
+===============
+Control :
 1. Press [TAB] to cycle through options.
-2. Press [Space] to proceed.
+2. Press [Space] to confirm.
  
 
  
