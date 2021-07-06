@@ -37,8 +37,12 @@ After deploying all the ship, the gameplay begins.
 ===============
 Control :
 1. Press [TAB] to cycle through options.
-2. Press [Space] to confirm.
- 
+2. Press [Space] to confirm. 
+
+===============
+Notice :
+The source code can't be compiled on other machines because the addresses of the source audio files are tied to developer's machines.
+Therefore an exe file is prepared and already compiled. 
 
  
 
